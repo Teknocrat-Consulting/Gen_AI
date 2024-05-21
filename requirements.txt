@@ -1,8 +1,0 @@
-python-dotenv
-langchain
-openai
-amadeus
-pandasai
-langchain-experimental
-langchain-openai
-tabulate
