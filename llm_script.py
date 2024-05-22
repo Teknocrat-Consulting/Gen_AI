@@ -45,6 +45,7 @@ def main():
 
         if df is None:
             df, origin, destination = run(query)
+            
         
         get_llm_response(df, query, origin, destination)
 

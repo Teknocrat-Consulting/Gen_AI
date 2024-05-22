@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
+import time
 from amadeus import Client, ResponseError
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain_openai import ChatOpenAI
@@ -82,7 +83,7 @@ def extract_flight_info_from_query(query):
         print(f"Error extracting flight info: {e}")
         return None
 
-def get_flight_info(location_origin, location_destination, departure_date, adults=1):
+def get_flight_info(location_origin, location_destination, departure_date, adults=1,retries=3, delay=2):
     """Get flight information between two locations."""
     origin_code = location_origin
     destination_code = location_destination
@@ -98,25 +99,35 @@ def get_flight_info(location_origin, location_destination, departure_date, adult
             adults=adults
         )
         return response.data
-    except ResponseError as error:
-        return str(error)
+    except Exception as error:
+        if retries > 0:
+            print(f"Rate limit exceeded. Retrying in {delay} seconds...")
+            time.sleep(delay)
+            return get_flight_info(location_origin, location_destination, departure_date, retries - 1, delay * 2)
+        else:
+            print(f"Failed to get flight information: {error}")
+            return None
 
 def create_flight_dataframe(flight_data):
     """Create a Pandas DataFrame from the flight data."""
     flight_details = []
 
     # Get the airline names from the flight offers
-    airlines = set()
-    for offer in flight_data:
-        for segment in offer['itineraries'][0]['segments']:
-            airlines.add(segment['carrierCode'])
+    # airlines = set()
+    # for offer in flight_data:
+    #     for segment in offer['itineraries'][0]['segments']:
+    #         airlines.add(segment['carrierCode'])
+
+    # print("Airlines :", airlines)
 
     # Fetch airline names using the IATA codes
-    airline_names = {}
-    for airline_code in airlines:
-        airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
-        if airline_response.data:
-                airline_names[airline_code] = airline_response.data[0]['commonName']
+    # airline_names = {}
+    # for airline_code in airlines:
+    #     airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
+    #     if airline_response.data:
+    #             airline_names[airline_code] = airline_response.data[0]['commonName']
+
+    # print("Airline names : ",airline_names)
 
     for flight in flight_data:
         total_price = flight['price'].get('total', '')
@@ -128,7 +139,7 @@ def create_flight_dataframe(flight_data):
             
             for segment in itinerary['segments']:
                 airline_code = segment.get('carrierCode', '')
-                airline_name =  airline_names.get(segment['carrierCode'], '')
+                #airline_name =  airline_names.get(segment['carrierCode'], '')
                 from_ = segment.get(0, {}).get('departure', {}).get('iataCode', '')
                 from_terminal = segment.get(0, {}).get('departure', {}).get('terminal', '')
                 to = segment.get(0, {}).get('arrival', {}).get('iataCode', '')
@@ -141,7 +152,7 @@ def create_flight_dataframe(flight_data):
 
                 flight_details.append({
                     "Airline Code": airline_code,
-                    "Airline Name": airline_name,
+                    #"Airline Name": airline_name,
                     "Departure": departure,
                     "Arrival": arrival,
                     "Total Price": total_price,
@@ -186,9 +197,12 @@ def run(query):
     # Convert the flight info to a DataFrame
     if isinstance(flight_info, list):
         flight_df = create_flight_dataframe(flight_info)
+        print("Dataframe : ",flight_df)
+        print("*"*125)
         return flight_df,origin,destination
     else:
         print("Error in forming Dataframe")
 
     print("Dataframe : ",flight_df)
     print("*"*125)
+
