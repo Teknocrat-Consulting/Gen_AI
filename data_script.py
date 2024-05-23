@@ -23,6 +23,14 @@ amadeus = Client(
 
 client = OpenAI()
 
+df_reference = pd.read_csv("code_reference.csv")
+df_reference = df_reference[["IATA","Airline"]]
+
+airline = list(df_reference.Airline.values)
+code = list(df_reference.IATA.values)
+
+code_dict = dict(zip(code,airline))
+
 def get_airport_code(location):
     """Get the airport code for a given location string."""
     try:
@@ -113,19 +121,39 @@ def create_flight_dataframe(flight_data):
     flight_details = []
 
     # Get the airline names from the flight offers
-    # airlines = set()
-    # for offer in flight_data:
-    #     for segment in offer['itineraries'][0]['segments']:
-    #         airlines.add(segment['carrierCode'])
+    airlines = set()
+    for offer in flight_data:
+        for segment in offer['itineraries'][0]['segments']:
+            airlines.add(segment['carrierCode'])
 
-    # print("Airlines :", airlines)
+    #print("Airlines :", airlines)
+
+    # Fetch Airline names using reference data
+    airline_names_f1 = {}
+    for airline_code in airlines:
+        if airline_code in code_dict:
+            airline_names_f1[airline_code] = code_dict[airline_code]
+
+    #print("airline_names_f1 : ",airline_names_f1)
+    
+    airline_new = set(airline_names_f1.keys())
+    airline_names_2 = airlines - airline_new    
+
 
     # Fetch airline names using the IATA codes
-    # airline_names = {}
-    # for airline_code in airlines:
-    #     airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
-    #     if airline_response.data:
-    #             airline_names[airline_code] = airline_response.data[0]['commonName']
+    airline_names_f2 = {}
+    for airline_code in airline_names_2:
+        try:
+            time.sleep(3)
+            airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
+            if airline_response.data:
+                    airline_names_f2[airline_code] = airline_response.data[0]['commonName']
+        except Exception as e:
+            airline_names_f2[airline_code] = ""
+
+    #print("airline_names_f2 : ",airline_names_f2)
+
+    airline_names_final = airline_names_f1 | airline_names_f2
 
     # print("Airline names : ",airline_names)
 
@@ -139,7 +167,7 @@ def create_flight_dataframe(flight_data):
             
             for segment in itinerary['segments']:
                 airline_code = segment.get('carrierCode', '')
-                #airline_name =  airline_names.get(segment['carrierCode'], '')
+                airline_name =  airline_names_final.get(segment['carrierCode'], '')
                 from_ = segment.get(0, {}).get('departure', {}).get('iataCode', '')
                 from_terminal = segment.get(0, {}).get('departure', {}).get('terminal', '')
                 to = segment.get(0, {}).get('arrival', {}).get('iataCode', '')
@@ -152,7 +180,7 @@ def create_flight_dataframe(flight_data):
 
                 flight_details.append({
                     "Airline Code": airline_code,
-                    #"Airline Name": airline_name,
+                    "Airline Name": airline_name,
                     "Departure": departure,
                     "Arrival": arrival,
                     "Total Price": total_price,
