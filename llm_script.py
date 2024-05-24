@@ -9,9 +9,9 @@ from langchain_community.utilities import SerpAPIWrapper
 # import warnings
 # warnings.filterwarnings('ignore')
 
-serpapi_api_key = os.getenv("SERPAPI_API_KEY")
+#serpapi_api_key = os.getenv("SERPAPI_API_KEY")
 llm = ChatOpenAI(model="gpt-3.5-turbo-0613")
-search = SerpAPIWrapper(serpapi_api_key = serpapi_api_key)
+search = SerpAPIWrapper(serpapi_api_key = "0ed8ec9c15be4500a7cb42ab2568f2d820fa0de9273db1c45686cacc613c432e")
 
 
 def get_llm_response(df,query,origin,destination):
