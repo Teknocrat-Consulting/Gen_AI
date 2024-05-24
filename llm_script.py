@@ -2,36 +2,44 @@ from data_script import prompt_query
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from data_script import run
 from langchain_openai import ChatOpenAI
-#from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory import ConversationBufferWindowMemory
+import re
+import os
+from langchain_community.utilities import SerpAPIWrapper
+# import warnings
+# warnings.filterwarnings('ignore')
 
-
+serpapi_api_key = os.getenv("SERPAPI_API_KEY")
 llm = ChatOpenAI(model="gpt-3.5-turbo-0613")
+search = SerpAPIWrapper(serpapi_api_key = serpapi_api_key)
 
 
 def get_llm_response(df,query,origin,destination):
-        #memory = ConversationBufferWindowMemory(k=5)
-        query_to_ask = prompt_query(query,origin,destination)
-        # print("Query : ", query_to_ask)
-        # print("*"*125)
-        agent = create_pandas_dataframe_agent(llm, df, agent_type="openai-tools", verbose=False) # memory=memory
-        res = agent.invoke(
-            {
-                "input": query_to_ask
-            }
-        )
 
-        print("Query : ", query_to_ask)
-        print("Answer : ",res['output'])
-        return res['output']
+    def is_currency_conversion_query(query):
+        return bool(re.search(r'convert\s+\d+(\.\d+)?\s+\w+\s+to\s+\w+', query, re.IGNORECASE))
+    
+    if is_currency_conversion_query(query):
+        print("SERPAPI being used : ")
+        conversion_result = search.run(query)
+        print("Query : ", query)
+        print("Answer : ", conversion_result)
+        return conversion_result
+    
+    memory = ConversationBufferWindowMemory(k=5)
+    query_to_ask = prompt_query(query,origin,destination)
+    # print("Query : ", query_to_ask)
+    # print("*"*125)
+    agent = create_pandas_dataframe_agent(llm, df, agent_type="openai-tools",memory=memory, verbose=False, temperature=0) # memory=memory
+    res = agent.invoke(
+        {
+            "input": query_to_ask
+        }
+    )
 
-
-# query = "Give me cheapest flights to fly from Delhi to Mumbai on 30-05-2024"
-# df = None
-# if df is None:
-#     result_df,origin,destination = run(query)
-#     df = result_df
-
-# end_result = get_llm_response(result_df,query)
+    print("Query : ", query_to_ask)
+    print("Answer : ",res['output'])
+    return res['output']
 
 def main():
     df = None

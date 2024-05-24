@@ -186,7 +186,7 @@ def create_flight_dataframe(flight_data):
                     "Total Price": total_price,
                     "Currency": currency,
                     "Number of Stops": num_stops,
-                    "Cabin": cabin,
+                    #"Cabin": cabin,
                     "One Way": one_way})
                    
     data = pd.DataFrame(flight_details)
@@ -201,8 +201,10 @@ def prompt_query(query,origin,destination):
     "You are an assistant that helps to answer queries based on the flight information dataframe provided. 
     This is a dataframe containing flight information from {origin} to {destination}. 
     So answer the question by analyzing dataframe and give direct answers to query and please refrain from explaining how things are calculated. 
-    Don't give the code but analyze the dataframe, calculate values if required by yourself and answer the query."
-
+    Don't give the code but analyze the dataframe, if asked about travel time or journey duration, use the "Journey Duration" column and display it.
+    Also display the arrival and departure time in nice format and stick to just answering the questions, don't give unnecessary information
+    When the user asks flight information about location which differ from what the dataframe has information about then tell the user to enter "quit" and start a new conversation"
+   
     """
     system_prompt = "System Prompt : " + main_prompt
     query_ask = "Query : " + query
@@ -225,8 +227,14 @@ def run(query):
     # Convert the flight info to a DataFrame
     if isinstance(flight_info, list):
         flight_df = create_flight_dataframe(flight_info)
+        flight_df['Departure'] = pd.to_datetime(flight_df['Departure'])
+        flight_df['Arrival'] = pd.to_datetime(flight_df['Arrival'])
+
+        # Calculate the journey duration
+        flight_df['Journey Duration'] = flight_df['Arrival'] - flight_df['Departure']
         print("Dataframe : ",flight_df)
         print("*"*125)
+        flight_df.to_csv(f"{origin}" + "_" + f"{destination}.csv")
         return flight_df,origin,destination
     else:
         print("Error in forming Dataframe")
