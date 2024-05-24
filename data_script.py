@@ -12,8 +12,8 @@ from langchain_openai import ChatOpenAI
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-client_id = os.getenv("client_id")
-client_secret = os.getenv("client_secret")
+# client_id = os.getenv("client_id")
+# client_secret = os.getenv("client_secret")
 
 amadeus = Client(
     client_id='H4S446vjDRHVJn8C0ZDRkXSLt03AvOGp',
