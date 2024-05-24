@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
 import time
-from amadeus import Client, ResponseError
+from amadeus import Client, ResponseError 
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain_openai import ChatOpenAI
 

@@ -5,7 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferWindowMemory
 import re
 import os
-from langchain_community.utilities import SerpAPIWrapper
+from langchain_community.utilities import SerpAPIWrapper 
 # import warnings
 # warnings.filterwarnings('ignore')
 

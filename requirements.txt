@@ -6,4 +6,4 @@ tabulate
 google-search-results
 pandas
 langchain_experimental
-langchain_openai
+langchain_openai 
