@@ -5,22 +5,31 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
-from amadeus import Client, ResponseError
+import time
+from amadeus import Client, ResponseError 
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain_openai import ChatOpenAI
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-client_id = os.getenv("client_id")
-client_secret = os.getenv("client_secret")
+# client_id = os.getenv("client_id")
+# client_secret = os.getenv("client_secret")
 
 amadeus = Client(
-    client_id='key id',
-    client_secret='key secret',
+    client_id='client_id',
+    client_secret='client_secret',
 
  )
 
 client = OpenAI()
+
+df_reference = pd.read_csv("code_reference.csv")
+df_reference = df_reference[["IATA","Airline"]]
+
+airline = list(df_reference.Airline.values)
+code = list(df_reference.IATA.values)
+
+code_dict = dict(zip(code,airline))
 
 def get_airport_code(location):
     """Get the airport code for a given location string."""
@@ -82,7 +91,7 @@ def extract_flight_info_from_query(query):
         print(f"Error extracting flight info: {e}")
         return None
 
-def get_flight_info(location_origin, location_destination, departure_date, adults=1):
+def get_flight_info(location_origin, location_destination, departure_date, adults=1,retries=3, delay=2):
     """Get flight information between two locations."""
     origin_code = location_origin
     destination_code = location_destination
@@ -98,8 +107,14 @@ def get_flight_info(location_origin, location_destination, departure_date, adult
             adults=adults
         )
         return response.data
-    except ResponseError as error:
-        return str(error)
+    except Exception as error:
+        if retries > 0:
+            print(f"Rate limit exceeded. Retrying in {delay} seconds...")
+            time.sleep(delay)
+            return get_flight_info(location_origin, location_destination, departure_date, retries - 1, delay * 2)
+        else:
+            print(f"Failed to get flight information: {error}")
+            return None
 
 def create_flight_dataframe(flight_data):
     """Create a Pandas DataFrame from the flight data."""
@@ -111,12 +126,36 @@ def create_flight_dataframe(flight_data):
         for segment in offer['itineraries'][0]['segments']:
             airlines.add(segment['carrierCode'])
 
-    # Fetch airline names using the IATA codes
-    airline_names = {}
+    #print("Airlines :", airlines)
+
+    # Fetch Airline names using reference data
+    airline_names_f1 = {}
     for airline_code in airlines:
-        airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
-        if airline_response.data:
-                airline_names[airline_code] = airline_response.data[0]['commonName']
+        if airline_code in code_dict:
+            airline_names_f1[airline_code] = code_dict[airline_code]
+
+    #print("airline_names_f1 : ",airline_names_f1)
+    
+    airline_new = set(airline_names_f1.keys())
+    airline_names_2 = airlines - airline_new    
+
+
+    # Fetch airline names using the IATA codes
+    airline_names_f2 = {}
+    for airline_code in airline_names_2:
+        try:
+            time.sleep(3)
+            airline_response = amadeus.reference_data.airlines.get(airlineCodes=airline_code)
+            if airline_response.data:
+                    airline_names_f2[airline_code] = airline_response.data[0]['commonName']
+        except Exception as e:
+            airline_names_f2[airline_code] = ""
+
+    #print("airline_names_f2 : ",airline_names_f2)
+
+    airline_names_final = airline_names_f1 | airline_names_f2
+
+    # print("Airline names : ",airline_names)
 
     for flight in flight_data:
         total_price = flight['price'].get('total', '')
@@ -128,15 +167,12 @@ def create_flight_dataframe(flight_data):
             
             for segment in itinerary['segments']:
                 airline_code = segment.get('carrierCode', '')
-                airline_name =  airline_names.get(segment['carrierCode'], '')
-                from_ = segment.get(0, {}).get('departure', {}).get('iataCode', '')
-                from_terminal = segment.get(0, {}).get('departure', {}).get('terminal', '')
-                to = segment.get(0, {}).get('arrival', {}).get('iataCode', '')
-                to_terminal = segment.get(0, {}).get('arrival', {}).get('terminal', '')
+                airline_name =  airline_names_final.get(segment['carrierCode'], '')
+
                 departure = segment['departure'].get('at', '')
                 arrival = segment['arrival'].get('at', '')
-                cabin = segment.get('travelerPricings', [{}])[0].get('fareDetailsBySegment', [{}])[0].get('cabin', '')
-                pricing_detail = segment.get('pricingDetailPerAdult', {})
+                #cabin = segment.get('travelerPricings', [{}])[0].get('fareDetailsBySegment', [{}])[0].get('cabin', '')
+                #pricing_detail = segment.get('pricingDetailPerAdult', {})
                
 
                 flight_details.append({
@@ -146,24 +182,29 @@ def create_flight_dataframe(flight_data):
                     "Arrival": arrival,
                     "Total Price": total_price,
                     "Currency": currency,
-                    "Number of Stops": num_stops,
-                    "Cabin": cabin,
-                    "One Way": one_way})
+                    "Number of Stops": num_stops})
+                    #"Cabin": cabin
+                    #"One Way": one_way
                    
     data = pd.DataFrame(flight_details)
     data.drop_duplicates(inplace=True)
     return data
-
-
-
 
 def prompt_query(query,origin,destination):
     main_prompt = f"""
     "You are an assistant that helps to answer queries based on the flight information dataframe provided. 
     This is a dataframe containing flight information from {origin} to {destination}. 
     So answer the question by analyzing dataframe and give direct answers to query and please refrain from explaining how things are calculated. 
-    Don't give the code but analyze the dataframe, calculate values if required by yourself and answer the query."
+    Don't give the code but analyze the dataframe, if asked about travel time or journey duration, use the "Journey Duration" column and display it.
+    Also display the arrival and departure time in nice format and don't give unnecessary information.
+    When the user asks flight information about location which differ from what the dataframe has information about then tell the user to enter "quit" and start a new conversation"
 
+    You can use the previous conversation history if present to better understand the question when the user refers to the last ouput the model gave,
+    Example : If the user asks about 3 flights with least travel time and model gives 3 flights and if user asks this follow up question :
+              "What are the prices of these flights" then you should understand that user is refering to previous flights the user got as response and you should select only those rows from dataframe and calculate the price
+
+
+   
     """
     system_prompt = "System Prompt : " + main_prompt
     query_ask = "Query : " + query
@@ -186,9 +227,22 @@ def run(query):
     # Convert the flight info to a DataFrame
     if isinstance(flight_info, list):
         flight_df = create_flight_dataframe(flight_info)
+        #flight_df = flight_df.head(30)
+        flight_df['Departure'] = pd.to_datetime(flight_df['Departure'])
+        flight_df['Arrival'] = pd.to_datetime(flight_df['Arrival'])
+
+        # Calculate the journey duration
+        flight_df['Journey Duration'] = flight_df['Arrival'] - flight_df['Departure']
+        print("Dataframe : ",flight_df)
+        print("*"*125)
+        save_string = f"{origin}" + "_" + f"{destination}.csv"
+        #flight_df.to_csv(f"{origin}" + "_" + f"{destination}.csv")
         return flight_df,origin,destination
+
+        return flight_df,save_string
     else:
         print("Error in forming Dataframe")
 
     print("Dataframe : ",flight_df)
     print("*"*125)
+
