@@ -26,7 +26,7 @@ def check_currency_conversion(query):
         SystemMessage(content="""
                       You are an intelligent assistant. Determine if the query is asking for currency conversion. If it is, then extract the relevant information needed to convert currency from the following query and format 
                       it in the way "convert {currency} {amount} price to {target_currency}. Otherwise respond as "False"
-                      """),
+                      """),  
         HumanMessage(content=query),  
     ]
 

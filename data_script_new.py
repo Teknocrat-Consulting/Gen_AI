@@ -305,7 +305,7 @@ def process_dataframe(flight_df):
     "hop1_arrival_iata" : "hop1_arrival_location",
     "hop2_departure_iata" : "hop2_departure_location",
     "hop2_arrival_iata" : "hop2_arrival_location"
-},inplace=True)  
+},inplace=True)
 
     flight_df.drop_duplicates(inplace=True)
 
