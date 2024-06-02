@@ -2,7 +2,8 @@ python-dotenv
 langchain
 openai
 amadeus
-pandasai
-langchain-experimental
-langchain-openai
 tabulate
+google-search-results
+pandas
+langchain_experimental
+langchain_openai 
