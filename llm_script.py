@@ -1,19 +1,26 @@
-from data_script import prompt_query
 from langchain_experimental.agents import create_pandas_dataframe_agent
-from data_script_new import run
+from data_script_new import run,prompt_query,extract_data_json
 from langchain_openai import ChatOpenAI
 import re
 import pandas as pd
 import os
 from langchain_community.utilities import SerpAPIWrapper 
-from langchain_community.utilities import SerpAPIWrapper
 from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser,ListOutputParser
 from langchain_core.messages import HumanMessage, SystemMessage
+from traveler_information import get_info
+import ast
+from amadeus import Client, ResponseError 
+from price_confirm import check_final_price
 
 import warnings
 warnings.filterwarnings('ignore')
 
+amadeus = Client(
+    client_id='H4S446vjDRHVJn8C0ZDRkXSLt03AvOGp',
+    client_secret='2MCfJEBzkSLqYla0'
+
+ )
 
 # Initialize the LLM
 llm = ChatOpenAI(model="gpt-3.5-turbo-0613")
@@ -57,9 +64,20 @@ def get_llm_response(df, query, origin, destination, history):
     agent = create_pandas_dataframe_agent(llm, df, agent_type="openai-tools", verbose=False,agent_executor_kwargs={"handle_parsing_errors": True})
     res = agent.invoke({"input": query_to_ask})
 
-    print("Query : ", query_to_ask)
-    print("Answer : ", res['output'])
-    return res['output']
+    #print("Query : ", query_to_ask)
+    #print(res['output'])
+    if 'book' in query.lower() or 'booking' in query.lower():
+        main_result = ast.literal_eval(res['output'])
+        index = main_result[0]
+        print("Answer : ", main_result[1])
+        return main_result,index
+        #print("Answer : ", type(main_result))
+    #print(parser.invoke(result))
+    else:
+        main_result = res['output']
+        print("Answer : ", main_result)
+    #print("Answer : ", type(main_result))
+        return main_result,"None"
 
 def main():
     df = None
@@ -75,12 +93,31 @@ def main():
             break
 
         if df is None:
-            df, origin, destination = run(query)
+            df, origin, destination,flight_info = run(query)
         
         try:
-            #df = pd.read_csv("LHR_BLR_Main.csv")
+            #df = pd.read_csv("BLR_BOM.csv")
             #print(df)
-            response = get_llm_response(df, query, origin, destination, history)
+
+            response,idx = get_llm_response(df, query, origin, destination, history)
+            if idx != "None":
+                booked_flight = flight_info[idx]
+                #print(booked_flight)
+                travel_query  = input("Please enter your first name, last name, DOB, email and phone number along with country code.").strip()
+                print("************************Getting traveler info***********************************")
+                traveler_info_fetched = get_info(travel_query)
+                print("************************Checking Final Price***********************************")
+                price_confirm = amadeus.shopping.flight_offers.pricing.post(
+                booked_flight).data
+                print(check_final_price(price_confirm))
+                print("************************Get ID and PNR***********************************")
+                final_booking = amadeus.booking.flight_orders.post(booked_flight, traveler_info_fetched).data
+                id_ = final_booking['id']
+                pnr_no = final_booking['associatedRecords'][0]['reference']
+                print("ID : ",id_)
+                print("PNR Number : ",pnr_no)
+
+
             #print(response)
             update_conversation_history(history, query, response)
         except Exception as e:
@@ -90,4 +127,8 @@ if __name__ == "__main__":
     main()
 
 
-    # give me cheapest flight from Mumbai to Bangalore on 1st June
+# give me cheapest flight from Mumbai to Bangalore on 1st July
+
+# give me flight info from Bangalore to Mumbai on 9th June
+# give me cheapest flight
+# give me flight with low price and less travel duration

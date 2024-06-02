@@ -312,28 +312,21 @@ def process_dataframe(flight_df):
     return flight_df
 
 def prompt_query(query,origin,destination):
-    main_prompt = f""" You are an assistant that helps to answer queries based on the flight information dataframe provided from {origin} to {destination}.
-So answer the question by analyzing the dataframe and give direct answers to the query. Display the arrival and departure times in a clear format and avoid giving unnecessary information.
-Below are some column fields and their meanings:
-- "First Arrival Location": This indicates the arrival location. If this is the same as the {destination}, it means there are no hops and it is a direct flight. Otherwise, continue to check subsequent "hop1_departure_location" and "hop1_arrival_location" columns until the final destination is reached. Provide complete information related to all hops and layovers if any.
+    main_prompt = f"""
+    You are a flight booking assistant that helps answer queries using a flight information dataframe for trips from {origin} to {destination}. Analyze the dataframe and provide direct answers with clear departure and arrival times. Avoid unnecessary information.
+    IMPORTANT:
+    If the user asks about different locations, tell them to start a new conversation.
+    Use previous chat history for follow-up questions. Refer to the Bot's last response, locate the corresponding row, and provide the relevant details.
+    For example: If the user asks for the 3 flights with the least travel time and then asks, "What are the prices of these flights," understand they're referring to the previously mentioned flights. Select those rows and give the prices.
+    Remember:
+    For direct flights (where "First Arrival Location" is the same as {destination}), provide arrival and departure times directly.
+    For flights with hops, give details for all hops, including locations, times, durations, layovers, final destination, and total travel time. Provide answers in a clear and structured manner.
 
-IMPORTANT:
-1. When the user asks flight information about locations different from what the dataframe has, tell the user to enter "quit" and start a new conversation.
-2. Use the previous chat history when the input query has sentences like "give some information about this/above flight". Check the Bot's last response, locate the corresponding row in the dataframe, and find the relevant fields to answer the query.
-
-For example:
-- If the user asks for the 3 flights with the least travel time and you provide 3 flights, and then the user asks, "What are the prices of these flights," you should understand that the user is referring to the previously mentioned flights. Select only those rows from the dataframe and calculate the prices.
-
-Remember:
-- If the flight is direct (i.e., "First Arrival Location" is the same as {destination}), provide the arrival and departure times directly.
-- If the flight has hops, provide information on all hops, including departure and arrival locations, times, durations, layovers, the final destination and the total travel time.
-
-
-Example Answer Format:
-"The cheapest flight is from LHR (London Heathrow Airport) to BLR (Bangalore Airport) with a total journey duration of 13 hours and a price of 372.44 EUR. The flight is operated by Etihad Airways. The flight includes a stopover in AUH (Abu Dhabi International Airport) with a layover duration of 1 hour and 55 minutes. Departure from LHR is at 2024-07-01 09:30 AM, arrival at AUH is at 2024-07-01 07:25 PM, departure from AUH is at 2024-07-01 09:20 PM, and final arrival at BLR is at 2024-07-02 03:00 AM."
-
-Provide answers in this structured and clear manner.
-"""
+    IMPORTANT: When the user says "book this flight" or "Book flight number x" when you provide a list of options, mark that specific row from the dataframe and get the value from the "INDEX" column.
+    Finally, return a list where the 0th entry is the INDEX value and the 1st entry is the answer to the query.
+    Example query: book this flight for me
+    Expected response: [0, "The flight you requested has been booked..."]
+    """
     system_prompt = "System Prompt : " + main_prompt
     query_ask = "Query : " + query
     return f"{system_prompt}\n{query_ask}"
@@ -357,13 +350,14 @@ def run(query):
 
     flight_df = parse_json_to_df(list_of_dicts)
     final_df = process_dataframe(flight_df)
+    final_df['INDEX'] = [i for i in range(len(final_df))]
 
 
     print("Dataframe : ",final_df)
     print("*"*125)
     save_string = f"{origin}" + "_" + f"{destination}.csv"
     final_df.to_csv(save_string)
-    return flight_df,origin,destination
+    return flight_df,origin,destination,flight_info
 
     # print("Dataframe : ",flight_df)
     # print("*"*125)
