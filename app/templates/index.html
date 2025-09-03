@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Assistant</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-plane"></i>
+                    <h1>Flight Booking Assistant</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="clearChat" class="btn-icon" title="Clear Chat">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button id="toggleTheme" class="btn-icon" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <div class="welcome-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h2>Flight Booking Assistant</h2>
+                    <p>I can help you find and compare flights. Just tell me:</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Where you want to go</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>When you want to travel</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <span>Number of passengers</span>
+                        </div>
+                    </div>
+                    <div class="example-queries">
+                        <h3>Try asking:</h3>
+                        <button class="example-btn" onclick="sendExampleQuery('Find me flights from New York to London on December 15, 2024')">
+                            <i class="fas fa-quote-left"></i>
+                            Find me flights from dekhi to mumbai on 10 oct 2025
+                        </button>
+                        <button class="example-btn" onclick="sendExampleQuery('Show me the cheapest flights from Delhi to Mumbai next week')">
+                            <i class="fas fa-quote-left"></i>
+                            Show me the cheapest flights from Delhi to Mumbai next week
+                        </button>
+                        
+                        <button class="example-btn" onclick="sendExampleQuery('I need 2 tickets from San Francisco to Tokyo next Monday')">
+                            <i class="fas fa-quote-left"></i>
+                            I need 2 tickets from San Francisco to Tokyo next Monday
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results Section (for flight results from chat) -->
+            <div class="flight-results" id="flightResults" style="display: none;">
+                <div class="results-header">
+                    <h3 id="resultsTitle">Flight Results</h3>
+                    <p id="resultsSubtitle">Based on your search</p>
+                </div>
+                <div class="flights-list" id="flightsList">
+                    <!-- Flight cards will be inserted here -->
+                </div>
+            </div>
+                </div>
+
+            <div class="chat-input-container">
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-text">Assistant is typing</div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <form id="chatForm" class="chat-form">
+                    <div class="input-group">
+                        <textarea 
+                            id="messageInput" 
+                            class="message-input" 
+                            placeholder="Ask me about flights (e.g., 'Find flights from NYC to Paris on March 15')" 
+                            rows="1"
+                            maxlength="1000"
+                            required
+                        ></textarea>
+                        <button type="submit" class="send-button" id="sendButton">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-suggestions">
+                        <button type="button" class="suggestion-chip" onclick="addSuggestion('flights from')">
+                            <i class="fas fa-plane-departure"></i> flights from
+                        </button>
+                        <button type="button" class="suggestion-chip" onclick="addSuggestion('cheapest flights to')">
+                            <i class="fas fa-dollar-sign"></i> cheapest flights to
+                        </button>
+                        <button type="button" class="suggestion-chip" onclick="addSuggestion('round trip to')">
+                            <i class="fas fa-sync-alt"></i> round trip to
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        
+
+        <div class="connection-status" id="connectionStatus">
+            <i class="fas fa-circle"></i>
+            <span>Connected</span>
+        </div>
+    </div>
+
+    <!-- Enhanced Flight Modal -->
+    <div class="flight-modal" id="flightModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Flight Details</h3>
+                <div class="modal-actions">
+                    <button class="modal-action-btn" id="compareFlightBtn" title="Compare">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>
+                    <button class="modal-action-btn" id="shareFlightBtn" title="Share">
+                        <i class="fas fa-share"></i>
+                    </button>
+                    <button class="modal-close" onclick="closeFlightModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeFlightModal()">Close</button>
+                <button class="btn-primary" id="bookFlightBtn">
+                    <i class="fas fa-credit-card"></i>
+                    Select Flight
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comparison Modal -->
+    <div class="comparison-modal" id="comparisonModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Compare Flights</h3>
+                <button class="modal-close" onclick="closeComparisonModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="comparisonBody">
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
