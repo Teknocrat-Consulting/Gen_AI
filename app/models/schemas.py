@@ -33,6 +33,7 @@ class ChatResponse(BaseModel):
     session_id: str
     timestamp: datetime = Field(default_factory=datetime.now)
     flight_data: Optional[List[Dict[str, Any]]] = None
+    show_flight_cards: bool = False
     metadata: Optional[Dict[str, Any]] = None
 
 
