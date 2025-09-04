@@ -6,6 +6,7 @@ import pandas as pd
 from amadeus import Client, ResponseError
 from openai import OpenAI
 from dotenv import load_dotenv
+import requests
 from app.core.logging import logger
 from app.core.config import settings
 
@@ -18,7 +19,29 @@ class FlightService:
             client_id=settings.API_Key,
             client_secret=settings.API_Secret
         )
-        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        api_key = settings.OPENAI_API_KEY
+        if not api_key:
+            logger.error("OPENAI_API_KEY is not set!")
+            raise ValueError("OPENAI_API_KEY is required")
+        logger.info(f"Initializing OpenAI client with key: {api_key[:10]}...")
+        self.openai_client = OpenAI(api_key=api_key)
+        self.exchange_rate = self.get_exchange_rate()
+    
+    def get_exchange_rate(self) -> float:
+        """Get current EUR to INR exchange rate"""
+        try:
+            # You can use a free API like exchangerate-api.com or fixer.io
+            # For now, using a fallback rate
+            # To use a real API, uncomment and add your API key:
+            # response = requests.get('https://api.exchangerate-api.com/v4/latest/EUR')
+            # data = response.json()
+            # return data['rates']['INR']
+            
+            # Using a reasonable approximate rate
+            return 90.50
+        except Exception as e:
+            logger.warning(f"Could not fetch exchange rate: {e}, using default")
+            return 90.50
     
     def get_airport_code(self, location: str) -> Optional[str]:
         try:
@@ -61,6 +84,10 @@ class FlightService:
         ]
         
         try:
+            logger.info(f"Calling OpenAI with model: gpt-4o-mini")
+            logger.info(f"System message: {messages[0]['content'][:200]}...")
+            logger.info(f"User message: {messages[1]['content']}")
+            
             response = self.openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=messages,
@@ -68,7 +95,45 @@ class FlightService:
                 temperature=0.1
             )
             
-            response_text = response.choices[0].message.content.strip()
+            if not response or not response.choices or len(response.choices) == 0:
+                logger.error("Empty or invalid response from OpenAI")
+                return None
+                
+            response_text = response.choices[0].message.content
+            if response_text is None:
+                logger.error("Response content is None")
+                logger.error(f"Full response object: {response}")
+                return None
+            
+            if not response_text:
+                logger.error("Response content is empty string")
+                return None
+                
+            response_text = response_text.strip()
+            logger.info(f"OpenAI response: {response_text}")
+            
+            # Handle potential markdown code blocks or extra text
+            if "```json" in response_text:
+                # Extract JSON from markdown code block
+                start = response_text.find("```json") + 7
+                end = response_text.find("```", start)
+                if end != -1:
+                    response_text = response_text[start:end].strip()
+            elif "```" in response_text:
+                # Extract from generic code block
+                start = response_text.find("```") + 3
+                end = response_text.find("```", start)
+                if end != -1:
+                    response_text = response_text[start:end].strip()
+            
+            # If response contains extra text before JSON, try to extract just the JSON part
+            if response_text and not response_text.startswith("{"):
+                # Look for the first { and last }
+                start_idx = response_text.find("{")
+                end_idx = response_text.rfind("}")
+                if start_idx != -1 and end_idx != -1:
+                    response_text = response_text[start_idx:end_idx+1]
+            
             flight_info = json.loads(response_text)
             
             required_keys = ["location_origin", "location_destination", "departure_date", "adults"]
@@ -76,8 +141,15 @@ class FlightService:
                 raise ValueError("Incomplete response from LLM")
             
             return flight_info
-        except (json.JSONDecodeError, ValueError) as e:
-            logger.error(f"Error extracting flight info: {e}")
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON decode error: {e}")
+            logger.error(f"Failed to parse response: {response_text if 'response_text' in locals() else 'No response text'}")
+            return None
+        except ValueError as e:
+            logger.error(f"Value error: {e}")
+            return None
+        except Exception as e:
+            logger.error(f"Unexpected error extracting flight info: {e}")
             return None
     
     def get_flight_info(self, location_origin: str, location_destination: str, 
@@ -105,6 +177,9 @@ class FlightService:
     def create_flight_dataframe(self, flight_data: List[Dict[str, Any]]) -> pd.DataFrame:
         flight_details = []
         
+        # Use the exchange rate from initialization
+        EUR_TO_INR = self.exchange_rate
+        
         airlines = set()
         for offer in flight_data:
             for segment in offer['itineraries'][0]['segments']:
@@ -123,6 +198,17 @@ class FlightService:
         for flight in flight_data:
             total_price = flight['price'].get('total', '')
             currency = flight['price'].get('currency', '')
+            
+            # Convert EUR to INR
+            if currency == 'EUR' and total_price:
+                try:
+                    price_eur = float(total_price)
+                    price_inr = price_eur * EUR_TO_INR
+                    total_price = f"{price_inr:.2f}"
+                    currency = 'INR'
+                except (ValueError, TypeError):
+                    logger.warning(f"Could not convert price: {total_price}")
+            
             one_way = len(flight['itineraries']) == 1
             
             for itinerary in flight['itineraries']:

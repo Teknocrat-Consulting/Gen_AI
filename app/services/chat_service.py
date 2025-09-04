@@ -48,6 +48,7 @@ class ChatService:
         CURRENT CONTEXT:
         - Flight data from {origin} to {destination}
         - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
 
         CAPABILITIES:
         - Analyze flight data including prices, airlines, stops, cabin classes
@@ -58,7 +59,7 @@ class ChatService:
         RESPONSE GUIDELINES:
         - DO NOT create a numbered list of flights with departure/arrival times and prices
         - Analyze the ACTUAL flight data available and provide specific insights
-        - Mention specific prices, airlines, and key differences you find in the data
+        - Mention specific prices in INR (₹), airlines, and key differences you find in the data
         - Highlight the cheapest options, direct flights, and best value choices
         - Provide actionable recommendations based on the real flight options
         - Keep it concise but informative
