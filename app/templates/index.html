@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Booking Assistant</title>
+    <title>Travel Booking Assistant</title>
     <link rel="stylesheet" href="/static/css/style.css?v=2.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,8 +13,18 @@
         <header class="app-header">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-plane"></i>
-                    <h1>Flight Booking Assistant</h1>
+                    <i class="fas fa-plane" id="headerIcon"></i>
+                    <h1 id="headerTitle">Travel Booking Assistant</h1>
+                </div>
+                <div class="booking-mode-tabs">
+                    <button class="mode-tab active" data-mode="flight" id="flightModeTab">
+                        <i class="fas fa-plane"></i>
+                        <span>Flights</span>
+                    </button>
+                    <button class="mode-tab" data-mode="hotel" id="hotelModeTab">
+                        <i class="fas fa-bed"></i>
+                        <span>Hotels</span>
+                    </button>
                 </div>
                 <div class="header-actions">
                     <button id="clearChat" class="btn-icon" title="Clear Chat">
@@ -29,7 +39,8 @@
 
         <main class="chat-container">
             <div class="chat-messages" id="chatMessages">
-                <div class="welcome-message">
+                <!-- Flight Welcome Message -->
+                <div class="welcome-message" id="flightWelcome">
                     <div class="welcome-icon">
                         <i class="fas fa-plane-departure"></i>
                     </div>
@@ -51,35 +62,76 @@
                     </div>
                     <div class="example-queries">
                         <h3>Try asking:</h3>
-                        <button class="example-btn" onclick="sendExampleQuery('Find me flights from New York to London on December 15, 2024')">
+                        <button class="example-btn" onclick="sendExampleQuery('Find me flights from delhi to mumbai on 10 oct 2025')">
                             <i class="fas fa-quote-left"></i>
-                            Find me flights from dekhi to mumbai on 10 oct 2025
+                            Find me flights from delhi to mumbai on 10 oct 2025
                         </button>
                         <button class="example-btn" onclick="sendExampleQuery('Show me the cheapest flights from Delhi to Mumbai next week')">
                             <i class="fas fa-quote-left"></i>
                             Show me the cheapest flights from Delhi to Mumbai next week
                         </button>
-                        
                         <button class="example-btn" onclick="sendExampleQuery('I need 2 tickets from San Francisco to Tokyo next Monday')">
                             <i class="fas fa-quote-left"></i>
                             I need 2 tickets from San Francisco to Tokyo next Monday
                         </button>
                     </div>
                 </div>
+                
+                <!-- Hotel Welcome Message -->
+                <div class="welcome-message" id="hotelWelcome" style="display: none;">
+                    <div class="welcome-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h2>Hotel Booking Assistant</h2>
+                    <p>I can help you find and compare hotels. Just tell me:</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Where you want to stay</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Your check-in and check-out dates</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <span>Number of guests and rooms</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-star"></i>
+                            <span>Your preferred price range or amenities</span>
+                        </div>
+                    </div>
+                    <div class="example-queries">
+                        <h3>Try asking:</h3>
+                        <button class="example-btn" onclick="sendExampleQuery('Find me hotels in Mumbai from December 20 to 25, 2024')">
+                            <i class="fas fa-quote-left"></i>
+                            Find me hotels in Mumbai from December 20 to 25, 2024
+                        </button>
+                        <button class="example-btn" onclick="sendExampleQuery('Show me cheap hotels in Delhi for 2 adults from next Monday to Friday')">
+                            <i class="fas fa-quote-left"></i>
+                            Show me cheap hotels in Delhi for 2 adults
+                        </button>
+                        <button class="example-btn" onclick="sendExampleQuery('I need a 5-star hotel in Goa with pool and spa for 3 nights')">
+                            <i class="fas fa-quote-left"></i>
+                            I need a 5-star hotel in Goa with pool and spa
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <!-- Results Section (for flight results from chat) -->
-            <div class="flight-results" id="flightResults" style="display: none;">
+            <!-- Results Section (for both flight and hotel results) -->
+            <div class="booking-results" id="bookingResults" style="display: none;">
                 <div class="results-header">
-                    <h3 id="resultsTitle">Flight Results</h3>
+                    <h3 id="resultsTitle">Results</h3>
                     <p id="resultsSubtitle">Based on your search</p>
                 </div>
-                <div class="flights-list" id="flightsList">
-                    <!-- Flight cards will be inserted here -->
+                <div class="results-list" id="resultsList">
+                    <!-- Flight/Hotel cards will be inserted here -->
                 </div>
                 
-                <!-- Flight Insights Section -->
-                <div class="flight-insights" id="flightInsights" style="display: none;">
+                <!-- Booking Insights Section -->
+                <div class="booking-insights" id="bookingInsights" style="display: none;">
                     <div class="insights-tabs">
                         <button class="tab-btn active" onclick="switchInsightTab('insights')" data-tab="insights">
                             <i class="fas fa-lightbulb"></i>
@@ -190,15 +242,27 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                    <div class="input-suggestions">
-                        <button type="button" class="suggestion-chip" onclick="addSuggestion('flights from')">
+                    <div class="input-suggestions" id="inputSuggestions">
+                        <!-- Flight suggestions (default) -->
+                        <button type="button" class="suggestion-chip flight-suggestion" onclick="addSuggestion('flights from')">
                             <i class="fas fa-plane-departure"></i> flights from
                         </button>
-                        <button type="button" class="suggestion-chip" onclick="addSuggestion('cheapest flights to')">
+                        <button type="button" class="suggestion-chip flight-suggestion" onclick="addSuggestion('cheapest flights to')">
                             <i class="fas fa-dollar-sign"></i> cheapest flights to
                         </button>
-                        <button type="button" class="suggestion-chip" onclick="addSuggestion('round trip to')">
+                        <button type="button" class="suggestion-chip flight-suggestion" onclick="addSuggestion('round trip to')">
                             <i class="fas fa-sync-alt"></i> round trip to
+                        </button>
+                        
+                        <!-- Hotel suggestions (hidden by default) -->
+                        <button type="button" class="suggestion-chip hotel-suggestion" onclick="addSuggestion('hotels in')" style="display: none;">
+                            <i class="fas fa-bed"></i> hotels in
+                        </button>
+                        <button type="button" class="suggestion-chip hotel-suggestion" onclick="addSuggestion('cheap hotels in')" style="display: none;">
+                            <i class="fas fa-dollar-sign"></i> cheap hotels in
+                        </button>
+                        <button type="button" class="suggestion-chip hotel-suggestion" onclick="addSuggestion('5-star hotels with')" style="display: none;">
+                            <i class="fas fa-star"></i> 5-star hotels with
                         </button>
                     </div>
                 </form>

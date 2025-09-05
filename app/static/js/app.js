@@ -1,13 +1,15 @@
-class FlightChatbot {
+class TravelChatbot {
     constructor() {
         this.sessionId = null;
         this.isTyping = false;
         this.apiBaseUrl = window.location.origin;
-        this.currentFlights = [];
+        this.currentResults = [];
+        this.currentMode = 'flight'; // 'flight' or 'hotel'
         
         this.initializeElements();
         this.initializeEventListeners();
         this.initializeTheme();
+        this.initializeMode();
         this.checkConnection();
     }
 
@@ -20,8 +22,16 @@ class FlightChatbot {
         this.typingIndicator = document.getElementById('typingIndicator');
         
         // Results elements
-        this.flightResults = document.getElementById('flightResults');
-        this.flightsList = document.getElementById('flightsList');
+        this.bookingResults = document.getElementById('bookingResults');
+        this.resultsList = document.getElementById('resultsList');
+        
+        // Mode elements
+        this.flightModeTab = document.getElementById('flightModeTab');
+        this.hotelModeTab = document.getElementById('hotelModeTab');
+        this.flightWelcome = document.getElementById('flightWelcome');
+        this.hotelWelcome = document.getElementById('hotelWelcome');
+        this.headerIcon = document.getElementById('headerIcon');
+        this.headerTitle = document.getElementById('headerTitle');
         
         // Header elements
         this.clearChatBtn = document.getElementById('clearChat');
@@ -41,12 +51,65 @@ class FlightChatbot {
         // Header listeners
         this.clearChatBtn.addEventListener('click', () => this.clearChat());
         this.toggleThemeBtn.addEventListener('click', () => this.toggleTheme());
+        
+        // Mode listeners
+        this.flightModeTab.addEventListener('click', () => this.switchMode('flight'));
+        this.hotelModeTab.addEventListener('click', () => this.switchMode('hotel'));
     }
 
     initializeTheme() {
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         this.updateThemeIcon(savedTheme);
+    }
+    
+    initializeMode() {
+        this.switchMode('flight');
+    }
+    
+    switchMode(mode) {
+        this.currentMode = mode;
+        
+        // Update tab states
+        if (mode === 'flight') {
+            this.flightModeTab.classList.add('active');
+            this.hotelModeTab.classList.remove('active');
+            
+            // Update welcome messages
+            this.flightWelcome.style.display = 'block';
+            this.hotelWelcome.style.display = 'none';
+            
+            // Update header
+            this.headerIcon.className = 'fas fa-plane';
+            
+            // Update input placeholder
+            this.messageInput.placeholder = "Ask me about flights (e.g., 'Find flights from NYC to Paris on March 15')";
+            
+            // Show/hide suggestions
+            document.querySelectorAll('.flight-suggestion').forEach(el => el.style.display = 'inline-flex');
+            document.querySelectorAll('.hotel-suggestion').forEach(el => el.style.display = 'none');
+            
+        } else if (mode === 'hotel') {
+            this.hotelModeTab.classList.add('active');
+            this.flightModeTab.classList.remove('active');
+            
+            // Update welcome messages
+            this.flightWelcome.style.display = 'none';
+            this.hotelWelcome.style.display = 'block';
+            
+            // Update header
+            this.headerIcon.className = 'fas fa-bed';
+            
+            // Update input placeholder
+            this.messageInput.placeholder = "Ask me about hotels (e.g., 'Find hotels in Mumbai from Dec 20 to 25')";
+            
+            // Show/hide suggestions
+            document.querySelectorAll('.flight-suggestion').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.hotel-suggestion').forEach(el => el.style.display = 'inline-flex');
+        }
+        
+        // Clear chat when switching modes
+        this.clearChat();
     }
 
     toggleTheme() {
@@ -116,18 +179,19 @@ class FlightChatbot {
             const response = await this.sendMessage(message);
             this.hideTypingIndicator();
             
-            if (response.response) {
+            if (response.message) {
                 // Debug logging
                 console.log('Response received:', response);
-                console.log('Flight data:', response.flight_data);
-                console.log('Show flight cards:', response.show_flight_cards);
+                console.log('Data:', response.data);
+                console.log('Show cards:', response.show_cards);
+                console.log('Message type:', response.message_type);
                 
-                // Display combined message with recommendations and flight cards
-                this.addMessage(response.response, 'assistant', response.flight_data, response.show_flight_cards);
+                // Display combined message with recommendations and cards
+                this.addMessage(response.message, 'assistant', response.data, response.show_cards, response.message_type);
             }
             
-            if (response.flight_data && response.flight_data.length > 0) {
-                this.currentFlights = response.flight_data;
+            if (response.data && response.data.length > 0) {
+                this.currentResults = response.data;
             }
             
             if (response.session_id) {
@@ -158,16 +222,23 @@ class FlightChatbot {
         return await response.json();
     }
 
-    displayFlightResults(flights) {
-        if (!this.flightResults || !this.flightsList) return;
+    displayResults(results, messageType) {
+        if (!this.bookingResults || !this.resultsList) return;
         
-        this.flightResults.style.display = 'block';
-        this.flightsList.innerHTML = '';
+        this.bookingResults.style.display = 'block';
+        this.resultsList.innerHTML = '';
         
-        flights.forEach((flight, index) => {
-            const flightCard = this.createFlightCard(flight, index);
-            this.flightsList.appendChild(flightCard);
-        });
+        if (messageType === 'flight_results') {
+            results.forEach((flight, index) => {
+                const flightCard = this.createFlightCard(flight, index);
+                this.resultsList.appendChild(flightCard);
+            });
+        } else if (messageType === 'hotel_results') {
+            results.forEach((hotel, index) => {
+                const hotelCard = this.createHotelCard(hotel, index);
+                this.resultsList.appendChild(hotelCard);
+            });
+        }
     }
     
     createFlightCard(flight, index) {
@@ -248,8 +319,84 @@ class FlightChatbot {
         return card;
     }
     
+    createHotelCard(hotel, index) {
+        const card = document.createElement('div');
+        card.className = 'hotel-card';
+        
+        // Parse price
+        const priceValue = parseFloat(hotel['Total Price']) || 0;
+        const currency = hotel['Currency'] || '₹';
+        const priceDisplay = priceValue > 0 ? `${currency}${priceValue.toLocaleString()}` : 'Price on request';
+        
+        // Parse rating
+        const rating = hotel['Rating'] && hotel['Rating'] !== 'N/A' ? parseFloat(hotel['Rating']) : 0;
+        const ratingStars = rating > 0 ? '★'.repeat(Math.floor(rating)) + (rating % 1 ? '☆' : '') : 'No rating';
+        
+        // Clean amenities
+        const amenities = hotel['Amenities'] || 'Standard amenities';
+        const amenitiesList = amenities.split(',').slice(0, 3).join(', ');
+        
+        card.innerHTML = `
+            <div class="hotel-card-content">
+                <div class="hotel-header">
+                    <div class="hotel-info">
+                        <h3 class="hotel-name">${hotel['Hotel Name'] || 'Hotel'}</h3>
+                        <div class="hotel-rating">
+                            <span class="stars">${ratingStars}</span>
+                            ${rating > 0 ? `<span class="rating-text">(${rating}/5)</span>` : ''}
+                        </div>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${hotel['City'] || ''} ${hotel['Country'] || ''}</span>
+                        </div>
+                    </div>
+                    <div class="hotel-price">
+                        <span class="price-amount">${priceDisplay}</span>
+                        <span class="price-period">per night</span>
+                    </div>
+                </div>
+                
+                <div class="hotel-details">
+                    <div class="room-type">
+                        <i class="fas fa-bed"></i>
+                        <span>${hotel['Room Type'] || 'Standard Room'}</span>
+                    </div>
+                    <div class="hotel-amenities">
+                        <i class="fas fa-wifi"></i>
+                        <span>${amenitiesList}</span>
+                    </div>
+                    <div class="check-times">
+                        <span class="check-in">Check-in: ${hotel['Check-in Time'] || 'Standard'}</span>
+                        <span class="check-out">Check-out: ${hotel['Check-out Time'] || 'Standard'}</span>
+                    </div>
+                </div>
+                
+                <div class="hotel-actions">
+                    <button class="view-details-btn" onclick="showHotelDetails('${hotel['Hotel ID'] || ''}')">
+                        <i class="fas fa-info-circle"></i>
+                        View Details
+                    </button>
+                    <button class="book-now-btn">
+                        <i class="fas fa-calendar-check"></i>
+                        Book Now
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // Add event listener for book button
+        const bookBtn = card.querySelector('.book-now-btn');
+        if (bookBtn) {
+            bookBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.showHotelDetails(hotel);
+            });
+        }
+        
+        return card;
+    }
 
-    addMessage(text, sender, flightData = null, showFlightCards = false) {
+    addMessage(text, sender, data = null, showCards = false, messageType = 'response') {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}`;
         
@@ -285,40 +432,47 @@ class FlightChatbot {
         
         content.appendChild(header);
         
-        // Debug logging for flight cards
-        console.log('addMessage called with:', { showFlightCards, flightData, flightDataLength: flightData ? flightData.length : 0 });
+        // Debug logging for cards
+        console.log('addMessage called with:', { showCards, data, dataLength: data ? data.length : 0, messageType });
         
-        // Add flight cards FIRST if requested and data is available
-        if (showFlightCards && flightData && flightData.length > 0) {
-            console.log('Creating flight cards...');
-            const flightCardsContainer = document.createElement('div');
-            flightCardsContainer.className = 'inline-flight-results';
+        // Add cards FIRST if requested and data is available
+        if (showCards && data && data.length > 0) {
+            console.log(`Creating ${messageType === 'hotel_results' ? 'hotel' : 'flight'} cards...`);
+            const cardsContainer = document.createElement('div');
+            cardsContainer.className = messageType === 'hotel_results' ? 'inline-hotel-results' : 'inline-flight-results';
             
             const cardsHeader = document.createElement('div');
             cardsHeader.className = 'inline-results-header';
+            const icon = messageType === 'hotel_results' ? 'fa-bed' : 'fa-plane';
+            const title = messageType === 'hotel_results' ? 'Available Hotels' : 'Available Flights';
             cardsHeader.innerHTML = `
-                <h4><i class="fas fa-plane"></i> Available Flights</h4>
+                <h4><i class="fas ${icon}"></i> ${title}</h4>
             `;
-            flightCardsContainer.appendChild(cardsHeader);
+            cardsContainer.appendChild(cardsHeader);
             
             const cardsList = document.createElement('div');
-            cardsList.className = 'inline-flights-list';
+            cardsList.className = messageType === 'hotel_results' ? 'inline-hotels-list' : 'inline-flights-list';
             
-            flightData.forEach((flight, index) => {
-                const flightCard = this.createFlightCard(flight, index);
-                cardsList.appendChild(flightCard);
+            data.forEach((item, index) => {
+                let card;
+                if (messageType === 'hotel_results') {
+                    card = this.createHotelCard(item, index);
+                } else {
+                    card = this.createFlightCard(item, index);
+                }
+                cardsList.appendChild(card);
             });
             
-            flightCardsContainer.appendChild(cardsList);
-            content.appendChild(flightCardsContainer);
+            cardsContainer.appendChild(cardsList);
+            content.appendChild(cardsContainer);
             
-            // Add insights section after flight cards
+            // Add insights section after cards
             try {
-                console.log('Parsing insights from response and flight data...');
+                console.log('Parsing insights from response and data...');
                 console.log('Full response text:', text);
-                console.log('Flight data:', flightData);
+                console.log('Data:', data);
                 
-                const insights = parseInsightsFromResponse(text, flightData);
+                const insights = parseInsightsFromResponse(text, data);
                 console.log('Insights parsed:', insights);
                 
                 // Create insights section dynamically for this message
@@ -955,7 +1109,7 @@ RECOMMENDATIONS_END`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.chatbot = new FlightChatbot();
+    window.chatbot = new TravelChatbot();
     
     // Add test function to window for debugging
     window.testParsing = testParsing;

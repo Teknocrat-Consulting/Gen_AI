@@ -19,7 +19,18 @@ async def send_message(request: ChatRequest):
             session_id=request.session_id
         )
         
-        return ChatResponse(**result)
+        # Map the result to the new schema format
+        response_data = {
+            "message": result.get("response", ""),
+            "session_id": result["session_id"],
+            "timestamp": result["timestamp"],
+            "message_type": result.get("message_type", "response"),
+            "data": result.get("data"),
+            "show_cards": result.get("show_cards", False),
+            "metadata": result.get("metadata")
+        }
+        
+        return ChatResponse(**response_data)
         
     except Exception as e:
         logger.error(f"Error in chat endpoint: {e}")

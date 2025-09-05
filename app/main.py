@@ -8,7 +8,7 @@ from pathlib import Path
 
 from app.core.config import settings
 from app.core.logging import logger
-from app.api import chat, health
+from app.api import chat, health, hotel
 
 
 @asynccontextmanager
@@ -36,6 +36,7 @@ app.add_middleware(
 
 app.include_router(chat.router)
 app.include_router(health.router)
+app.include_router(hotel.router)
 
 static_path = Path(__file__).parent / "static"
 if static_path.exists():

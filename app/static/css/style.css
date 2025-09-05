@@ -143,6 +143,45 @@ body {
     border-color: var(--primary-color);
 }
 
+/* Mode Tabs Styles */
+.booking-mode-tabs {
+    display: flex;
+    background: var(--background-secondary);
+    border-radius: var(--radius-lg);
+    padding: 0.25rem;
+    gap: 0.25rem;
+}
+
+.mode-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.mode-tab.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.mode-tab:hover:not(.active) {
+    background: var(--border-light);
+    color: var(--text-primary);
+}
+
+.mode-tab i {
+    font-size: 1rem;
+}
+
 
 
 
@@ -1795,5 +1834,193 @@ html {
         flex-direction: column;
         text-align: center;
         gap: 0.75rem;
+    }
+}
+
+/* Hotel Card Styles */
+.hotel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.hotel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.hotel-card-content {
+    padding: 1.5rem;
+}
+
+.hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.hotel-info {
+    flex: 1;
+}
+
+.hotel-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.hotel-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hotel-rating .stars {
+    color: #fbbf24;
+    font-size: 1rem;
+}
+
+.hotel-rating .rating-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.hotel-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.hotel-price {
+    text-align: right;
+}
+
+.price-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+}
+
+.price-period {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.hotel-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.room-type,
+.hotel-amenities {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.room-type i,
+.hotel-amenities i {
+    color: var(--primary-color);
+    width: 16px;
+    text-align: center;
+}
+
+.check-times {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.hotel-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.view-details-btn,
+.book-now-btn {
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.view-details-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.view-details-btn:hover {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+.book-now-btn {
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    color: white;
+}
+
+.book-now-btn:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.inline-hotel-results {
+    margin: 1rem 0;
+}
+
+.inline-hotels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .hotel-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .hotel-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .hotel-actions {
+        justify-content: stretch;
+    }
+    
+    .view-details-btn,
+    .book-now-btn {
+        flex: 1;
     }
 }

@@ -3,6 +3,7 @@ import pandas as pd
 from langchain_openai import ChatOpenAI
 from app.core.logging import logger
 from app.services.flight_service import FlightService
+from app.services.hotel_service import HotelService
 from app.core.config import settings
 import uuid
 from datetime import datetime, timedelta
@@ -12,6 +13,7 @@ class ChatService:
     def __init__(self):
         self.llm = ChatOpenAI(model="gpt-4o-mini", api_key=settings.OPENAI_API_KEY)
         self.flight_service = FlightService()
+        self.hotel_service = HotelService()
         self.sessions: Dict[str, Dict[str, Any]] = {}
         
     def get_or_create_session(self, session_id: Optional[str] = None) -> str:
@@ -39,6 +41,35 @@ class ChatService:
         for session_id in expired_sessions:
             del self.sessions[session_id]
             logger.info(f"Cleaned expired session: {session_id}")
+    
+    def detect_query_type(self, message: str) -> str:
+        """Detect whether the user is asking about flights or hotels"""
+        message_lower = message.lower()
+        
+        hotel_keywords = [
+            'hotel', 'hotels', 'accommodation', 'stay', 'room', 'rooms',
+            'resort', 'lodge', 'inn', 'motel', 'booking.com', 'airbnb',
+            'check-in', 'check-out', 'night', 'nights', 'bed', 'suite'
+        ]
+        
+        flight_keywords = [
+            'flight', 'flights', 'airline', 'airways', 'fly', 'flying',
+            'departure', 'arrival', 'ticket', 'tickets', 'trip', 'travel',
+            'airport', 'plane', 'aircraft', 'round trip', 'one way'
+        ]
+        
+        hotel_score = sum(1 for keyword in hotel_keywords if keyword in message_lower)
+        flight_score = sum(1 for keyword in flight_keywords if keyword in message_lower)
+        
+        logger.info(f"Query type detection - Hotel score: {hotel_score}, Flight score: {flight_score}")
+        
+        if hotel_score > flight_score and hotel_score > 0:
+            return 'hotel'
+        elif flight_score > 0:
+            return 'flight'
+        else:
+            # Default to flight if unclear
+            return 'flight'
     
     def create_prompt(self, query: str, origin: str, destination: str) -> str:
         main_prompt = f"""
@@ -103,6 +134,76 @@ class ChatService:
         3. NO markdown formatting (**, ##, ###, *, _) anywhere
         4. Use plain text with emoji section headers only
         5. Include all flights as Option 1, Option 2, etc.
+        6. Frontend will parse these markers to populate tabs
+        
+        The frontend specifically looks for these patterns to populate the Key Insights, Quick Comparison, and Recommendations tabs.
+        """
+        
+        return f"System Prompt: {main_prompt}\nQuery: {query}"
+    
+    def create_hotel_prompt(self, query: str, location: str, dates: Dict[str, str]) -> str:
+        main_prompt = f"""
+        You are a professional hotel booking assistant specializing in helping users find and analyze hotel information. You have access to real-time hotel data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Hotel data for {location}
+        - Check-in: {dates.get('check_in', 'N/A')} | Check-out: {dates.get('check_out', 'N/A')}
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        You MUST structure your response with these EXACT section headers and format. The frontend parses these specific patterns:
+
+        🏨 Best Deal
+        Price: ₹3500 per night
+        Hotel: Grand Plaza Hotel
+        Rating: 4.2/5 stars
+        Location: City Center
+        Amenities: WiFi, Pool, Gym
+
+        🏠 Available Hotels
+
+        Option 1
+        Hotel: Grand Plaza Hotel
+        Price: ₹3500 per night
+        Rating: 4.2/5 stars
+        Room Type: Deluxe Room
+        Amenities: WiFi, Pool, Gym, Spa
+
+        Option 2
+        Hotel: Luxury Resort
+        Price: ₹5200 per night
+        Rating: 4.8/5 stars
+        Room Type: Suite
+        Amenities: WiFi, Pool, Gym, Spa, Restaurant
+
+        Option 3
+        [Continue for all available hotels...]
+
+        KEY_INSIGHTS_START
+        - Hotels available from ₹3500 per night
+        - Price range: ₹3500 to ₹8500 per night
+        - Multiple 4+ star properties available
+        - Free WiFi available at most hotels
+        KEY_INSIGHTS_END
+
+        COMPARISON_START
+        cheapest: ₹3500 per night
+        highest_rated: 4.8/5 stars
+        bestValue: Best balance of price, rating and amenities
+        COMPARISON_END
+
+        RECOMMENDATIONS_START
+        budget: Choose Grand Plaza Hotel at ₹3500 for good value
+        business: Consider Luxury Resort for premium amenities
+        flexible: City center locations offer easy access to attractions
+        RECOMMENDATIONS_END
+
+        CRITICAL REQUIREMENTS:
+        1. Use EXACT section markers: KEY_INSIGHTS_START/END, COMPARISON_START/END, RECOMMENDATIONS_START/END
+        2. Include specific prices, ratings, and hotel data from the actual hotel data
+        3. NO markdown formatting (**, ##, ###, *, _) anywhere
+        4. Use plain text with emoji section headers only
+        5. Include all hotels as Option 1, Option 2, etc.
         6. Frontend will parse these markers to populate tabs
         
         The frontend specifically looks for these patterns to populate the Key Insights, Quick Comparison, and Recommendations tabs.
@@ -176,6 +277,128 @@ TOP 5 FLIGHTS BY PRICE:
             logger.error(f"Error creating flight summary: {e}")
             return f"Flight data available for {origin} to {destination} route with {len(df)} options."
     
+    def get_hotel_llm_response(self, df: pd.DataFrame, query: str, location: str, dates: Dict[str, str]) -> str:
+        main_prompt = self.create_hotel_prompt(query, location, dates)
+        
+        # Pre-process hotel data for the LLM
+        hotel_summary = self._create_hotel_summary(df, location, dates)
+        
+        # Create a focused prompt with summarized data
+        focused_prompt = f"{main_prompt}\n\nHotel Data Summary:\n{hotel_summary}\n\nUser Query: {query}"
+        
+        logger.info(f"Sending hotel query to LLM (length: {len(focused_prompt)} chars)")
+        
+        try:
+            messages = [
+                {"role": "system", "content": focused_prompt}
+            ]
+            
+            response = self.llm.invoke(messages)
+            response_text = response.content if hasattr(response, 'content') else str(response)
+            
+            logger.info(f"Hotel LLM Response received (length: {len(response_text)} chars)")
+            return response_text
+        except Exception as e:
+            logger.error(f"Error getting hotel LLM response: {e}")
+            return self._create_hotel_fallback_response(df, location, dates)
+    
+    def _create_hotel_summary(self, df: pd.DataFrame, location: str, dates: Dict[str, str]) -> str:
+        """Create a concise summary of hotel data for the LLM"""
+        if df.empty:
+            return "No hotel data available."
+        
+        try:
+            total_hotels = len(df)
+            
+            # Convert price to numeric for analysis
+            df['Price_Numeric'] = df['Total Price'].apply(
+                lambda x: float(str(x).replace(',', '')) if x and str(x) != 'N/A' else float('inf')
+            )
+            
+            valid_prices = df[df['Price_Numeric'] != float('inf')]
+            if not valid_prices.empty:
+                cheapest_price = valid_prices['Price_Numeric'].min()
+                most_expensive_price = valid_prices['Price_Numeric'].max()
+            else:
+                cheapest_price = most_expensive_price = 0
+            
+            # Get top 5 hotels by price
+            if not valid_prices.empty:
+                top_hotels = valid_prices.nsmallest(5, 'Price_Numeric')
+            else:
+                top_hotels = df.head(5)
+            
+            summary = f"""
+LOCATION: {location}
+CHECK-IN: {dates.get('check_in', 'N/A')} | CHECK-OUT: {dates.get('check_out', 'N/A')}
+TOTAL HOTELS: {total_hotels}
+PRICE RANGE: ₹{cheapest_price:.2f} - ₹{most_expensive_price:.2f} per night
+RATINGS AVAILABLE: {len(df[df['Rating'] != 'N/A'])} hotels
+
+TOP 5 HOTELS BY PRICE:
+"""
+            
+            for idx, hotel in top_hotels.iterrows():
+                price_str = f"₹{float(hotel['Price_Numeric']):.2f}" if hotel['Price_Numeric'] != float('inf') else "Price on request"
+                rating_str = f"{hotel['Rating']}/5" if hotel['Rating'] != 'N/A' else "No rating"
+                
+                summary += f"- {hotel['Hotel Name']}: {price_str} per night, {rating_str}, {hotel['Room Type']}\n"
+            
+            return summary
+        except Exception as e:
+            logger.error(f"Error creating hotel summary: {e}")
+            return f"Hotel data available for {location} with {len(df)} options."
+    
+    def _create_hotel_fallback_response(self, df: pd.DataFrame, location: str, dates: Dict[str, str]) -> str:
+        """Create a basic hotel response when LLM fails"""
+        if df.empty:
+            return f"I couldn't find any hotels in {location} for your dates. Please try different dates or location."
+        
+        try:
+            # Convert prices to numeric
+            df['Price_Numeric'] = df['Total Price'].apply(
+                lambda x: float(str(x).replace(',', '')) if x and str(x) != 'N/A' else float('inf')
+            )
+            
+            valid_prices = df[df['Price_Numeric'] != float('inf')]
+            if not valid_prices.empty:
+                cheapest = valid_prices.loc[valid_prices['Price_Numeric'].idxmin()]
+                cheapest_price = valid_prices['Price_Numeric'].min()
+            else:
+                cheapest = df.iloc[0]
+                cheapest_price = 0
+            
+            total_hotels = len(df)
+            rated_hotels = len(df[df['Rating'] != 'N/A'])
+            
+            response = f"""🏨 Best Deal
+Price: ₹{cheapest_price:.2f} per night
+Hotel: {cheapest['Hotel Name']}
+Rating: {cheapest['Rating']}/5 stars
+Room Type: {cheapest['Room Type']}
+
+🏠 Available Hotels
+Found {total_hotels} hotels in {location}.
+{rated_hotels} hotels have customer ratings.
+
+💡 Key Insights
+- Hotels available from ₹{cheapest_price:.2f} per night
+- Multiple accommodation options in {location}
+- Various room types and amenities available
+
+📊 Quick Comparison
+Cheapest: ₹{cheapest_price:.2f} ({cheapest['Hotel Name']})
+
+🎁 Recommendations  
+Budget Travelers: Book {cheapest['Hotel Name']} at ₹{cheapest_price:.2f} per night
+Business Travelers: Look for hotels with business amenities
+Flexible Schedule: Multiple check-in/checkout options available"""
+            
+            return response
+        except Exception as e:
+            logger.error(f"Error creating hotel fallback response: {e}")
+            return f"Found {len(df)} hotel options in {location}. Please try your search again."
+    
     def _create_fallback_response(self, df: pd.DataFrame, origin: str, destination: str) -> str:
         """Create a basic response when LLM fails"""
         if df.empty:
@@ -225,6 +448,30 @@ Flexible Schedule: Multiple timing options available"""
             'timestamp': datetime.now().isoformat()
         })
         
+        # Detect query type
+        query_type = self.detect_query_type(message)
+        logger.info(f"Detected query type: {query_type}")
+        
+        try:
+            if query_type == 'hotel':
+                return self._process_hotel_message(message, session_id, session)
+            else:
+                return self._process_flight_message(message, session_id, session)
+            
+        except Exception as e:
+            logger.error(f"Error processing message: {e}")
+            return {
+                'response': f"I encountered an error while processing your request. Please try again. Error: {str(e)}",
+                'session_id': session_id,
+                'timestamp': datetime.now().isoformat(),
+                'data': None,
+                'show_cards': False,
+                'message_type': 'error',
+                'metadata': {'error': str(e)}
+            }
+    
+    def _process_flight_message(self, message: str, session_id: str, session: Dict[str, Any]) -> Dict[str, Any]:
+        """Process flight-related queries"""
         try:
             if 'flight_df' not in session['context'] or session['context']['flight_df'] is None:
                 logger.info("No existing flight data in session, fetching new data")
@@ -239,8 +486,9 @@ Flexible Schedule: Multiple timing options available"""
                         'response': "I couldn't find any flights based on your query. Please make sure you've provided valid origin and destination cities along with a departure date.",
                         'session_id': session_id,
                         'timestamp': datetime.now().isoformat(),
-                        'flight_data': None,
-                        'show_flight_cards': False,
+                        'data': None,
+                        'show_cards': False,
+                        'message_type': 'flight_error',
                         'metadata': {'error': 'No flights found'}
                     }
             else:
@@ -258,38 +506,75 @@ Flexible Schedule: Multiple timing options available"""
             
             flight_data = flight_df.to_dict('records') if isinstance(flight_df, pd.DataFrame) else None
             
-            # Debug logging
-            logger.info(f"Flight data prepared: {flight_data is not None}")
-            logger.info(f"Flight data length: {len(flight_data) if flight_data else 0}")
-            if flight_data and len(flight_data) > 0:
-                logger.info(f"First flight record: {flight_data[0]}")
-            
-            result = {
+            return {
                 'response': response,
                 'session_id': session_id,
                 'timestamp': datetime.now().isoformat(),
-                'flight_data': flight_data[:5] if flight_data else None,  
-                'show_flight_cards': True,  # Add flag to show flight cards
+                'data': flight_data[:5] if flight_data else None,
+                'show_cards': True,
+                'message_type': 'flight_results',
                 'metadata': {
                     'origin': origin,
                     'destination': destination,
                     'total_flights': len(flight_df) if isinstance(flight_df, pd.DataFrame) else 0
                 }
             }
-            
-            logger.info(f"Returning result with show_flight_cards: {result.get('show_flight_cards')}")
-            return result
-            
         except Exception as e:
-            logger.error(f"Error processing message: {e}")
+            logger.error(f"Error processing flight message: {e}")
+            raise
+    
+    def _process_hotel_message(self, message: str, session_id: str, session: Dict[str, Any]) -> Dict[str, Any]:
+        """Process hotel-related queries"""
+        try:
+            if 'hotel_df' not in session['context'] or session['context']['hotel_df'] is None:
+                logger.info("No existing hotel data in session, fetching new data")
+                hotel_df, location, dates = self.hotel_service.process_hotel_search(message)
+                
+                if hotel_df is not None:
+                    session['context']['hotel_df'] = hotel_df
+                    session['context']['location'] = location
+                    session['context']['dates'] = dates
+                else:
+                    return {
+                        'response': "I couldn't find any hotels based on your query. Please make sure you've provided a valid location and dates.",
+                        'session_id': session_id,
+                        'timestamp': datetime.now().isoformat(),
+                        'data': None,
+                        'show_cards': False,
+                        'message_type': 'hotel_error',
+                        'metadata': {'error': 'No hotels found'}
+                    }
+            else:
+                hotel_df = session['context']['hotel_df']
+                location = session['context']['location']
+                dates = session['context']['dates']
+            
+            response = self.get_hotel_llm_response(hotel_df, message, location, dates)
+            
+            session['messages'].append({
+                'role': 'assistant',
+                'content': response,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+            hotel_data = hotel_df.to_dict('records') if isinstance(hotel_df, pd.DataFrame) else None
+            
             return {
-                'response': f"I encountered an error while processing your request. Please try again. Error: {str(e)}",
+                'response': response,
                 'session_id': session_id,
                 'timestamp': datetime.now().isoformat(),
-                'flight_data': None,
-                'show_flight_cards': False,
-                'metadata': {'error': str(e)}
+                'data': hotel_data[:5] if hotel_data else None,
+                'show_cards': True,
+                'message_type': 'hotel_results',
+                'metadata': {
+                    'location': location,
+                    'dates': dates,
+                    'total_hotels': len(hotel_df) if isinstance(hotel_df, pd.DataFrame) else 0
+                }
             }
+        except Exception as e:
+            logger.error(f"Error processing hotel message: {e}")
+            raise
     
     def get_session_history(self, session_id: str) -> List[Dict[str, Any]]:
         if session_id in self.sessions:
