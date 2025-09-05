@@ -311,10 +311,29 @@ class FlightChatbot {
             
             flightCardsContainer.appendChild(cardsList);
             content.appendChild(flightCardsContainer);
+            
+            // Add insights section after flight cards
+            try {
+                console.log('Parsing insights from response and flight data...');
+                console.log('Full response text:', text);
+                console.log('Flight data:', flightData);
+                
+                const insights = parseInsightsFromResponse(text, flightData);
+                console.log('Insights parsed:', insights);
+                
+                // Create insights section dynamically for this message
+                const insightsSection = createInsightsSection(insights);
+                console.log('Insights section created:', insightsSection);
+                content.appendChild(insightsSection);
+                console.log('Insights displayed successfully');
+            } catch (error) {
+                console.error('Error displaying insights:', error);
+                console.error('Error stack:', error.stack);
+            }
         }
         
         // Then add the recommendations text below the cards
-        content.appendChild(messageText);
+        // content.appendChild(messageText);
         
         messageDiv.appendChild(avatar);
         messageDiv.appendChild(content);
@@ -540,8 +559,406 @@ function addSuggestion(text) {
     input.focus();
 }
 
+// Flight Insights Functions
+function switchInsightTab(tabName, clickedBtn) {
+    console.log('Switching to tab:', tabName);
+    
+    // Get the parent insights container
+    const insightsContainer = clickedBtn.closest('.flight-insights');
+    console.log('Insights container found:', insightsContainer);
+    
+    // Remove active class from all tabs and content within this insights container
+    insightsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        console.log('Removed active from tab:', btn);
+    });
+    insightsContainer.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+        console.log('Removed active from content:', content);
+    });
+    
+    // Add active class to selected tab and content
+    clickedBtn.classList.add('active');
+    console.log('Added active to clicked button:', clickedBtn);
+    
+    const targetContent = insightsContainer.querySelector(`.tab-content[data-tab="${tabName}"]`);
+    console.log('Target content element:', targetContent);
+    
+    if (targetContent) {
+        targetContent.classList.add('active');
+        console.log('Added active to target content');
+    } else {
+        console.error('Target content not found for tab:', tabName);
+    }
+}
+
+function parseInsightsFromResponse(response, flightData) {
+    console.log('Parsing insights from response:', response);
+    
+    const insights = {
+        keyInsights: [],
+        cheapest: null,
+        fastest: null,
+        bestValue: null,
+        recommendations: {
+            budget: 'Choose the most affordable option',
+            business: 'Select direct flights for convenience',
+            flexible: 'Consider flights with better timing'
+        }
+    };
+
+    // Parse KEY_INSIGHTS section
+    console.log('Looking for KEY_INSIGHTS markers...');
+    const keyInsightsMatch = response.match(/KEY_INSIGHTS_START([\s\S]*?)KEY_INSIGHTS_END/);
+    console.log('Key insights match:', keyInsightsMatch);
+    if (keyInsightsMatch) {
+        const insightsText = keyInsightsMatch[1];
+        console.log('Insights text found:', insightsText);
+        const insightLines = insightsText.split('\n')
+            .map(line => line.trim())
+            .filter(line => line.startsWith('-'))
+            .map(line => line.replace(/^-\s*/, ''));
+        insights.keyInsights = insightLines;
+        console.log('Parsed key insights:', insights.keyInsights);
+    } else {
+        console.log('No KEY_INSIGHTS markers found in response');
+    }
+
+    // Parse COMPARISON section
+    const comparisonMatch = response.match(/COMPARISON_START([\s\S]*?)COMPARISON_END/);
+    if (comparisonMatch) {
+        const comparisonText = comparisonMatch[1];
+        const lines = comparisonText.split('\n').map(line => line.trim()).filter(line => line);
+        
+        lines.forEach(line => {
+            if (line.includes('cheapest:')) {
+                const price = line.split('cheapest:')[1].trim();
+                insights.cheapest = { price, details: 'Most affordable option' };
+            }
+            if (line.includes('fastest:')) {
+                const time = line.split('fastest:')[1].trim();
+                insights.fastest = { time, details: 'Shortest travel time' };
+            }
+            if (line.includes('bestValue:')) {
+                const value = line.split('bestValue:')[1].trim();
+                insights.bestValue = { details: value };
+            }
+        });
+        console.log('Parsed comparison data:', { cheapest: insights.cheapest, fastest: insights.fastest, bestValue: insights.bestValue });
+    }
+
+    // Parse RECOMMENDATIONS section
+    const recommendationsMatch = response.match(/RECOMMENDATIONS_START([\s\S]*?)RECOMMENDATIONS_END/);
+    if (recommendationsMatch) {
+        const recommendationsText = recommendationsMatch[1];
+        const lines = recommendationsText.split('\n').map(line => line.trim()).filter(line => line);
+        
+        lines.forEach(line => {
+            if (line.includes('budget:')) {
+                insights.recommendations.budget = line.split('budget:')[1].trim();
+            }
+            if (line.includes('business:')) {
+                insights.recommendations.business = line.split('business:')[1].trim();
+            }
+            if (line.includes('flexible:')) {
+                insights.recommendations.flexible = line.split('flexible:')[1].trim();
+            }
+        });
+        console.log('Parsed recommendations:', insights.recommendations);
+    }
+
+    // Fallback: if no structured data found, use flight data for basic insights
+    if (insights.keyInsights.length === 0 && flightData && flightData.length > 0) {
+        console.log('No structured insights found, generating fallback insights from flight data');
+        
+        // Find cheapest flight
+        const cheapestFlight = flightData.reduce((min, flight) => 
+            parseFloat(flight['Total Price']) < parseFloat(min['Total Price']) ? flight : min
+        );
+        
+        // Calculate duration for each flight and find fastest
+        const flightsWithDuration = flightData.map(flight => {
+            const dept = new Date(flight.Departure);
+            const arr = new Date(flight.Arrival);
+            const duration = (arr - dept) / (1000 * 60); // duration in minutes
+            return { ...flight, durationMinutes: duration };
+        });
+        
+        const fastestFlight = flightsWithDuration.reduce((fastest, flight) => 
+            flight.durationMinutes < fastest.durationMinutes ? flight : fastest
+        );
+
+        // Set fallback data
+        insights.cheapest = {
+            price: `₹${parseFloat(cheapestFlight['Total Price']).toLocaleString()}`,
+            details: `${cheapestFlight['Airline Name']} (${cheapestFlight['Airline Code']})`
+        };
+
+        const fastestHours = Math.floor(fastestFlight.durationMinutes / 60);
+        const fastestMins = Math.round(fastestFlight.durationMinutes % 60);
+        insights.fastest = {
+            time: `${fastestHours}h ${fastestMins}m`,
+            details: fastestFlight['Number of Stops'] === 0 ? 'Direct Flight' : `${fastestFlight['Number of Stops']} stop(s)`
+        };
+
+        insights.bestValue = {
+            details: 'Best balance of price and convenience'
+        };
+
+        insights.keyInsights = [
+            `Cheapest flight starts from ₹${parseFloat(cheapestFlight['Total Price']).toLocaleString()}`,
+            `Fastest flight takes ${fastestHours}h ${fastestMins}m`,
+            `${flightData.length} total flight options available`,
+            `Multiple airlines and timing options to choose from`
+        ];
+    }
+
+    console.log('Final parsed insights:', insights);
+    return insights;
+}
+
+function createInsightsSection(insights) {
+    console.log('Creating insights section with:', insights);
+    
+    const insightsContainer = document.createElement('div');
+    insightsContainer.className = 'flight-insights';
+    insightsContainer.style.marginTop = '1rem';
+    
+    // Create tabs
+    const tabsDiv = document.createElement('div');
+    tabsDiv.className = 'insights-tabs';
+    tabsDiv.innerHTML = `
+        <button class="tab-btn active" onclick="switchInsightTab('insights', this)">
+            <i class="fas fa-lightbulb"></i>
+            Key Insights
+        </button>
+        <button class="tab-btn" onclick="switchInsightTab('comparison', this)">
+            <i class="fas fa-chart-bar"></i>
+            Quick Comparison
+        </button>
+        <button class="tab-btn" onclick="switchInsightTab('recommendations', this)">
+            <i class="fas fa-thumbs-up"></i>
+            Recommendations
+        </button>
+    `;
+    console.log('Created tabs div:', tabsDiv);
+    
+    // Create content area
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'insights-content';
+    
+    // Key Insights Tab
+    const insightsTab = document.createElement('div');
+    insightsTab.className = 'tab-content active';
+    insightsTab.setAttribute('data-tab', 'insights');
+    console.log('Created insights tab with data-tab:', insightsTab.getAttribute('data-tab'));
+    
+    const insightsList = document.createElement('div');
+    insightsList.className = 'insights-list';
+    
+    if (insights.keyInsights && insights.keyInsights.length > 0) {
+        insights.keyInsights.forEach(insight => {
+            const insightDiv = document.createElement('div');
+            insightDiv.className = 'insight-item';
+            insightDiv.innerHTML = `
+                <div class="insight-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="insight-text">${insight}</div>
+            `;
+            insightsList.appendChild(insightDiv);
+        });
+    } else {
+        // Add fallback content if no insights found
+        const noInsightsDiv = document.createElement('div');
+        noInsightsDiv.className = 'insight-item';
+        noInsightsDiv.innerHTML = `
+            <div class="insight-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="insight-text">No specific insights available. Check the flight options above for details.</div>
+        `;
+        insightsList.appendChild(noInsightsDiv);
+    }
+    
+    insightsTab.appendChild(insightsList);
+    
+    // Quick Comparison Tab
+    const comparisonTab = document.createElement('div');
+    comparisonTab.className = 'tab-content';
+    comparisonTab.setAttribute('data-tab', 'comparison');
+    console.log('Created comparison tab with data-tab:', comparisonTab.getAttribute('data-tab'));
+    comparisonTab.innerHTML = `
+        <div class="comparison-cards">
+            <div class="comparison-card cheapest">
+                <div class="card-header">CHEAPEST</div>
+                <div class="card-value">${insights.cheapest?.price || 'Check options above'}</div>
+                <div class="card-detail">${insights.cheapest?.details || 'Most affordable option'}</div>
+            </div>
+            <div class="comparison-card fastest">
+                <div class="card-header">FASTEST</div>
+                <div class="card-value">${insights.fastest?.time || 'Check durations above'}</div>
+                <div class="card-detail">${insights.fastest?.details || 'Shortest travel time'}</div>
+            </div>
+            <div class="comparison-card best-value">
+                <div class="card-header">BEST VALUE</div>
+                <div class="card-value">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-detail">${insights.bestValue?.details || 'Best value option'}</div>
+            </div>
+        </div>
+    `;
+    
+    // Recommendations Tab
+    const recommendationsTab = document.createElement('div');
+    recommendationsTab.className = 'tab-content';
+    recommendationsTab.setAttribute('data-tab', 'recommendations');
+    console.log('Created recommendations tab with data-tab:', recommendationsTab.getAttribute('data-tab'));
+    recommendationsTab.innerHTML = `
+        <div class="recommendation-cards">
+            <div class="recommendation-card budget">
+                <div class="card-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="card-content">
+                    <h4>Budget Travelers</h4>
+                    <p>${insights.recommendations?.budget || 'Choose the most affordable option'}</p>
+                </div>
+            </div>
+            <div class="recommendation-card business">
+                <div class="card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="card-content">
+                    <h4>Business Travelers</h4>
+                    <p>${insights.recommendations?.business || 'Select direct flights for convenience'}</p>
+                </div>
+            </div>
+            <div class="recommendation-card flexible">
+                <div class="card-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <div class="card-content">
+                    <h4>Flexible Schedule</h4>
+                    <p>${insights.recommendations?.flexible || 'Consider flights with better timing'}</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Assemble the insights section
+    contentDiv.appendChild(insightsTab);
+    contentDiv.appendChild(comparisonTab);
+    contentDiv.appendChild(recommendationsTab);
+    
+    insightsContainer.appendChild(tabsDiv);
+    insightsContainer.appendChild(contentDiv);
+    
+    console.log('Final insights container created:', insightsContainer);
+    console.log('Content tabs in container:', insightsContainer.querySelectorAll('.tab-content'));
+    console.log('Tab buttons in container:', insightsContainer.querySelectorAll('.tab-btn'));
+    
+    return insightsContainer;
+}
+
+// Test function to check parsing with the exact response
+function testParsing() {
+    const testResponse = `🎯 Best Deal
+Price: ₹4067
+Airline: AIR INDIA (AI)
+Time: 11:00 - 11:50
+Stops: 1 stop
+Duration: 50m
+
+✈️ Available Flights
+
+Option 1
+Airline: AIR INDIA (AI)
+Price: ₹4067
+Departure: 11:00
+Arrival: 11:50
+Stops: 1 stop
+
+Option 2
+Airline: AIR INDIA (AI)  
+Price: ₹4067
+Departure: 18:00
+Arrival: 20:00
+Stops: 1 stop
+
+Option 3
+Airline: AIR INDIA (AI)  
+Price: ₹4858
+Departure: 21:10
+Arrival: 23:35
+Stops: Direct
+
+Option 4
+Airline: AIR INDIA (AI)  
+Price: ₹5524
+Departure: 12:35
+Arrival: 14:50
+Stops: Direct
+
+Option 5
+Airline: AIR INDIA (AI)  
+Price: ₹5524
+Departure: 11:40
+Arrival: 14:05
+Stops: Direct
+
+KEY_INSIGHTS_START
+- Cheapest flights available from ₹4067
+- Price range: ₹4067 to ₹5968
+- All flights require 1 stop except two
+- Morning departures offer good timing
+KEY_INSIGHTS_END
+
+COMPARISON_START
+cheapest: ₹4067
+fastest: 50m
+bestValue: Best balance of price and convenience
+COMPARISON_END
+
+RECOMMENDATIONS_START
+budget: Choose the morning flight at ₹4067 for best value
+business: Consider the evening flight for convenience  
+flexible: Morning departure offers more flexibility for connections
+RECOMMENDATIONS_END`;
+
+    console.log('Testing parsing with exact response...');
+    const result = parseInsightsFromResponse(testResponse, []);
+    console.log('Test result:', result);
+    
+    if (result.keyInsights.length > 0) {
+        console.log('✅ Key insights parsed successfully');
+    } else {
+        console.log('❌ Key insights parsing failed');
+    }
+    
+    if (result.cheapest && result.fastest) {
+        console.log('✅ Comparison data parsed successfully');
+    } else {
+        console.log('❌ Comparison data parsing failed');
+    }
+    
+    if (result.recommendations.budget !== 'Choose the most affordable option') {
+        console.log('✅ Recommendations parsed successfully');
+    } else {
+        console.log('❌ Recommendations parsing failed');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.chatbot = new FlightChatbot();
+    
+    // Add test function to window for debugging
+    window.testParsing = testParsing;
     
     setInterval(() => {
         window.chatbot.checkConnection();

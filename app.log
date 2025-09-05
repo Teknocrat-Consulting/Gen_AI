@@ -160,3 +160,2820 @@ Overall, if you're looking for a straightforward and cost-effective option, the 
 2025-09-04 15:24:03,298 - app.core.logging - INFO - Flight data length: 11
 2025-09-04 15:24:03,298 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-10T21:10:00', 'Arrival': '2025-10-10T23:35:00', 'Total Price': '5239.05', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
 2025-09-04 15:24:03,298 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:27:29,705 - app.core.logging - INFO - Received chat request: Find me flights from Delhi to Mumbai on October 15...
+2025-09-04 15:27:29,705 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:27:29,705 - app.core.logging - INFO - Processing flight search query: Find me flights from Delhi to Mumbai on October 15th
+2025-09-04 15:27:29,705 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:27:29,705 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:27:29,705 - app.core.logging - INFO - User message: Find me flights from Delhi to Mumbai on October 15th
+2025-09-04 15:27:31,257 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:27:31,267 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-15", "adults": 1}
+2025-09-04 15:27:31,267 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-15', 'adults': 1}
+2025-09-04 15:27:43,668 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 15:27:43,668 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        CAPABILITIES:
+        - Analyze flight data including prices, airlines, stops, cabin classes
+        - Provide comparative analysis and recommendations
+        - Identify best deals and optimal flight options
+        - Handle follow-up questions about the same flight search
+
+        RESPONSE GUIDELINES:
+        - DO NOT create a numbered list of flights with departure/arrival times and prices
+        - Analyze the ACTUAL flight data available and provide specific insights
+        - Mention specific prices in INR (₹), airlines, and key differences you find in the data
+        - Highlight the cheapest options, direct flights, and best value choices
+        - Provide actionable recommendations based on the real flight options
+        - Keep it concise but informative
+        - Flight cards will show the detailed flight information, but your text should reference the actual data
+
+        ANALYSIS FOCUS:
+        - Identify the cheapest flights available and their prices
+        - Point out direct flights vs flights with stops
+        - Highlight time differences and convenience factors
+        - Mention specific airlines operating this route
+        - Compare value propositions of different options
+
+        IMPORTANT: Base your response on the ACTUAL flight data in the dataframe. Don't give generic advice - analyze the real flights available for this specific route and date.
+
+        Provide specific insights about the available flight options to help users choose the best flight for their needs.
+        
+Query: Find me flights from Delhi to Mumbai on October 15th
+2025-09-04 15:27:44,638 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:27:45,560 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:27:51,943 - app.core.logging - INFO - LLM Response: On October 15th, several flight options are available from Delhi (DEL) to Mumbai (BOM) operated by Air India. Here’s a concise analysis of the current data:
+
+### Cheapest Option:
+- **Flight**: Departing at 21:10 and arriving at 23:35
+- **Price**: **₹5619.15**
+- **Stops**: Direct flight (0 stops)
+
+### Other Options:
+- Various flights are available for a price of **₹7519.65**. Here are some notable details:
+  - **Departures**: 
+    - **06:05** → **08:30**
+    - **12:15** → **14:35**
+    - **12:35** → **14:50**
+    - **16:50** → **19:05**
+    - **11:40** → **14:05**
+
+### Insights:
+- All flights listed have **no stops**, making them convenient choices for direct travel.
+- The cheapest flight (₹5619.15) offers a good value for a nighttime departure.
+- The higher-priced flights (₹7519.65) provide a range of departure times across the day, suitable for different schedules.
+
+### Recommendation:
+For the best value, consider booking the flight departing at **21:10** for **₹5619.15**. If an earlier departure is preferable, look at flights around **06:05** or **12:15**, both priced at ₹7519.65. All flights ensure a comfortable direct travel experience with Air India.
+2025-09-04 15:27:51,945 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:27:51,945 - app.core.logging - INFO - Flight data length: 10
+2025-09-04 15:27:51,946 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-15T21:10:00', 'Arrival': '2025-10-15T23:35:00', 'Total Price': '5619.15', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:27:51,946 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:27:58,895 - app.core.logging - INFO - Received chat request: I want to fly from San Francisco to New York on Oc...
+2025-09-04 15:27:58,895 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:27:58,895 - app.core.logging - INFO - Processing flight search query: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:27:58,895 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:27:58,895 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:27:58,895 - app.core.logging - INFO - User message: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:28:00,553 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:28:00,571 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 15:28:00,572 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 15:28:15,350 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 15:28:15,350 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        CAPABILITIES:
+        - Analyze flight data including prices, airlines, stops, cabin classes
+        - Provide comparative analysis and recommendations
+        - Identify best deals and optimal flight options
+        - Handle follow-up questions about the same flight search
+
+        RESPONSE GUIDELINES:
+        - DO NOT create a numbered list of flights with departure/arrival times and prices
+        - Analyze the ACTUAL flight data available and provide specific insights
+        - Mention specific prices in INR (₹), airlines, and key differences you find in the data
+        - Highlight the cheapest options, direct flights, and best value choices
+        - Provide actionable recommendations based on the real flight options
+        - Keep it concise but informative
+        - Flight cards will show the detailed flight information, but your text should reference the actual data
+
+        ANALYSIS FOCUS:
+        - Identify the cheapest flights available and their prices
+        - Point out direct flights vs flights with stops
+        - Highlight time differences and convenience factors
+        - Mention specific airlines operating this route
+        - Compare value propositions of different options
+
+        IMPORTANT: Base your response on the ACTUAL flight data in the dataframe. Don't give generic advice - analyze the real flights available for this specific route and date.
+
+        Provide specific insights about the available flight options to help users choose the best flight for their needs.
+        
+Query: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:28:16,137 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:28:17,171 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:28:22,454 - app.core.logging - INFO - LLM Response: For your flight from San Francisco to New York on October 20, 2025, here are the available options based on the real-time data:
+
+1. **Cheapest Direct Flight**: 
+   - **Airline**: Alaska Airlines
+   - **Departure**: 2025-10-20 at 23:00
+   - **Arrival**: 2025-10-21 at 07:34
+   - **Price**: ₹9,263.58
+   - **Number of Stops**: Direct (0 stops)
+
+2. **Cheapest One-Stop Flight**:
+   - **Airline**: JetBlue Airways
+   - **Departure**: 2025-10-20 at 20:47
+   - **Arrival**: 2025-10-21 at 05:25
+   - **Price**: ₹12,351.44
+   - **Number of Stops**: 1 stop
+
+3. **Other Notable Options**:
+   - **More JetBlue Flights**: You can consider multiple JetBlue flights priced at around ₹12,351.44, with varying departure times.
+   - **Alaska Airlines Options**: There are several more flights from Alaska Airlines, including one-stop options that range from ₹14,588.60 to ₹18,429.42, all of which involve a layover.
+
+### Analysis:
+- **Direct Flights**: The best option if you want minimal travel time is the direct flight with Alaska Airlines. It not only offers a good price but also a relatively convenient schedule.
+- **Stops**: Most of the JetBlue flights include one stop, which could add travel time, although they offer competitive pricing.
+- **Value Proposition**: If time is of the essence, opting for the direct flight for ₹9,263.58 is the best deal. However, if you're flexible, investigating one-stop options with JetBlue could offer more varied departure times.
+
+This information should help you make an informed choice regarding your flight plans. If you have any further questions or need assistance with bookings, feel free to ask!
+2025-09-04 15:28:22,456 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:28:22,456 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 15:28:22,456 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:28:22,456 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:30:13,776 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 20...
+2025-09-04 15:30:13,776 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:30:13,776 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:30:13,776 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:30:13,776 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:30:13,776 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:30:15,337 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:30:15,583 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 15:30:15,584 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 15:30:31,769 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 15:30:31,769 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        CAPABILITIES:
+        - Analyze flight data including prices, airlines, stops, cabin classes
+        - Provide comparative analysis and recommendations
+        - Identify best deals and optimal flight options
+        - Handle follow-up questions about the same flight search
+
+        RESPONSE GUIDELINES:
+        - DO NOT create a numbered list of flights with departure/arrival times and prices
+        - Analyze the ACTUAL flight data available and provide specific insights
+        - Mention specific prices in INR (₹), airlines, and key differences you find in the data
+        - Highlight the cheapest options, direct flights, and best value choices
+        - Provide actionable recommendations based on the real flight options
+        - Keep it concise but informative
+        - Flight cards will show the detailed flight information, but your text should reference the actual data
+
+        ANALYSIS FOCUS:
+        - Identify the cheapest flights available and their prices
+        - Point out direct flights vs flights with stops
+        - Highlight time differences and convenience factors
+        - Mention specific airlines operating this route
+        - Compare value propositions of different options
+
+        IMPORTANT: Base your response on the ACTUAL flight data in the dataframe. Don't give generic advice - analyze the real flights available for this specific route and date.
+
+        Provide specific insights about the available flight options to help users choose the best flight for their needs.
+        
+Query: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:30:32,932 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:30:34,047 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:30:40,726 - app.core.logging - INFO - LLM Response: For flights from Delhi (DEL) to Mumbai (BOM) on October 20th, here are some key insights based on the available data:
+
+1. **Cheapest Flight**: The most affordable option is with Air India departing at 21:10 and arriving at 23:35, priced at ₹5619.15. This is a direct flight with no stops.
+
+2. **Other Direct Flights**: There are several other direct flights available, all operated by Air India. The prices for these flights range from ₹8659.94. They cover various departure times throughout the day:
+   - Departures include:
+     - 12:35 (arriving at 14:50)
+     - 12:15 (arriving at 14:35)
+     - 16:50 (arriving at 19:05)
+     - 15:20 (arriving at 17:45)
+     - Evening options include 20:00 (arriving at 22:25) and 20:30 (arriving at 22:55).
+
+3. **Flight Convenience**: All listed flights are direct, which is convenient as it minimizes travel time and the hassle of layovers. The cheapest flight departs later in the evening, which might appeal to travelers looking for a night departure.
+
+4. **Comparison of Value**: While the ₹5619.15 option is the cheapest, the slightly more expensive flights at ₹8659.94 might provide better timings depending on your schedule, especially if you prefer to travel during the day.
+
+In summary, if you are looking for both cost-effectiveness and convenience, the flight departing at 21:10 for ₹5619.15 is an excellent choice. However, if you need to reach Mumbai earlier or prefer different times, consider the direct flights available for ₹8659.94.
+2025-09-04 15:30:40,728 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:30:40,728 - app.core.logging - INFO - Flight data length: 10
+2025-09-04 15:30:40,728 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-20T21:10:00', 'Arrival': '2025-10-20T23:35:00', 'Total Price': '5619.15', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:30:40,728 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:31:01,798 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-04 15:31:01,798 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-04 15:31:03,063 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:31:03,094 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:31:13,817 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 20...
+2025-09-04 15:31:13,818 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:31:13,818 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:31:13,818 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:31:13,818 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:31:13,818 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:31:15,434 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:31:15,443 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 15:31:15,443 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 15:31:41,876 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 15:31:41,876 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        IMPORTANT: Generate your response in HTML format with inline CSS for a rich, visually appealing interface.
+
+        HTML STRUCTURE REQUIREMENTS:
+        Your entire response must be wrapped in a div with proper HTML formatting. Use this structure:
+        
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 100%; padding: 20px;">
+            <!-- Your content here -->
+        </div>
+
+        REQUIRED HTML SECTIONS:
+        
+        1. HEADER SECTION:
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 24px;">✈️ Flight Search Results</h2>
+            <p style="margin: 5px 0; opacity: 0.95;">From DEL to BOM</p>
+        </div>
+
+        2. BEST DEAL CARD:
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0 0 10px 0; display: flex; align-items: center;">
+                <span style="font-size: 24px; margin-right: 10px;">🏆</span>
+                Best Deal
+            </h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <p style="font-size: 28px; font-weight: bold; margin: 5px 0;">₹X,XXX</p>
+                    <p style="margin: 5px 0; opacity: 0.95;">Airline Name • Direct/X Stops</p>
+                    <p style="margin: 5px 0; opacity: 0.9;">XX:XX → XX:XX</p>
+                </div>
+            </div>
+        </div>
+
+        3. FLIGHT OPTIONS GRID:
+        <div style="margin-bottom: 20px;">
+            <h3 style="color: #4a5568; font-size: 20px; margin-bottom: 15px;">📊 All Available Options</h3>
+            <div style="display: grid; gap: 15px;">
+                <!-- For each flight option -->
+                <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <div>
+                            <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 12px;">AIRLINE CODE</span>
+                            <h4 style="margin: 8px 0; color: #2d3748;">Airline Name</h4>
+                            <p style="color: #718096; margin: 5px 0;">XX:XX → XX:XX • Duration</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹X,XXX</p>
+                            <p style="color: #718096; font-size: 14px; margin: 5px 0;">Direct/X Stop(s)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        4. INSIGHTS SECTION:
+        <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #4299e1;">
+            <h3 style="color: #2b6cb6; margin: 0 0 15px 0;">💡 Smart Insights</h3>
+            <ul style="color: #4a5568; line-height: 1.8; margin: 0; padding-left: 20px;">
+                <li>Key insight about price differences</li>
+                <li>Timing recommendations</li>
+                <li>Stop vs direct flight analysis</li>
+            </ul>
+        </div>
+
+        5. RECOMMENDATIONS:
+        <div style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); color: white; padding: 20px; border-radius: 10px;">
+            <h3 style="margin: 0 0 15px 0;">🎯 Our Recommendations</h3>
+            <div style="display: grid; gap: 10px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                    <strong>For Budget Travelers:</strong> Choose the flight at ₹X,XXX
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                    <strong>For Convenience:</strong> Direct flight at ₹X,XXX saves X hours
+                </div>
+            </div>
+        </div>
+
+        STYLING GUIDELINES:
+        - Use gradients for important sections
+        - Add subtle shadows with box-shadow
+        - Use color coding: Green for best prices, Blue for information, Purple for premium
+        - Make cards responsive with flex layouts
+        - Add hover effects where appropriate
+        - Use proper spacing and padding
+
+        CONTENT REQUIREMENTS:
+        - Analyze ACTUAL flight data from the dataframe
+        - Show specific prices in INR (₹)
+        - Include airline names and codes
+        - Display departure and arrival times
+        - Indicate number of stops
+        - Provide actionable insights
+        - Compare options clearly
+
+        IMPORTANT: Generate complete, valid HTML that can be directly rendered. Ensure all styles are inline CSS. Base all content on actual flight data, not generic examples.
+        
+Query: Show me flights from Delhi to Mumbai on October 20th
+2025-09-04 15:32:13,025 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:32:15,163 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:32:47,751 - app.core.logging - INFO - LLM Response: ```html
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 100%; padding: 20px;">
+    <!-- Header Section -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="margin: 0; font-size: 24px;">✈️ Flight Search Results</h2>
+        <p style="margin: 5px 0; opacity: 0.95;">From DEL to BOM</p>
+    </div>
+
+    <!-- Best Deal Card -->
+    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="margin: 0 0 10px 0; display: flex; align-items: center;">
+            <span style="font-size: 24px; margin-right: 10px;">🏆</span>
+            Best Deal
+        </h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div>
+                <p style="font-size: 28px; font-weight: bold; margin: 5px 0;">₹5,619.15</p>
+                <p style="margin: 5px 0; opacity: 0.95;">AIR INDIA • Direct</p>
+                <p style="margin: 5px 0; opacity: 0.9;">21:10 → 23:35</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flight Options Grid -->
+    <div style="margin-bottom: 20px;">
+        <h3 style="color: #4a5568; font-size: 20px; margin-bottom: 15px;">📊 All Available Options</h3>
+        <div style="display: grid; gap: 15px;">
+            <!-- Flight Option 1 -->
+            <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 12px;">AI</span>
+                        <h4 style="margin: 8px 0; color: #2d3748;">AIR INDIA</h4>
+                        <p style="color: #718096; margin: 5px 0;">21:10 → 23:35 • Duration: 2h 25m</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹5,619.15</p>
+                        <p style="color: #718096; font-size: 14px; margin: 5px 0;">Direct</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Flight Option 2 -->
+            <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px;">AI</span>
+                        <h4 style="margin: 8px 0; color: #2d3748;">AIR INDIA</h4>
+                        <p style="color: #718096; margin: 5px 0;">12:35 → 14:50 • Duration: 2h 15m</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹8,659.94</p>
+                        <p style="color: #718096; font-size: 14px; margin: 5px 0;">Direct</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Additional flight cards can be added similarly -->
+        </div>
+    </div>
+
+    <!-- Insights Section -->
+    <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #4299e1;">
+        <h3 style="color: #2b6cb6; margin: 0 0 15px 0;">💡 Smart Insights</h3>
+        <ul style="color: #4a5568; line-height: 1.8; margin: 0; padding-left: 20px;">
+            <li>The best time to book a flight is often 2-3 weeks in advance. Booking now can secure better prices.</li>
+            <li>Consider flying during off-peak hours for better rates.</li>
+            <li>Direct flights are generally more convenient, especially for short distances.</li>
+        </ul>
+    </div>
+
+    <!-- Recommendations Section -->
+    <div style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); color: white; padding: 20px; border-radius: 10px;">
+        <h3 style="margin: 0 0 15px 0;">🎯 Our Recommendations</h3>
+        <div style="display: grid; gap: 10px;">
+            <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                <strong>For Budget Travelers:</strong> Choose the flight at ₹5,619.15.
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                <strong>For Convenience:</strong> The direct flight at ₹5,619.15 saves time and offers no stops.
+            </div>
+        </div>
+    </div>
+</div>
+```
+2025-09-04 15:32:47,752 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:32:47,752 - app.core.logging - INFO - Flight data length: 10
+2025-09-04 15:32:47,752 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-20T21:10:00', 'Arrival': '2025-10-20T23:35:00', 'Total Price': '5619.15', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:32:47,752 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:33:42,677 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:33:42,693 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:33:42,715 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:33:42,717 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:33:42,731 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:33:42,760 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:33:42,775 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:33:42,814 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:33:54,585 - app.core.logging - INFO - Received chat request: i want flight for delhi to mumbai on 10 oct...
+2025-09-04 15:33:54,585 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:33:54,585 - app.core.logging - INFO - Processing flight search query: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:33:54,585 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:33:54,585 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:33:54,585 - app.core.logging - INFO - User message: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:33:56,192 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:33:56,203 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-10", "adults": 1}
+2025-09-04 15:33:56,203 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-10', 'adults': 1}
+2025-09-04 15:34:13,190 - app.core.logging - INFO - Created dataframe with 11 flights
+2025-09-04 15:34:13,191 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        IMPORTANT: Generate your response in HTML format with inline CSS for a rich, visually appealing interface.
+
+        HTML STRUCTURE REQUIREMENTS:
+        Your entire response must be wrapped in a div with proper HTML formatting. Use this structure:
+        
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 100%; padding: 20px;">
+            <!-- Your content here -->
+        </div>
+
+        REQUIRED HTML SECTIONS:
+        
+        1. HEADER SECTION:
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 24px;">✈️ Flight Search Results</h2>
+            <p style="margin: 5px 0; opacity: 0.95;">From DEL to BOM</p>
+        </div>
+
+        2. BEST DEAL CARD:
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0 0 10px 0; display: flex; align-items: center;">
+                <span style="font-size: 24px; margin-right: 10px;">🏆</span>
+                Best Deal
+            </h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <p style="font-size: 28px; font-weight: bold; margin: 5px 0;">₹X,XXX</p>
+                    <p style="margin: 5px 0; opacity: 0.95;">Airline Name • Direct/X Stops</p>
+                    <p style="margin: 5px 0; opacity: 0.9;">XX:XX → XX:XX</p>
+                </div>
+            </div>
+        </div>
+
+        3. FLIGHT OPTIONS GRID:
+        <div style="margin-bottom: 20px;">
+            <h3 style="color: #4a5568; font-size: 20px; margin-bottom: 15px;">📊 All Available Options</h3>
+            <div style="display: grid; gap: 15px;">
+                <!-- For each flight option -->
+                <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <div>
+                            <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 12px;">AIRLINE CODE</span>
+                            <h4 style="margin: 8px 0; color: #2d3748;">Airline Name</h4>
+                            <p style="color: #718096; margin: 5px 0;">XX:XX → XX:XX • Duration</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹X,XXX</p>
+                            <p style="color: #718096; font-size: 14px; margin: 5px 0;">Direct/X Stop(s)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        4. INSIGHTS SECTION:
+        <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #4299e1;">
+            <h3 style="color: #2b6cb6; margin: 0 0 15px 0;">💡 Smart Insights</h3>
+            <ul style="color: #4a5568; line-height: 1.8; margin: 0; padding-left: 20px;">
+                <li>Key insight about price differences</li>
+                <li>Timing recommendations</li>
+                <li>Stop vs direct flight analysis</li>
+            </ul>
+        </div>
+
+        5. RECOMMENDATIONS:
+        <div style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); color: white; padding: 20px; border-radius: 10px;">
+            <h3 style="margin: 0 0 15px 0;">🎯 Our Recommendations</h3>
+            <div style="display: grid; gap: 10px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                    <strong>For Budget Travelers:</strong> Choose the flight at ₹X,XXX
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                    <strong>For Convenience:</strong> Direct flight at ₹X,XXX saves X hours
+                </div>
+            </div>
+        </div>
+
+        STYLING GUIDELINES:
+        - Use gradients for important sections
+        - Add subtle shadows with box-shadow
+        - Use color coding: Green for best prices, Blue for information, Purple for premium
+        - Make cards responsive with flex layouts
+        - Add hover effects where appropriate
+        - Use proper spacing and padding
+
+        CONTENT REQUIREMENTS:
+        - Analyze ACTUAL flight data from the dataframe
+        - Show specific prices in INR (₹)
+        - Include airline names and codes
+        - Display departure and arrival times
+        - Indicate number of stops
+        - Provide actionable insights
+        - Compare options clearly
+
+        IMPORTANT: Generate complete, valid HTML that can be directly rendered. Ensure all styles are inline CSS. Base all content on actual flight data, not generic examples.
+        
+Query: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:34:15,851 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:34:17,591 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:34:39,495 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:34:42,676 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:34:45,132 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:34:48,631 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:35:15,711 - app.core.logging - INFO - LLM Response: ```html
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 100%; padding: 20px;">
+    <!-- HEADER SECTION -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="margin: 0; font-size: 24px;">✈️ Flight Search Results</h2>
+        <p style="margin: 5px 0; opacity: 0.95;">From DEL to BOM</p>
+    </div>
+
+    <!-- BEST DEAL CARD -->
+    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="margin: 0 0 10px 0; display: flex; align-items: center;">
+            <span style="font-size: 24px; margin-right: 10px;">🏆</span>
+            Best Deal
+        </h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div>
+                <p style="font-size: 28px; font-weight: bold; margin: 5px 0;">₹5,239</p>
+                <p style="margin: 5px 0; opacity: 0.95;">AIR INDIA • Direct</p>
+                <p style="margin: 5px 0; opacity: 0.9;">21:10 → 23:35</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIGHT OPTIONS GRID -->
+    <div style="margin-bottom: 20px;">
+        <h3 style="color: #4a5568; font-size: 20px; margin-bottom: 15px;">📊 All Available Options</h3>
+        <div style="display: grid; gap: 15px;">
+            <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 12px;">AI</span>
+                        <h4 style="margin: 8px 0; color: #2d3748;">AIR INDIA</h4>
+                        <p style="color: #718096; margin: 5px 0;">21:10 → 23:35 • 2h 25m</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹5,239</p>
+                        <p style="color: #718096; font-size: 14px; margin: 5px 0;">Direct</p>
+                    </div>
+                </div>
+            </div>
+            <div style="background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 12px;">AI</span>
+                        <h4 style="margin: 8px 0; color: #2d3748;">AIR INDIA</h4>
+                        <p style="color: #718096; margin: 5px 0;">11:00 → 11:50 • 50m</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 24px; color: #48bb78; font-weight: bold; margin: 0;">₹5,587</p>
+                        <p style="color: #718096; font-size: 14px; margin: 5px 0;">1 Stop</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat for other flights -->
+        </div>
+    </div>
+
+    <!-- INSIGHTS SECTION -->
+    <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #4299e1;">
+        <h3 style="color: #2b6cb6; margin: 0 0 15px 0;">💡 Smart Insights</h3>
+        <ul style="color: #4a5568; line-height: 1.8; margin: 0; padding-left: 20px;">
+            <li>Direct flights are generally faster and more convenient.</li>
+            <li>The best deal available today is ₹5,239 with no stops.</li>
+            <li>Consider booking early for better prices.</li>
+        </ul>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); color: white; padding: 20px; border-radius: 10px;">
+        <h3 style="margin: 0 0 15px 0;">🎯 Our Recommendations</h3>
+        <div style="display: grid; gap: 10px;">
+            <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                <strong>For Budget Travelers:</strong> Choose the flight at ₹5,239
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 6px;">
+                <strong>For Convenience:</strong> Direct flight at ₹5,239 saves time.
+            </div>
+        </div>
+    </div>
+</div>
+```
+2025-09-04 15:35:15,713 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:35:15,713 - app.core.logging - INFO - Flight data length: 11
+2025-09-04 15:35:15,713 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': Timestamp('2025-10-10 21:10:00'), 'Arrival': Timestamp('2025-10-10 23:35:00'), 'Total Price': '5239.05', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:35:15,713 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:39:37,681 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 15...
+2025-09-04 15:39:37,681 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:39:37,681 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 15:39:37,682 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:39:37,682 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:39:37,682 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 15:39:39,125 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:39:39,126 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-15", "adults": 1}
+2025-09-04 15:39:39,126 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-15', 'adults': 1}
+2025-09-04 15:40:10,465 - app.core.logging - ERROR - No flights found or error in forming dataframe
+2025-09-04 15:41:07,829 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-04 15:41:07,830 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-04 15:41:09,267 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:41:09,294 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:41:17,860 - app.core.logging - INFO - Received chat request: I want to fly from San Francisco to New York on Oc...
+2025-09-04 15:41:17,860 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:41:17,860 - app.core.logging - INFO - Processing flight search query: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:41:17,860 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:41:17,860 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:41:17,860 - app.core.logging - INFO - User message: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:41:19,337 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:41:19,343 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 15:41:19,343 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 15:41:47,644 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 15:41:47,644 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: I want to fly from San Francisco to New York on October 20
+2025-09-04 15:41:48,404 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:41:53,591 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:41:59,463 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹9,263.58
+- **Airline:** ALASKA AIRLINES (AS)
+- **Time:** 23:00 → 07:34
+- **Stops:** Direct
+- **Duration:** 8h 34m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** ALASKA AIRLINES (AS)
+- **Price:** ₹9,263.58
+- **Departure:** 23:00
+- **Arrival:** 07:34
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.40
+- **Departure:** 20:47
+- **Arrival:** 05:25
+- **Stops:** 1 stop
+
+### Option 3
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.40
+- **Departure:** 06:30 (Next Day)
+- **Arrival:** 07:35
+- **Stops:** 1 stop
+
+### Option 4
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.40
+- **Departure:** 10:40
+- **Arrival:** 19:19
+- **Stops:** 1 stop
+
+### Option 5
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.40
+- **Departure:** 22:40
+- **Arrival:** 23:56
+- **Stops:** 1 stop
+
+## 💡 Key Insights
+- The **cheapest option** is with Alaska Airlines at ₹9,263.58, which is a direct flight.
+- Most options feature **1 stop**, while the best deal is **direct**.
+- The available flights provide a broad range of **timings**, allowing for flexibility in departure schedules.
+- A **price comparison** suggests significant savings if choosing the direct flight over multiple stop options.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹9,263.58 (ALASKA AIRLINES, 23:00 → 07:34)
+- **Fastest:** 1h 5m (JETBLUE AIRWAYS, ₹12,351.40) 
+- **Best Value:** Direct flight with Alaska Airlines for ₹9,263.58.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Opt for Alaska Airlines (AS) at ₹9,263.58 for a direct and quick journey.
+- **Business Travelers:** Choose the direct flight for convenience and efficiency.
+- **Flexible Schedule:** Consider the range of timings offered by JetBlue for varied arrival experiences.
+2025-09-04 15:41:59,465 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:41:59,465 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 15:41:59,465 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:41:59,465 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 15:52:02,041 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:52:02,052 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:52:02,067 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:52:02,082 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:52:02,088 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:52:02,102 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:52:02,115 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 15:52:02,154 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 15:52:13,013 - app.core.logging - INFO - Received chat request: i want flight for delhi to mumbai on 10 oct...
+2025-09-04 15:52:13,013 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 15:52:13,013 - app.core.logging - INFO - Processing flight search query: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:52:13,013 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 15:52:13,013 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 15:52:13,013 - app.core.logging - INFO - User message: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:52:15,858 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:52:15,865 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-10", "adults": 1}
+2025-09-04 15:52:15,865 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-10', 'adults': 1}
+2025-09-04 15:52:21,494 - app.core.logging - INFO - Created dataframe with 11 flights
+2025-09-04 15:52:21,494 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: i want flight for delhi to mumbai on 10 oct
+2025-09-04 15:52:24,156 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:52:25,076 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 15:52:33,452 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹5,239.05
+- **Airline:** AIR INDIA (AI)
+- **Time:** 21:10 → 23:35
+- **Stops:** Direct
+- **Duration:** 2h 25m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹5,239.05
+- **Departure:** 21:10
+- **Arrival:** 23:35
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹5,587.47
+- **Departure:** 11:00
+- **Arrival:** 11:50
+- **Stops:** 1 stop
+
+### Option 3
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹5,587.47
+- **Departure:** 18:00
+- **Arrival:** 20:00
+- **Stops:** 1 stop
+
+### Option 4
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹6,854.47
+- **Departure:** 07:00
+- **Arrival:** 09:15
+- **Stops:** Direct
+
+### Option 5
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹6,854.47
+- **Departure:** 12:35
+- **Arrival:** 14:50
+- **Stops:** Direct
+
+## 💡 Key Insights
+- The cheapest option is a direct flight priced at **₹5,239.05**.
+- Direct flights are available, which can save travel time compared to flights with stops.
+- Flight timings vary significantly; earlier departures at 07:00 and later ones after 18:00 are available.
+- The difference in ticket prices indicates a range from affordable to slightly premium options depending on the time and stops.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹5,239.05 (AIR INDIA, 21:10 → 23:35)
+- **Fastest:** 2h 25m (AIR INDIA, ₹5,239.05)
+- **Best Value:** The direct flight at ₹5,239.05 offers great value for money.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Book the direct flight at **₹5,239.05** for the best price.
+- **Business Travelers:** Consider the direct flight options for convenience.
+- **Flexible Schedule:** If you can adjust your timing, flights later in the evening offer low prices.
+2025-09-04 15:52:33,454 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 15:52:33,455 - app.core.logging - INFO - Flight data length: 11
+2025-09-04 15:52:33,455 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-10T21:10:00', 'Arrival': '2025-10-10T23:35:00', 'Total Price': '5239.05', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 15:52:33,455 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:16:44,558 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 15...
+2025-09-04 16:16:44,558 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:16:44,558 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:16:44,558 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:16:44,558 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:16:44,558 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:16:45,837 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:16:45,847 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-15", "adults": 1}
+2025-09-04 16:16:45,847 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-15', 'adults': 1}
+2025-09-04 16:16:51,473 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 16:16:51,473 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:17:01,649 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:17:03,343 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:17:05,079 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:17:16,477 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹5,619
+- **Airline:** AIR INDIA (AI)
+- **Time:** 21:10 → 23:35
+- **Stops:** Direct
+- **Duration:** 2h 25m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹5,619
+- **Departure:** 21:10
+- **Arrival:** 23:35
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519
+- **Departure:** 12:35
+- **Arrival:** 14:50
+- **Stops:** Direct
+
+### Option 3
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519
+- **Departure:** 16:50
+- **Arrival:** 19:05
+- **Stops:** Direct
+
+### Option 4
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519
+- **Departure:** 12:15
+- **Arrival:** 14:35
+- **Stops:** Direct
+
+### Option 5
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519
+- **Departure:** 06:05
+- **Arrival:** 08:30
+- **Stops:** Direct
+
+## 💡 Key Insights
+- The **cheapest option** is ₹5,619 with AIR INDIA departing at 21:10.
+- All options are **direct flights**, eliminating the need for layovers.
+- Flights throughout the day provide various **timing options**, catering to different schedules.
+- Prices vary significantly, with the most expensive option being ₹7,519.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹5,619 (AIR INDIA, 21:10 → 23:35)
+- **Fastest:** 2h 25m (AIR INDIA, ₹5,619)
+- **Best Value:** ₹5,619 for a direct flight with convenient timing.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Opt for the ₹5,619 flight at 21:10 for the best price.
+- **Business Travelers:** Consider the 12:35 flight for a more convenient arrival time at ₹7,519.
+- **Flexible Schedule:** The option at 12:15 offers a balance of timing and price, also at ₹7,519.
+2025-09-04 16:17:16,478 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:17:16,478 - app.core.logging - INFO - Flight data length: 10
+2025-09-04 16:17:16,478 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-10-15T21:10:00', 'Arrival': '2025-10-15T23:35:00', 'Total Price': '5619.15', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:17:16,478 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:17:52,131 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 15...
+2025-09-04 16:17:52,131 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:17:52,131 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:17:52,131 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:17:52,131 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:17:52,131 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:17:54,060 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:17:54,093 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-15", "adults": 1}
+2025-09-04 16:17:54,093 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-15', 'adults': 1}
+2025-09-04 16:17:59,418 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 16:17:59,418 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:18:01,639 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:18:01,649 - app.core.logging - ERROR - Error getting LLM response: The server had an error while processing your request. Sorry about that!
+2025-09-04 16:18:01,649 - app.core.logging - ERROR - Error processing message: The server had an error while processing your request. Sorry about that!
+2025-09-04 16:18:30,609 - app.core.logging - INFO - Received chat request: Show me flights from Delhi to Mumbai on October 15...
+2025-09-04 16:18:30,609 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:18:30,609 - app.core.logging - INFO - Processing flight search query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:18:30,609 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:18:30,609 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:18:30,609 - app.core.logging - INFO - User message: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:18:31,927 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:18:31,928 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-10-15", "adults": 1}
+2025-09-04 16:18:31,928 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-10-15', 'adults': 1}
+2025-09-04 16:18:36,335 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-04 16:18:36,335 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from Delhi to Mumbai on October 15th
+2025-09-04 16:18:53,465 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:18:54,969 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:19:06,956 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹5,619.15
+- **Airline:** AIR INDIA (AI)
+- **Time:** 21:10 → 23:35
+- **Stops:** Direct
+- **Duration:** 2h 25m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹5,619.15
+- **Departure:** 21:10
+- **Arrival:** 23:35
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519.65
+- **Departure:** 12:35
+- **Arrival:** 14:50
+- **Stops:** Direct
+
+### Option 3
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519.65
+- **Departure:** 16:50
+- **Arrival:** 19:05
+- **Stops:** Direct
+
+### Option 4
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519.65
+- **Departure:** 12:15
+- **Arrival:** 14:35
+- **Stops:** Direct
+
+### Option 5
+- **Airline:** AIR INDIA (AI)
+- **Price:** ₹7,519.65
+- **Departure:** 06:05
+- **Arrival:** 08:30
+- **Stops:** Direct
+
+## 💡 Key Insights
+- The **cheapest option** is priced at ₹5,619.15 with AIR INDIA, making it a budget-friendly choice.
+- All options provided are **direct flights**, which minimizes travel time.
+- The departure times range from early morning (06:05) to late evening (21:10), offering flexibility in scheduling.
+- Comparing prices, the direct flight costs increase significantly; the cheapest option is ₹1,900 less than the next available flight.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹5,619.15 (AIR INDIA, 21:10 → 23:35)
+- **Fastest:** 2h 25m (AIR INDIA, ₹5,619.15)
+- **Best Value:** Best price with a convenient time is the 21:10 flight.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Choose the evening flight (21:10) for ₹5,619.15.
+- **Business Travelers:** If same-day arrival is preferable, consider the 12:35 flight.
+- **Flexible Schedule:** Morning options (06:05 and 12:15) offer a wider choice for arrival times.
+2025-09-04 16:19:06,958 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:19:06,959 - app.core.logging - INFO - Flight data length: 10
+2025-09-04 16:19:06,959 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': Timestamp('2025-10-15 21:10:00'), 'Arrival': Timestamp('2025-10-15 23:35:00'), 'Total Price': '5619.15', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True, 'Duration': 145.0}
+2025-09-04 16:19:06,959 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:19:46,923 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:19:46,923 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:19:46,923 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:19:46,923 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:19:46,923 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:19:46,923 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:19:49,653 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:19:49,657 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:19:49,658 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:19:55,551 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 16:19:55,552 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:19:57,872 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:19:58,970 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:20:00,569 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:20:03,887 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:20:21,003 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹9,263.58
+- **Airline:** ALASKA AIRLINES (AS)
+- **Time:** 23:00 → 07:34 (Next Day)
+- **Stops:** Direct
+- **Duration:** 8h 34m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** ALASKA AIRLINES (AS)
+- **Price:** ₹9,263.58
+- **Departure:** 23:00
+- **Arrival:** 07:34 (Next Day)
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 20:47
+- **Arrival:** 05:25 (Next Day)
+- **Stops:** 1
+
+### Option 3
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 10:40
+- **Arrival:** 19:19
+- **Stops:** 1
+
+### Option 4
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 22:40
+- **Arrival:** 23:56
+- **Stops:** 1
+
+### Option 5
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,786.74
+- **Departure:** 20:47
+- **Arrival:** 05:25 (Next Day)
+- **Stops:** 1
+
+## 💡 Key Insights
+- **Cheapest Option:** The cheapest flight is with Alaska Airlines at ₹9,263.58, offered as a direct flight.
+- **Direct vs Stops:** For those looking for speed, a direct flight with Alaska Airlines is available, while other options have one stop.
+- **Timing:** The most economical flight departs late at night and arrives the next morning, which could be optimal for night travel.
+- **Price Comparison:** The price difference between the cheapest and the next cheapest options reflects a significant jump, suggesting limited direct options.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹9,263.58 (ALASKA AIRLINES, 23:00 → 07:34)
+- **Fastest:** 8h 34m (ALASKA AIRLINES, ₹9,263.58)
+- **Best Value:** ALASKA AIRLINES for the cheapest and direct travel experience.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Consider Alaska Airlines for the best price and no stops.
+- **Business Travelers:** If flexibility is required, opt for the JETBLUE flights that offer more time options with one stop.
+- **Flexible Schedule:** Look into the JETBLUE flights for later departures if schedule flexibility is needed.
+2025-09-04 16:20:21,005 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:20:21,005 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 16:20:21,005 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': 9263.58, 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:20:21,005 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:20:58,094 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:20:58,094 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:20:58,094 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:20:58,094 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:20:58,094 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:20:58,094 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:20:59,510 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:20:59,511 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:20:59,511 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:21:07,928 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 16:21:07,928 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:21:10,244 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:21:15,876 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:21:20,381 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:21:32,506 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹9,263.58
+- **Airline:** ALASKA AIRLINES (AS)
+- **Time:** 23:00 → 07:34
+- **Stops:** Direct
+- **Duration:** 8h 34m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** ALASKA AIRLINES (AS)
+- **Price:** ₹9,263.58
+- **Departure:** 23:00
+- **Arrival:** 07:34
+- **Stops:** Direct
+
+### Option 2
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 20:47
+- **Arrival:** 05:25
+- **Stops:** 1 stop
+
+### Option 3
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 10:40
+- **Arrival:** 19:19
+- **Stops:** 1 stop
+
+### Option 4
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,351.44
+- **Departure:** 22:40
+- **Arrival:** 23:56
+- **Stops:** 1 stop
+
+### Option 5
+- **Airline:** JETBLUE AIRWAYS (B6)
+- **Price:** ₹12,786.74
+- **Departure:** 20:47
+- **Arrival:** 05:25
+- **Stops:** 1 stop
+
+## 💡 Key Insights
+- The **cheapest option** available is offered by ALASKA AIRLINES, providing a direct flight at ₹9,263.58.
+- **Direct flights** are available, while most options have at least one stop, which can affect your total travel time.
+- The timing shows that you have a late-night departure or early morning options, which may influence your overall schedule.
+- Comparatively, JETBLUE AIRWAYS provides various flight schedules with slightly higher prices but might come with better timing depending on your needs.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹9,263.58 (ALASKA AIRLINES, 23:00 → 07:34)
+- **Fastest:** 8h 34m (ALASKA AIRLINES, ₹9,263.58)
+- **Best Value:** ALASKA AIRLINES, offering a direct flight at the lowest price.
+
+## 🎁 Recommendations
+- **Budget Travelers:** Go with ALASKA AIRLINES for the best price at ₹9,263.58.
+- **Business Travelers:** Consider a JETBLUE AIRWAYS option for a potentially more convenient, although pricier, schedule.
+- **Flexible Schedule:** Look at the different JETBLUE AIRWAYS options, especially departing earlier in the day for ease and comfort during travel.
+2025-09-04 16:21:32,508 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:21:32,508 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 16:21:32,508 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': Timestamp('2025-10-20 23:00:00'), 'Arrival': '2025-10-21T07:34:00', 'Total Price': 9263.58, 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:21:32,508 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:21:51,382 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:21:51,382 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:21:51,382 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:21:51,382 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:21:51,382 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:21:51,382 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:21:52,537 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:21:52,538 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:21:52,538 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:21:59,909 - app.core.logging - WARNING - Could not fetch airline name for B6: [429]
+
+2025-09-04 16:21:59,914 - app.core.logging - INFO - Created dataframe with 17 flights
+2025-09-04 16:21:59,914 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean markdown formatting with the following structure:
+
+        ## 🎯 Best Deal
+        - **Price:** ₹X,XXX
+        - **Airline:** Airline Name (Code)
+        - **Time:** XX:XX → XX:XX
+        - **Stops:** Direct/X stops
+        - **Duration:** Xh XXm
+
+        ## ✈️ Available Flights
+
+        ### Option 1
+        - **Airline:** AIR INDIA (AI)
+        - **Price:** ₹X,XXX
+        - **Departure:** XX:XX
+        - **Arrival:** XX:XX
+        - **Stops:** Direct/X stops
+
+        ### Option 2
+        [Continue for top 5 flights...]
+
+        ## 💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        ## 📊 Quick Comparison
+        - **Cheapest:** ₹X,XXX (Airline, Time)
+        - **Fastest:** Xh XXm (Airline, ₹Price)
+        - **Best Value:** Balance of price and convenience
+
+        ## 🎁 Recommendations
+        - **Budget Travelers:** Specific flight recommendation with price
+        - **Business Travelers:** Direct flight option
+        - **Flexible Schedule:** Best timing options
+
+        FORMATTING RULES:
+        - Use ## for main sections
+        - Use ### for subsections
+        - Use **bold** for important labels and prices
+        - Use bullet points (-) for lists
+        - Keep sections concise and scannable
+        - Include emojis only in section headers
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        IMPORTANT: 
+        - Keep response concise and well-structured
+        - Use exact data from the dataframe
+        - Do NOT include HTML or CSS
+        - Focus on clear markdown formatting
+        
+Query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:22:00,729 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:22:02,061 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:22:15,036 - app.core.logging - INFO - LLM Response: ## 🎯 Best Deal
+- **Price:** ₹12,351.44
+- **Airline:** B6
+- **Time:** 10:40 → 19:19
+- **Stops:** 1 stop
+- **Duration:** 8h 39m
+
+## ✈️ Available Flights
+
+### Option 1
+- **Airline:** B6
+- **Price:** ₹12,351.44
+- **Departure:** 10:40
+- **Arrival:** 19:19
+- **Stops:** 1 stop
+
+### Option 2
+- **Airline:** B6
+- **Price:** ₹12,351.44
+- **Departure:** 22:40
+- **Arrival:** 23:56
+- **Stops:** 1 stop
+
+### Option 3
+- **Airline:** ALASKA AIRLINES (AS)
+- **Price:** ₹14,588.60
+- **Departure:** 20:15
+- **Arrival:** 21:52
+- **Stops:** 1 stop
+
+### Option 4
+- **Airline:** ALASKA AIRLINES (AS)
+- **Price:** ₹14,588.60
+- **Departure:** 18:30
+- **Arrival:** 20:04
+- **Stops:** 1 stop
+
+### Option 5
+- **Airline:** HAWAIIAN AIRLINES (HA)
+- **Price:** ₹14,927.07
+- **Departure:** 20:15
+- **Arrival:** 21:52
+- **Stops:** 1 stop
+
+## 💡 Key Insights
+- The cheapest option available is ₹12,351.44 with B6, offering 1 stop.
+- All options consist of 1 stop, making them relatively convenient for travelers.
+- The earliest departure is at 10:40 AM, providing a good opportunity to maximize time in New York.
+- Prices are competitive, with very little variance among the top choices, indicating a balanced market for this route.
+
+## 📊 Quick Comparison
+- **Cheapest:** ₹12,351.44 (B6, 10:40 → 19:19)
+- **Fastest:** 8h 39m (B6, ₹12,351.44)
+- **Best Value:** B6 (₹12,351.44 for the earliest departure)
+
+## 🎁 Recommendations
+- **Budget Travelers:** Choose B6 at ₹12,351.44 for the best price and acceptable timing.
+- **Business Travelers:** B6 with the first departure at 10:40 AM is recommended for optimal time management.
+- **Flexible Schedule:** The late flight by B6 at 22:40 also offers a good option for those looking for later departures.
+2025-09-04 16:22:15,040 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:22:15,041 - app.core.logging - INFO - Flight data length: 17
+2025-09-04 16:22:15,041 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:22:15,042 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:24:25,589 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:24:25,624 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:24:25,634 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:24:25,649 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:24:25,670 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:24:25,672 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:24:25,684 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:24:25,709 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:25:03,040 - app.core.logging - INFO - Received chat request: Find me flights from New York to London on Decembe...
+2025-09-04 16:25:03,040 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:25:03,041 - app.core.logging - INFO - Processing flight search query: Find me flights from New York to London on December 15, 2024
+2025-09-04 16:25:03,041 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:25:03,041 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:25:03,041 - app.core.logging - INFO - User message: Find me flights from New York to London on December 15, 2024
+2025-09-04 16:25:04,850 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:25:04,856 - app.core.logging - INFO - OpenAI response: {"location_origin": "JFK", "location_destination": "LHR", "departure_date": "2024-12-15", "adults": 1}
+2025-09-04 16:25:04,856 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'JFK', 'location_destination': 'LHR', 'departure_date': '2024-12-15', 'adults': 1}
+2025-09-04 16:25:07,553 - app.core.logging - ERROR - Flight search error: [400]
+
+2025-09-04 16:25:07,553 - app.core.logging - ERROR - No flights found or error in forming dataframe
+2025-09-04 16:25:28,514 - app.core.logging - INFO - Received chat request: Show me the cheapest flights from Delhi to Mumbai ...
+2025-09-04 16:25:28,515 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:25:28,515 - app.core.logging - INFO - Processing flight search query: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:25:28,515 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:25:28,515 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:25:28,515 - app.core.logging - INFO - User message: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:25:30,146 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:25:30,155 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-11", "adults": 1}
+2025-09-04 16:25:30,155 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-11', 'adults': 1}
+2025-09-04 16:25:35,191 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-04 16:25:35,192 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean text formatting with these section markers that the frontend can detect and style:
+
+        🎯 Best Deal
+        Price: ₹X,XXX
+        Airline: Airline Name (Code)
+        Time: XX:XX → XX:XX
+        Stops: Direct/X stops
+        Duration: Xh XXm
+
+        ✈️ Available Flights
+
+        Option 1
+        Airline: AIR INDIA (AI)
+        Price: ₹X,XXX
+        Departure: XX:XX
+        Arrival: XX:XX
+        Stops: Direct/X stops
+
+        Option 2
+        [Continue for top 5 flights...]
+
+        💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        📊 Quick Comparison
+        Cheapest: ₹X,XXX (Airline, Time)
+        Fastest: Xh XXm (Airline, ₹Price)
+        Best Value: Balance of price and convenience
+
+        🎁 Recommendations
+        Budget Travelers: Specific flight recommendation with price
+        Business Travelers: Direct flight option
+        Flexible Schedule: Best timing options
+
+        FORMATTING RULES:
+        - Use emoji + space + text for main section headers (🎯 Best Deal)
+        - Use simple text for subsection headers (Option 1, Option 2)
+        - Use "Label: Value" format for data points
+        - Use simple bullet points (-) only for insight lists
+        - NO markdown symbols (**, ##, ###) - IMPORTANT: NEVER use any markdown formatting
+        - Keep sections clearly separated with line breaks
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        CRITICAL FORMATTING REQUIREMENTS: 
+        - NEVER EVER use markdown symbols: NO **, NO ##, NO ###, NO *, NO _
+        - ONLY use plain text with emoji headers
+        - Use exact data from the dataframe
+        - Frontend will handle all styling - provide clean text only
+        - If you use ANY markdown symbols (**,##,###,*,_), the response will be REJECTED
+        
+Query: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:25:36,187 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:25:37,305 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:25:50,699 - app.core.logging - INFO - LLM Response: 🎯 Best Deal  
+Price: ₹4,352  
+Airline: AIR INDIA (AI)  
+Time: 04:30 → 07:10  
+Stops: 1 stop  
+Duration: 2h 40m  
+
+✈️ Available Flights  
+
+Option 1  
+Airline: AIR INDIA (AI)  
+Price: ₹4,352  
+Departure: 04:30  
+Arrival: 07:10  
+Stops: 1 stop  
+
+Option 2  
+Airline: AIR INDIA (AI)  
+Price: ₹4,352  
+Departure: 13:50  
+Arrival: 14:55  
+Stops: 1 stop  
+
+Option 3  
+Airline: AIR INDIA (AI)  
+Price: ₹4,859  
+Departure: 21:10  
+Arrival: 23:35  
+Stops: Direct  
+
+Option 4  
+Airline: AIR INDIA (AI)  
+Price: ₹5,112  
+Departure: 11:00  
+Arrival: 11:50  
+Stops: 1 stop  
+
+Option 5  
+Airline: AIR INDIA (AI)  
+Price: ₹5,112  
+Departure: 18:00  
+Arrival: 20:00  
+Stops: 1 stop  
+
+💡 Key Insights  
+- The cheapest flights are both priced at ₹4,352 with 1 stop.  
+- There is a direct flight available at ₹4,859, which can save travel time.  
+- Morning and early afternoon flights might be less crowded compared to evening slots.  
+- The price difference between 1 stop and direct flights is relatively small, making direct flights an attractive option for quicker travel.  
+
+📊 Quick Comparison  
+Cheapest: ₹4,352 (AIR INDIA, 04:30 → 07:10)  
+Fastest: 2h 40m (AIR INDIA, ₹4,859)  
+Best Value: ₹4,352 with 1 stop, balancing cost and convenience.  
+
+🎁 Recommendations  
+Budget Travelers: Option 1 (AIR INDIA, ₹4,352)  
+Business Travelers: Direct flight at ₹4,859 (AIR INDIA)  
+Flexible Schedule: Early morning option at ₹4,352 offers good availability and price.  
+2025-09-04 16:25:50,701 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:25:50,701 - app.core.logging - INFO - Flight data length: 12
+2025-09-04 16:25:50,701 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-11T04:30:00', 'Arrival': '2025-09-11T07:10:00', 'Total Price': '4352.15', 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:25:50,701 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:34:45,424 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:34:45,425 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:34:45,425 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:34:45,425 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:34:45,425 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:34:45,425 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:34:46,908 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:34:46,923 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:34:46,923 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:34:54,253 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 16:34:54,253 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean text formatting with these section markers that the frontend can detect and style:
+
+        🎯 Best Deal
+        Price: ₹X,XXX
+        Airline: Airline Name (Code)
+        Time: XX:XX → XX:XX
+        Stops: Direct/X stops
+        Duration: Xh XXm
+
+        ✈️ Available Flights
+
+        Option 1
+        Airline: AIR INDIA (AI)
+        Price: ₹X,XXX
+        Departure: XX:XX
+        Arrival: XX:XX
+        Stops: Direct/X stops
+
+        Option 2
+        [Continue for top 5 flights...]
+
+        💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        📊 Quick Comparison
+        Cheapest: ₹X,XXX (Airline, Time)
+        Fastest: Xh XXm (Airline, ₹Price)
+        Best Value: Balance of price and convenience
+
+        🎁 Recommendations
+        Budget Travelers: Specific flight recommendation with price
+        Business Travelers: Direct flight option
+        Flexible Schedule: Best timing options
+
+        FORMATTING RULES:
+        - Use emoji + space + text for main section headers (🎯 Best Deal)
+        - Use simple text for subsection headers (Option 1, Option 2)
+        - Use "Label: Value" format for data points
+        - Use simple bullet points (-) only for insight lists
+        - NO markdown symbols (**, ##, ###) - IMPORTANT: NEVER use any markdown formatting
+        - Keep sections clearly separated with line breaks
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        CRITICAL FORMATTING REQUIREMENTS: 
+        - NEVER EVER use markdown symbols: NO **, NO ##, NO ###, NO *, NO _
+        - ONLY use plain text with emoji headers
+        - Use exact data from the dataframe
+        - Frontend will handle all styling - provide clean text only
+        - If you use ANY markdown symbols (**,##,###,*,_), the response will be REJECTED
+        
+Query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:34:55,221 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:35:10,602 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:35:21,738 - app.core.logging - INFO - LLM Response: 🎯 Best Deal  
+Price: ₹9,263.58  
+Airline: ALASKA AIRLINES (AS)  
+Time: 23:00 → 07:34  
+Stops: Direct  
+Duration: 8h 34m  
+
+✈️ Available Flights  
+
+Option 1  
+Airline: ALASKA AIRLINES (AS)  
+Price: ₹9,263.58  
+Departure: 23:00  
+Arrival: 07:34  
+Stops: Direct  
+
+Option 2  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.40  
+Departure: 20:47  
+Arrival: 05:25  
+Stops: 1  
+
+Option 3  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.40  
+Departure: 10:40  
+Arrival: 19:19  
+Stops: 1  
+
+Option 4  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.40  
+Departure: 22:40  
+Arrival: 23:56  
+Stops: 1  
+
+💡 Key Insights  
+- The cheapest option is ALASKA AIRLINES, offering a direct flight.  
+- JetBlue Airways has multiple options with one stop.  
+- Evening departures provide the best timing for late travelers.  
+- ALASKA AIRLINES offers a significantly lower price compared to others.  
+
+📊 Quick Comparison  
+Cheapest: ₹9,263.58 (ALASKA AIRLINES, 23:00 → 07:34)  
+Fastest: 8h 34m (ALASKA AIRLINES, ₹9,263.58)  
+Best Value: ALASKA AIRLINES with the best price and direct service.  
+
+🎁 Recommendations  
+Budget Travelers: Choose ALASKA AIRLINES for the lowest fare of ₹9,263.58.  
+Business Travelers: Opt for JETBLUE AIRWAYS if a slightly flexible schedule is preferred with one stop.  
+Flexible Schedule: Late evening options with JetBlue could work well for those needing flexibility.
+2025-09-04 16:35:21,740 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:35:21,740 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 16:35:21,740 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:35:21,740 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:36:50,798 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:36:50,800 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:36:50,819 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:36:50,833 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:36:50,834 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:36:50,854 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:36:50,855 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:36:50,888 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:37:03,879 - app.core.logging - INFO - Received chat request: Show me the cheapest flights from Delhi to Mumbai ...
+2025-09-04 16:37:03,879 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:37:03,879 - app.core.logging - INFO - Processing flight search query: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:37:03,879 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:37:03,880 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:37:03,880 - app.core.logging - INFO - User message: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:37:05,252 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:37:05,264 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-11", "adults": 1}
+2025-09-04 16:37:05,264 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-11', 'adults': 1}
+2025-09-04 16:37:11,396 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-04 16:37:11,396 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from DEL to BOM
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean text formatting with these section markers that the frontend can detect and style:
+
+        🎯 Best Deal
+        Price: ₹X,XXX
+        Airline: Airline Name (Code)
+        Time: XX:XX → XX:XX
+        Stops: Direct/X stops
+        Duration: Xh XXm
+
+        ✈️ Available Flights
+
+        Option 1
+        Airline: AIR INDIA (AI)
+        Price: ₹X,XXX
+        Departure: XX:XX
+        Arrival: XX:XX
+        Stops: Direct/X stops
+
+        Option 2
+        [Continue for top 5 flights...]
+
+        💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        📊 Quick Comparison
+        Cheapest: ₹X,XXX (Airline, Time)
+        Fastest: Xh XXm (Airline, ₹Price)
+        Best Value: Balance of price and convenience
+
+        🎁 Recommendations
+        Budget Travelers: Specific flight recommendation with price
+        Business Travelers: Direct flight option
+        Flexible Schedule: Best timing options
+
+        FORMATTING RULES:
+        - Use emoji + space + text for main section headers (🎯 Best Deal)
+        - Use simple text for subsection headers (Option 1, Option 2)
+        - Use "Label: Value" format for data points
+        - Use simple bullet points (-) only for insight lists
+        - NO markdown symbols (**, ##, ###) - IMPORTANT: NEVER use any markdown formatting
+        - Keep sections clearly separated with line breaks
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        CRITICAL FORMATTING REQUIREMENTS: 
+        - NEVER EVER use markdown symbols: NO **, NO ##, NO ###, NO *, NO _
+        - ONLY use plain text with emoji headers
+        - Use exact data from the dataframe
+        - Frontend will handle all styling - provide clean text only
+        - If you use ANY markdown symbols (**,##,###,*,_), the response will be REJECTED
+        
+Query: Show me the cheapest flights from Delhi to Mumbai next week
+2025-09-04 16:37:12,727 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:37:48,464 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:37:50,717 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:38:02,407 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:38:12,732 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:38:18,878 - app.core.logging - ERROR - Error getting LLM response: The server had an error while processing your request. Sorry about that!
+2025-09-04 16:38:18,878 - app.core.logging - ERROR - Error processing message: The server had an error while processing your request. Sorry about that!
+2025-09-04 16:40:18,061 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:40:18,061 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:40:18,061 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:40:18,061 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:40:18,061 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:40:18,061 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:40:19,509 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:40:19,518 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:40:19,518 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:40:30,054 - app.core.logging - INFO - Created dataframe with 16 flights
+2025-09-04 16:40:30,054 - app.core.logging - INFO - Sending query to LLM: System Prompt: 
+        You are a professional flight booking assistant specializing in helping users find and analyze flight information. You have access to real-time flight data and can provide detailed analysis and recommendations.
+
+        CURRENT CONTEXT:
+        - Flight data from SFO to JFK
+        - Real-time pricing and availability information
+        - All prices are shown in Indian Rupees (INR)
+
+        RESPONSE FORMAT REQUIREMENTS:
+        Use clean text formatting with these section markers that the frontend can detect and style:
+
+        🎯 Best Deal
+        Price: ₹X,XXX
+        Airline: Airline Name (Code)
+        Time: XX:XX → XX:XX
+        Stops: Direct/X stops
+        Duration: Xh XXm
+
+        ✈️ Available Flights
+
+        Option 1
+        Airline: AIR INDIA (AI)
+        Price: ₹X,XXX
+        Departure: XX:XX
+        Arrival: XX:XX
+        Stops: Direct/X stops
+
+        Option 2
+        [Continue for top 5 flights...]
+
+        💡 Key Insights
+        - Point about cheapest option
+        - Point about direct vs stops
+        - Point about timing
+        - Price comparison insight
+
+        📊 Quick Comparison
+        Cheapest: ₹X,XXX (Airline, Time)
+        Fastest: Xh XXm (Airline, ₹Price)
+        Best Value: Balance of price and convenience
+
+        🎁 Recommendations
+        Budget Travelers: Specific flight recommendation with price
+        Business Travelers: Direct flight option
+        Flexible Schedule: Best timing options
+
+        FORMATTING RULES:
+        - Use emoji + space + text for main section headers (🎯 Best Deal)
+        - Use simple text for subsection headers (Option 1, Option 2)
+        - Use "Label: Value" format for data points
+        - Use simple bullet points (-) only for insight lists
+        - NO markdown symbols (**, ##, ###) - IMPORTANT: NEVER use any markdown formatting
+        - Keep sections clearly separated with line breaks
+
+        CONTENT REQUIREMENTS:
+        - Base ALL information on ACTUAL flight data
+        - Show specific prices in INR (₹)
+        - Include real airline names and codes
+        - Display actual departure and arrival times
+        - Indicate actual number of stops
+        - Provide data-driven insights
+        - Limit to top 5 flight options
+
+        CRITICAL FORMATTING REQUIREMENTS: 
+        - NEVER EVER use markdown symbols: NO **, NO ##, NO ###, NO *, NO _
+        - ONLY use plain text with emoji headers
+        - Use exact data from the dataframe
+        - Frontend will handle all styling - provide clean text only
+        - If you use ANY markdown symbols (**,##,###,*,_), the response will be REJECTED
+        
+Query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:40:30,995 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:40:34,151 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:40:37,326 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:40:38,348 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:40:47,801 - app.core.logging - INFO - LLM Response: 🎯 Best Deal  
+Price: ₹12,351.44  
+Airline: JETBLUE AIRWAYS (B6)  
+Time: 20:47 → 05:25  
+Stops: 1 stop  
+Duration: 8h 38m  
+
+✈️ Available Flights  
+
+Option 1  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.44  
+Departure: 20:47  
+Arrival: 05:25  
+Stops: 1 stop  
+
+Option 2  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.44  
+Departure: 10:40  
+Arrival: 19:19  
+Stops: 1 stop  
+
+Option 3  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,351.44  
+Departure: 22:40  
+Arrival: 23:56  
+Stops: 1 stop  
+
+Option 4  
+Airline: JETBLUE AIRWAYS (B6)  
+Price: ₹12,786.74  
+Departure: 20:47  
+Arrival: 05:25  
+Stops: 1 stop  
+
+Option 5  
+Airline: ALASKA AIRLINES (AS)  
+Price: ₹14,588.60  
+Departure: 20:15  
+Arrival: 21:52  
+Stops: 1 stop  
+
+💡 Key Insights  
+- The cheapest option is ₹12,351.44 with JETBLUE AIRWAYS.  
+- All listed flights have 1 stop, making them less ideal for travelers seeking direct routes.  
+- Departure times are spread throughout the day, providing flexibility.  
+- The price difference between the top options is minor, suggesting similar service levels.  
+
+📊 Quick Comparison  
+Cheapest: ₹12,351.44 (JETBLUE AIRWAYS, 20:47 → 05:25)  
+Fastest: 8h 38m (JETBLUE AIRWAYS, ₹12,351.44)  
+Best Value: JETBLUE AIRWAYS offers a balance of price and convenience.  
+
+🎁 Recommendations  
+Budget Travelers: Choose JETBLUE AIRWAYS at ₹12,351.44 for cost savings.  
+Business Travelers: Consider the flight departing at 10:40 for earlier arrival.  
+Flexible Schedule: The 22:40 departure offers a later traveling option.
+2025-09-04 16:40:47,803 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:40:47,803 - app.core.logging - INFO - Flight data length: 16
+2025-09-04 16:40:47,803 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': Timestamp('2025-10-20 23:00:00'), 'Arrival': Timestamp('2025-10-21 07:34:00'), 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:40:47,803 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:42:07,235 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:42:07,266 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:42:07,269 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:42:07,296 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:42:07,298 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:42:07,299 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:42:07,329 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:42:07,338 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:42:14,261 - app.core.logging - INFO - Received chat request: Find me flights from New York to London on Decembe...
+2025-09-04 16:42:14,261 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:42:14,261 - app.core.logging - INFO - Processing flight search query: Find me flights from New York to London on December 15, 2024
+2025-09-04 16:42:14,262 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:42:14,262 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:42:14,262 - app.core.logging - INFO - User message: Find me flights from New York to London on December 15, 2024
+2025-09-04 16:42:15,635 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:42:15,647 - app.core.logging - INFO - OpenAI response: {"location_origin": "JFK", "location_destination": "LHR", "departure_date": "2024-12-15", "adults": 1}
+2025-09-04 16:42:15,647 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'JFK', 'location_destination': 'LHR', 'departure_date': '2024-12-15', 'adults': 1}
+2025-09-04 16:42:18,189 - app.core.logging - ERROR - Flight search error: [400]
+
+2025-09-04 16:42:18,190 - app.core.logging - ERROR - No flights found or error in forming dataframe
+2025-09-04 16:42:55,211 - app.core.logging - INFO - Received chat request: cheapest flights to delhi from mumbai , next monda...
+2025-09-04 16:42:55,211 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:42:55,211 - app.core.logging - INFO - Processing flight search query: cheapest flights to delhi from mumbai , next monday
+2025-09-04 16:42:55,211 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:42:55,211 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:42:55,211 - app.core.logging - INFO - User message: cheapest flights to delhi from mumbai , next monday
+2025-09-04 16:42:57,618 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:42:57,636 - app.core.logging - INFO - OpenAI response: {"location_origin": "BOM", "location_destination": "DEL", "departure_date": "2025-09-08", "adults": 1}
+2025-09-04 16:42:57,636 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-04 16:43:04,486 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-04 16:43:04,490 - app.core.logging - ERROR - Error creating flight summary: Column 'Total Price' has dtype object, cannot use method 'nsmallest' with this dtype
+2025-09-04 16:43:04,490 - app.core.logging - INFO - Sending focused query to LLM (length: 2837 chars)
+2025-09-04 16:43:19,837 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:43:19,842 - app.core.logging - INFO - LLM Response received (length: 1458 chars)
+2025-09-04 16:43:19,845 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:43:19,846 - app.core.logging - INFO - Flight data length: 14
+2025-09-04 16:43:19,846 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': '3905.07', 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:43:19,846 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:46:19,983 - app.core.logging - INFO - Received chat request: Show me flights from San Francisco to New York on ...
+2025-09-04 16:46:19,983 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:46:19,983 - app.core.logging - INFO - Processing flight search query: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:46:19,983 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:46:19,984 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:46:19,984 - app.core.logging - INFO - User message: Show me flights from San Francisco to New York on October 20th
+2025-09-04 16:46:21,489 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:46:21,492 - app.core.logging - INFO - OpenAI response: {"location_origin": "SFO", "location_destination": "JFK", "departure_date": "2025-10-20", "adults": 1}
+2025-09-04 16:46:21,492 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'SFO', 'location_destination': 'JFK', 'departure_date': '2025-10-20', 'adults': 1}
+2025-09-04 16:46:28,722 - app.core.logging - INFO - Created dataframe with 17 flights
+2025-09-04 16:46:28,725 - app.core.logging - ERROR - Error creating flight summary: Column 'Total Price' has dtype object, cannot use method 'nsmallest' with this dtype
+2025-09-04 16:46:28,725 - app.core.logging - INFO - Sending focused query to LLM (length: 2859 chars)
+2025-09-04 16:46:39,827 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:46:39,832 - app.core.logging - INFO - LLM Response received (length: 1477 chars)
+2025-09-04 16:46:39,837 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:46:39,837 - app.core.logging - INFO - Flight data length: 17
+2025-09-04 16:46:39,837 - app.core.logging - INFO - First flight record: {'Airline Code': 'AS', 'Airline Name': 'ALASKA AIRLINES', 'Departure': '2025-10-20T23:00:00', 'Arrival': '2025-10-21T07:34:00', 'Total Price': '9263.58', 'Currency': 'INR', 'Number of Stops': 0, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:46:39,838 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:46:55,304 - app.core.logging - INFO - Received chat request: cheapest flights from mumbai to delhi next monday...
+2025-09-04 16:46:55,304 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:46:55,304 - app.core.logging - INFO - Processing flight search query: cheapest flights from mumbai to delhi next monday
+2025-09-04 16:46:55,304 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:46:55,304 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:46:55,304 - app.core.logging - INFO - User message: cheapest flights from mumbai to delhi next monday
+2025-09-04 16:46:56,716 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:46:57,034 - app.core.logging - INFO - OpenAI response: {"location_origin": "BOM", "location_destination": "DEL", "departure_date": "2025-09-08", "adults": 1}
+2025-09-04 16:46:57,034 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-04 16:47:03,455 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-04 16:47:03,456 - app.core.logging - ERROR - Error creating flight summary: Column 'Total Price' has dtype object, cannot use method 'nsmallest' with this dtype
+2025-09-04 16:47:03,456 - app.core.logging - INFO - Sending focused query to LLM (length: 2833 chars)
+2025-09-04 16:47:20,763 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:47:20,768 - app.core.logging - INFO - LLM Response received (length: 1359 chars)
+2025-09-04 16:47:20,770 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:47:20,771 - app.core.logging - INFO - Flight data length: 14
+2025-09-04 16:47:20,771 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': '3905.07', 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:47:20,771 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:48:47,844 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:48:47,863 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:48:47,877 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:48:47,887 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:48:47,898 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:48:47,907 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:48:47,922 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:48:47,941 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:49:13,859 - app.core.logging - INFO - Received chat request: i want to go mumbai to delhi next monday...
+2025-09-04 16:49:13,859 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:49:13,860 - app.core.logging - INFO - Processing flight search query: i want to go mumbai to delhi next monday
+2025-09-04 16:49:13,860 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:49:13,860 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:49:13,860 - app.core.logging - INFO - User message: i want to go mumbai to delhi next monday
+2025-09-04 16:49:17,818 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:49:17,850 - app.core.logging - INFO - OpenAI response: {"location_origin": "BOM", "location_destination": "DEL", "departure_date": "2025-09-08", "adults": 1}
+2025-09-04 16:49:17,850 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-04 16:49:24,171 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-04 16:49:24,180 - app.core.logging - INFO - Sending focused query to LLM (length: 3144 chars)
+2025-09-04 16:49:40,188 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:49:40,192 - app.core.logging - INFO - LLM Response received (length: 1397 chars)
+2025-09-04 16:49:40,195 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:49:40,195 - app.core.logging - INFO - Flight data length: 14
+2025-09-04 16:49:40,195 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': 3905.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:49:40,195 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:53:20,925 - app.core.logging - INFO - Received chat request: cheapest flights from mumbai to delhi next monday...
+2025-09-04 16:53:20,926 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:53:20,926 - app.core.logging - INFO - Processing flight search query: cheapest flights from mumbai to delhi next monday
+2025-09-04 16:53:20,926 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:53:20,926 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:53:20,926 - app.core.logging - INFO - User message: cheapest flights from mumbai to delhi next monday
+2025-09-04 16:53:23,928 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:53:23,928 - app.core.logging - INFO - OpenAI response: {"location_origin": "BOM", "location_destination": "DEL", "departure_date": "2025-09-08", "adults": 1}
+2025-09-04 16:53:23,929 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-04 16:53:28,910 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-04 16:53:28,916 - app.core.logging - INFO - Sending focused query to LLM (length: 3162 chars)
+2025-09-04 16:53:42,897 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:53:42,898 - app.core.logging - INFO - LLM Response received (length: 1467 chars)
+2025-09-04 16:53:42,899 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:53:42,899 - app.core.logging - INFO - Flight data length: 14
+2025-09-04 16:53:42,899 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': 3905.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:53:42,900 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:55:00,409 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:55:00,425 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:55:00,427 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:55:00,433 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:55:00,438 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:55:00,454 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:55:00,456 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:55:00,463 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:56:26,699 - app.core.logging - INFO - Received chat request: i want to go mumbai to delhi next monday...
+2025-09-04 16:56:26,699 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-04 16:56:26,700 - app.core.logging - INFO - Processing flight search query: i want to go mumbai to delhi next monday
+2025-09-04 16:56:26,700 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-04 16:56:26,700 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-04. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-04 16:56:26,700 - app.core.logging - INFO - User message: i want to go mumbai to delhi next monday
+2025-09-04 16:56:32,348 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:56:32,360 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Mumbai and Delhi are BOM and DEL, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "BOM",
+  "location_destination": "DEL",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-04 16:56:32,360 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-04 16:56:39,263 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-04 16:56:39,275 - app.core.logging - INFO - Sending focused query to LLM (length: 3144 chars)
+2025-09-04 16:56:49,097 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:56:49,104 - app.core.logging - INFO - LLM Response received (length: 1449 chars)
+2025-09-04 16:56:49,106 - app.core.logging - INFO - Flight data prepared: True
+2025-09-04 16:56:49,106 - app.core.logging - INFO - Flight data length: 14
+2025-09-04 16:56:49,106 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': 3905.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-04 16:56:49,106 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-04 16:57:28,033 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:57:28,056 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:57:28,066 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:57:28,089 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:57:28,097 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:57:28,113 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-04 16:57:28,127 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 16:57:28,140 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-04 20:30:16,541 - app.core.logging - INFO - Shutting down application
+2025-09-04 20:30:16,636 - app.core.logging - INFO - Shutting down application
+2025-09-04 20:30:16,637 - app.core.logging - INFO - Shutting down application
+2025-09-04 20:30:16,639 - app.core.logging - INFO - Shutting down application
+2025-09-05 15:02:15,717 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:02:15,717 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:02:15,717 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:02:15,717 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:02:15,718 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:02:15,718 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:02:15,718 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:02:15,718 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:02:17,570 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:02:17,570 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:02:17,570 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:02:17,571 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:02:17,613 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:02:17,614 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:02:17,615 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:02:17,617 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:02:42,576 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:02:42,576 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:02:42,577 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:02:42,577 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:02:42,577 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:02:42,578 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:02:45,203 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:02:45,240 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Delhi and Mumbai are DEL and BOM, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "DEL",
+  "location_destination": "BOM",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 15:02:45,240 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:02:51,317 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:02:51,360 - app.core.logging - INFO - Sending focused query to LLM (length: 3135 chars)
+2025-09-05 15:02:58,076 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:02:58,361 - app.core.logging - INFO - LLM Response received (length: 1271 chars)
+2025-09-05 15:02:58,369 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:02:58,370 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:02:58,370 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:02:58,370 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:14:16,596 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:14:16,596 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:14:16,597 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:14:16,597 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:14:16,607 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:14:16,607 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:14:16,609 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:14:16,609 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:14:18,463 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:14:18,474 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:14:18,474 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:14:18,500 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:14:18,516 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:14:18,525 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:14:18,526 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:14:18,555 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:14:41,728 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:14:41,728 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:14:41,729 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:14:41,729 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:14:41,729 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:14:41,730 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:14:44,218 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:14:44,237 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Delhi and Mumbai are DEL and BOM, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "DEL",
+  "location_destination": "BOM",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 15:14:44,238 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:14:51,285 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:14:51,326 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:14:58,035 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:14:58,065 - app.core.logging - INFO - LLM Response received (length: 1113 chars)
+2025-09-05 15:14:58,073 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:14:58,073 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:14:58,074 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:14:58,075 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:20:05,258 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:20:05,259 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:20:05,259 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:20:05,259 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:20:05,259 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:20:05,259 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:20:05,265 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:20:05,265 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:20:06,713 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:20:06,733 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:20:06,733 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:20:06,736 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:20:06,749 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:20:06,769 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:20:06,769 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:20:06,772 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:20:36,911 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:20:36,912 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:20:36,912 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:20:36,912 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:20:36,913 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:20:36,913 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:20:40,564 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:20:40,602 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Delhi and Mumbai are DEL and BOM, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "DEL",
+  "location_destination": "BOM",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 15:20:40,602 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:20:46,816 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:20:46,862 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:20:53,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:20:53,879 - app.core.logging - INFO - LLM Response received (length: 1230 chars)
+2025-09-05 15:20:53,887 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:20:53,887 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:20:53,887 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:20:53,888 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:23:49,731 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:23:49,731 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:23:49,732 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:23:49,732 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:23:49,732 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:23:49,732 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:23:51,633 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:23:51,672 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Delhi and Mumbai are DEL and BOM, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "DEL",
+  "location_destination": "BOM",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 15:23:51,673 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:23:57,682 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:23:57,723 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:24:04,329 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:24:04,334 - app.core.logging - INFO - LLM Response received (length: 1152 chars)
+2025-09-05 15:24:04,340 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:24:04,340 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:24:04,340 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:24:04,341 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:28:06,007 - app.core.logging - INFO - Received chat request: Find me flights from New York to London on Decembe...
+2025-09-05 15:28:06,008 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:28:06,008 - app.core.logging - INFO - Processing flight search query: Find me flights from New York to London on December 15, 2024
+2025-09-05 15:28:06,009 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:28:06,009 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:28:06,009 - app.core.logging - INFO - User message: Find me flights from New York to London on December 15, 2024
+2025-09-05 15:28:12,232 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:28:12,267 - app.core.logging - INFO - OpenAI response: {"location_origin": "JFK", "location_destination": "LON", "departure_date": "2024-12-15", "adults": 1}
+2025-09-05 15:28:12,268 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'JFK', 'location_destination': 'LON', 'departure_date': '2024-12-15', 'adults': 1}
+2025-09-05 15:28:14,998 - app.core.logging - ERROR - Flight search error: [400]
+
+2025-09-05 15:28:14,999 - app.core.logging - ERROR - No flights found or error in forming dataframe
+2025-09-05 15:28:23,645 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:28:23,646 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:28:23,646 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:28:23,646 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:28:23,647 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:28:23,647 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:28:24,889 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:28:24,892 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-08", "adults": 1}
+2025-09-05 15:28:24,892 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:28:29,454 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:28:29,476 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:28:35,987 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:28:35,991 - app.core.logging - INFO - LLM Response received (length: 1130 chars)
+2025-09-05 15:28:35,996 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:28:35,997 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:28:35,997 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:28:35,997 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:33:57,765 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:33:57,765 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:33:57,765 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:33:57,765 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:33:57,765 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:33:57,766 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:33:57,767 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:33:57,767 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:33:59,455 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:33:59,457 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:33:59,460 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:33:59,465 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:33:59,503 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:33:59,506 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:33:59,510 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:33:59,516 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:34:35,474 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:34:35,475 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:34:35,475 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:34:35,476 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:34:35,476 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:34:35,476 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:34:37,147 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:34:37,180 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-08", "adults": 1}
+2025-09-05 15:34:37,180 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:34:44,893 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:34:44,945 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:34:52,506 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:34:52,512 - app.core.logging - INFO - LLM Response received (length: 1154 chars)
+2025-09-05 15:34:52,518 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:34:52,518 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:34:52,519 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:34:52,519 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:39:09,938 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:39:09,938 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:39:09,939 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:39:09,939 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:39:09,941 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:39:09,942 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:39:09,944 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 15:39:09,945 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 15:39:11,782 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:39:11,786 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:39:11,826 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:39:11,832 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:39:11,854 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:39:11,856 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 15:39:11,903 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:39:11,903 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 15:41:06,603 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:41:06,603 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:41:06,604 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:41:06,604 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:41:06,604 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:41:06,604 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:41:11,285 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:41:11,318 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The airport codes for Delhi and Mumbai are DEL and BOM, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "DEL",
+  "location_destination": "BOM",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 15:41:11,319 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:41:17,775 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:41:17,812 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:41:26,745 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:41:26,750 - app.core.logging - INFO - LLM Response received (length: 1228 chars)
+2025-09-05 15:41:26,756 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:41:26,756 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:41:26,756 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:41:26,757 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 15:43:26,364 - app.core.logging - INFO - Received chat request: i want to go delhi to mumbai next monday...
+2025-09-05 15:43:26,365 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 15:43:26,365 - app.core.logging - INFO - Processing flight search query: i want to go delhi to mumbai next monday
+2025-09-05 15:43:26,365 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 15:43:26,366 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 15:43:26,366 - app.core.logging - INFO - User message: i want to go delhi to mumbai next monday
+2025-09-05 15:43:27,865 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:43:27,907 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-08", "adults": 1}
+2025-09-05 15:43:27,908 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 15:43:33,933 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-05 15:43:33,972 - app.core.logging - INFO - Sending focused query to LLM (length: 2871 chars)
+2025-09-05 15:43:41,810 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:43:41,815 - app.core.logging - INFO - LLM Response received (length: 1136 chars)
+2025-09-05 15:43:41,820 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 15:43:41,821 - app.core.logging - INFO - Flight data length: 12
+2025-09-05 15:43:41,821 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T11:00:00', 'Arrival': '2025-09-08T11:50:00', 'Total Price': 4067.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 15:43:41,821 - app.core.logging - INFO - Returning result with show_flight_cards: True
+2025-09-05 18:02:31,011 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 18:02:31,011 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 18:02:31,015 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 18:02:31,015 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 18:02:31,024 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 18:02:31,024 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 18:02:31,026 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-05 18:02:31,026 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-05 18:02:32,110 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 18:02:32,140 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 18:02:32,141 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 18:02:32,141 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 18:02:32,156 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 18:02:32,169 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 18:02:32,170 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 18:02:32,184 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 18:20:12,500 - app.core.logging - INFO - Shutting down application
+2025-09-05 18:20:12,500 - app.core.logging - INFO - Shutting down application
+2025-09-05 18:20:12,506 - app.core.logging - INFO - Shutting down application
+2025-09-05 18:20:12,507 - app.core.logging - INFO - Shutting down application
+2025-09-05 19:25:44,312 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 19:25:44,312 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 19:25:44,312 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 19:25:44,312 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-05 19:25:44,341 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 19:25:44,341 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 19:25:44,341 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 19:25:44,341 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-05 19:26:13,332 - app.core.logging - INFO - Received chat request: i want to go from mumbai to delhi next monday...
+2025-09-05 19:26:13,332 - app.core.logging - INFO - No existing flight data in session, fetching new data
+2025-09-05 19:26:13,332 - app.core.logging - INFO - Processing flight search query: i want to go from mumbai to delhi next monday
+2025-09-05 19:26:13,332 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-05 19:26:13,332 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. Today is 2025-09-05. Extract the following details from the query: 1. location_origin: The departure city or airport, ensu...
+2025-09-05 19:26:13,332 - app.core.logging - INFO - User message: i want to go from mumbai to delhi next monday
+2025-09-05 19:26:15,761 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 19:26:15,785 - app.core.logging - INFO - OpenAI response: Next Monday is 2025-09-08. The valid airport codes for Mumbai and Delhi are BOM and DEL, respectively. 
+
+Here is the extracted information in JSON format:
+
+```json
+{
+  "location_origin": "BOM",
+  "location_destination": "DEL",
+  "departure_date": "2025-09-08",
+  "adults": 1
+}
+```
+2025-09-05 19:26:15,786 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-08', 'adults': 1}
+2025-09-05 19:26:25,695 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-05 19:26:25,711 - app.core.logging - INFO - Sending focused query to LLM (length: 2890 chars)
+2025-09-05 19:26:34,191 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 19:26:34,201 - app.core.logging - INFO - LLM Response received (length: 1128 chars)
+2025-09-05 19:26:34,207 - app.core.logging - INFO - Flight data prepared: True
+2025-09-05 19:26:34,207 - app.core.logging - INFO - Flight data length: 14
+2025-09-05 19:26:34,207 - app.core.logging - INFO - First flight record: {'Airline Code': 'AI', 'Airline Name': 'AIR INDIA', 'Departure': '2025-09-08T18:20:00', 'Arrival': '2025-09-08T19:35:00', 'Total Price': 3905.07, 'Currency': 'INR', 'Number of Stops': 1, 'Cabin': 'ECONOMY', 'One Way': True}
+2025-09-05 19:26:34,207 - app.core.logging - INFO - Returning result with show_flight_cards: True

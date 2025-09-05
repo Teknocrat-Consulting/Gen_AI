@@ -77,6 +77,93 @@
                 <div class="flights-list" id="flightsList">
                     <!-- Flight cards will be inserted here -->
                 </div>
+                
+                <!-- Flight Insights Section -->
+                <div class="flight-insights" id="flightInsights" style="display: none;">
+                    <div class="insights-tabs">
+                        <button class="tab-btn active" onclick="switchInsightTab('insights')" data-tab="insights">
+                            <i class="fas fa-lightbulb"></i>
+                            Key Insights
+                        </button>
+                        <button class="tab-btn" onclick="switchInsightTab('comparison')" data-tab="comparison">
+                            <i class="fas fa-chart-bar"></i>
+                            Quick Comparison
+                        </button>
+                        <button class="tab-btn" onclick="switchInsightTab('recommendations')" data-tab="recommendations">
+                            <i class="fas fa-thumbs-up"></i>
+                            Recommendations
+                        </button>
+                    </div>
+                    
+                    <div class="insights-content">
+                        <!-- Key Insights Tab -->
+                        <div class="tab-content active" id="insights-tab">
+                            <div class="insights-list" id="keyInsightsList">
+                                <!-- Key insights will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Comparison Tab -->
+                        <div class="tab-content" id="comparison-tab">
+                            <div class="comparison-cards">
+                                <div class="comparison-card cheapest">
+                                    <div class="card-header">CHEAPEST</div>
+                                    <div class="card-value" id="cheapestPrice">₹5,239</div>
+                                    <div class="card-detail" id="cheapestDetails">21:10 → 23:35</div>
+                                </div>
+                                <div class="comparison-card fastest">
+                                    <div class="card-header">FASTEST</div>
+                                    <div class="card-value" id="fastestTime">2h 25m</div>
+                                    <div class="card-detail" id="fastestDetails">Direct Flight</div>
+                                </div>
+                                <div class="comparison-card best-value">
+                                    <div class="card-header">BEST VALUE</div>
+                                    <div class="card-value">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="card-detail" id="bestValueDetails">Price + Convenience</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recommendations Tab -->
+                        <div class="tab-content" id="recommendations-tab">
+                            <div class="recommendation-cards">
+                                <div class="recommendation-card budget">
+                                    <div class="card-icon">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Budget Travelers</h4>
+                                        <p id="budgetRecommendation">Book the 21:10 direct flight at ₹5,239</p>
+                                    </div>
+                                </div>
+                                <div class="recommendation-card business">
+                                    <div class="card-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Business Travelers</h4>
+                                        <p id="businessRecommendation">Morning direct flights for convenience</p>
+                                    </div>
+                                </div>
+                                <div class="recommendation-card flexible">
+                                    <div class="card-icon">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Flexible Schedule</h4>
+                                        <p id="flexibleRecommendation">Evening flights offer best prices</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
                 </div>
 
