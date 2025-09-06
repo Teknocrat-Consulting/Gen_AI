@@ -252,31 +252,41 @@ class FlightService:
             
             for itinerary in flight['itineraries']:
                 num_stops = len(itinerary['segments']) - 1
+                segments = itinerary['segments']
                 
-                for segment in itinerary['segments']:
-                    airline_code = segment.get('carrierCode', '')
-                    airline_name = airline_names.get(airline_code, airline_code)
-                    departure = segment['departure'].get('at', '')
-                    arrival = segment['arrival'].get('at', '')
-                    
-                    cabin = ''
-                    if flight.get('travelerPricings'):
-                        for pricing in flight['travelerPricings']:
-                            if pricing.get('fareDetailsBySegment'):
-                                cabin = pricing['fareDetailsBySegment'][0].get('cabin', '')
-                                break
-                    
-                    flight_details.append({
-                        "Airline Code": airline_code,
-                        "Airline Name": airline_name,
-                        "Departure": departure,
-                        "Arrival": arrival,
-                        "Total Price": total_price,
-                        "Currency": currency,
-                        "Number of Stops": num_stops,
-                        "Cabin": cabin,
-                        "One Way": one_way
-                    })
+                # Get overall route info (first departure to final arrival)
+                first_segment = segments[0]
+                last_segment = segments[-1]
+                
+                airline_code = first_segment.get('carrierCode', '')
+                airline_name = airline_names.get(airline_code, airline_code)
+                departure = first_segment['departure'].get('at', '')
+                arrival = last_segment['arrival'].get('at', '')
+                
+                # Extract overall source and destination airport codes
+                source_code = first_segment['departure'].get('iataCode', '')
+                destination_code = last_segment['arrival'].get('iataCode', '')
+                
+                cabin = ''
+                if flight.get('travelerPricings'):
+                    for pricing in flight['travelerPricings']:
+                        if pricing.get('fareDetailsBySegment'):
+                            cabin = pricing['fareDetailsBySegment'][0].get('cabin', '')
+                            break
+                
+                flight_details.append({
+                    "Airline Code": airline_code,
+                    "Airline Name": airline_name,
+                    "Departure": departure,
+                    "Arrival": arrival,
+                    "Source": source_code,
+                    "Destination": destination_code,
+                    "Total Price": total_price,
+                    "Currency": currency,
+                    "Number of Stops": num_stops,
+                    "Cabin": cabin,
+                    "One Way": one_way
+                })
         
         df = pd.DataFrame(flight_details)
         df.drop_duplicates(inplace=True)
