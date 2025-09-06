@@ -11,7 +11,9 @@ class Settings(BaseSettings):
     
     OPENAI_API_KEY: str
     API_Key: str = Field(alias="API_Key")  
-    API_Secret: str = Field(alias="API_Secret")  
+    API_Secret: str = Field(alias="API_Secret")
+    
+    DESCOPE_PROJECT_ID: str  
     
     CORS_ORIGINS: list[str] = ["*"]
     
@@ -27,6 +29,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"  # Ignore extra fields in .env
         
 
 settings = Settings()

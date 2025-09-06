@@ -8,7 +8,8 @@ from pathlib import Path
 
 from app.core.config import settings
 from app.core.logging import logger
-from app.api import chat, health, hotel, travel_itinerary, travel_streaming
+from app.api import chat, health, hotel, travel_itinerary, travel_streaming, auth
+from app.middleware import AuthMiddleware
 
 
 @asynccontextmanager
@@ -34,6 +35,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add authentication middleware
+app.add_middleware(AuthMiddleware)
+
+app.include_router(auth.router)
 app.include_router(chat.router)
 app.include_router(health.router)
 app.include_router(hotel.router)
@@ -76,6 +81,14 @@ async def root():
             return HTMLResponse(content=f.read())
     return HTMLResponse(content="<h1>AI Travel Planner</h1><p>Visit /docs for API documentation</p>")
 
+
+@app.get("/auth", response_class=HTMLResponse)
+async def auth_page():
+    auth_path = Path(__file__).parent / "templates" / "auth.html"
+    if auth_path.exists():
+        with open(auth_path, "r") as f:
+            return HTMLResponse(content=f.read())
+    return HTMLResponse(content="<h1>Authentication Required</h1><p>Please visit /docs for API documentation</p>")
 
 @app.get("/chat", response_class=HTMLResponse)
 async def chat_page():

@@ -35,9 +35,21 @@
                 <button class="nav-currency">
                     <i class="fas fa-globe"></i> INR
                 </button>
-                <button class="nav-currency">
-                    <i class="fas fa-user-circle"></i> Sign In
-                </button>
+                <div class="nav-user" id="navUser">
+                    <button class="nav-currency" id="authButton" onclick="handleAuth()">
+                        <i class="fas fa-user-circle"></i> <span id="authText">Sign In</span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown" style="display: none;">
+                        <div class="user-info">
+                            <i class="fas fa-user"></i>
+                            <span id="userEmail"></span>
+                        </div>
+                        <hr>
+                        <button onclick="logout()" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -215,10 +227,94 @@
     </section>
     
     <script>
+        // Helper function to get cookie value
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuthentication();
+        });
+
+        function checkAuthentication() {
+            const sessionToken = localStorage.getItem('session_token');
+            const sessionCookie = getCookie('session_token');
+            const user = localStorage.getItem('user');
+            
+            // Skip authentication check if we have a session
+            if (!sessionToken && !sessionCookie) {
+                // User not authenticated, redirect to auth page
+                window.location.href = '/auth?redirect=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+            
+            // Update UI for authenticated user
+            if (user) {
+                try {
+                    const userData = JSON.parse(user);
+                    document.getElementById('authText').textContent = userData.name || userData.email || 'Account';
+                    document.getElementById('userEmail').textContent = userData.email || '';
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
+            }
+        }
+
+        async function handleAuth() {
+            const sessionToken = localStorage.getItem('session_token');
+            if (sessionToken) {
+                // User is authenticated, toggle dropdown
+                const dropdown = document.getElementById('userDropdown');
+                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+            } else {
+                // User not authenticated, redirect to auth page
+                window.location.href = '/auth';
+            }
+        }
+
+        async function logout() {
+            const refreshToken = localStorage.getItem('refresh_token');
+            if (refreshToken) {
+                try {
+                    await fetch('/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${refreshToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+            
+            // Clear local storage
+            localStorage.removeItem('session_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            
+            // Redirect to auth page
+            window.location.href = '/auth';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const navUser = document.getElementById('navUser');
+            const dropdown = document.getElementById('userDropdown');
+            if (!navUser.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         class PremiumTravelBooking {
             constructor() {
                 this.apiBaseUrl = window.location.origin;
                 this.currentQuery = '';
+                this.sessionToken = localStorage.getItem('session_token');
                 this.initializeElements();
                 this.initializeEventListeners();
             }
@@ -270,6 +366,13 @@
             }
             
             async performSearch() {
+                // Check authentication before performing search
+                if (!this.sessionToken) {
+                    alert('Please sign in to search for travel options');
+                    window.location.href = '/auth';
+                    return;
+                }
+                
                 const query = this.searchQuery.value.trim();
                 if (!query) return;
                 
@@ -310,6 +413,7 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${this.sessionToken}`
                         },
                         body: JSON.stringify({ query: query })
                     });
@@ -730,7 +834,81 @@
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
             window.travelBooking = new PremiumTravelBooking();
+            checkAuthStatus();
         });
+
+        // Authentication functions
+        function checkAuthStatus() {
+            const sessionToken = localStorage.getItem('session_token');
+            const user = localStorage.getItem('user');
+            
+            if (sessionToken && user) {
+                try {
+                    const userData = JSON.parse(user);
+                    updateAuthUI(true, userData.name || userData.email);
+                } catch (e) {
+                    updateAuthUI(false);
+                }
+            } else {
+                updateAuthUI(false);
+            }
+        }
+
+        function updateAuthUI(isAuthenticated, userName = '') {
+            const authButton = document.getElementById('authButton');
+            const authText = document.getElementById('authText');
+            
+            if (isAuthenticated) {
+                authText.textContent = userName || 'Account';
+                authButton.onclick = showUserMenu;
+            } else {
+                authText.textContent = 'Sign In';
+                authButton.onclick = handleAuth;
+            }
+        }
+
+        function handleAuth() {
+            window.location.href = '/auth';
+        }
+
+        function showUserMenu() {
+            if (confirm('Do you want to logout?')) {
+                logout();
+            }
+        }
+
+        async function logout() {
+            const refreshToken = localStorage.getItem('refresh_token');
+            
+            if (refreshToken) {
+                try {
+                    await fetch('/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${refreshToken}`
+                        }
+                    });
+                } catch (e) {
+                    console.log('Logout request failed:', e);
+                }
+            }
+            
+            // Clear local storage
+            localStorage.removeItem('session_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            
+            // Update UI
+            updateAuthUI(false);
+            
+            alert('Logged out successfully');
+        }
+
+        // Add authorization header to API requests
+        function getAuthHeaders() {
+            const sessionToken = localStorage.getItem('session_token');
+            return sessionToken ? { 'Authorization': `Bearer ${sessionToken}` } : {};
+        }
     </script>
 </body>
 </html>
