@@ -144,3 +144,175 @@ class HealthResponse(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.now)
     version: str
     services: Dict[str, bool]
+
+
+# Travel Itinerary Models
+class TravelQuery(BaseModel):
+    query: str
+    session_id: Optional[str] = None
+    
+    @validator('query')
+    def query_not_empty(cls, v):
+        if not v or not v.strip():
+            raise ValueError('Query cannot be empty')
+        return v.strip()
+
+
+class TripSummary(BaseModel):
+    origin: str
+    destination: str
+    departure_date: str
+    return_date: Optional[str] = None
+    duration_days: int
+    travelers: int
+    travel_type: str
+    budget_preference: str
+
+
+class FlightOption(BaseModel):
+    airline_code: str
+    airline_name: str
+    departure: str
+    arrival: str
+    total_price: str
+    currency: str
+    number_of_stops: int
+    cabin: str
+    one_way: bool
+
+
+class FlightData(BaseModel):
+    outbound_flights: List[FlightOption]
+    return_flights: List[FlightOption]
+    total_options: int
+
+
+class HotelOption(BaseModel):
+    hotel_name: str
+    hotel_id: str
+    rating: str
+    city: str
+    country: str
+    room_type: str
+    total_price: str
+    currency: str
+    amenities: str
+    check_in_time: str
+    check_out_time: str
+
+
+class HotelData(BaseModel):
+    hotels: List[HotelOption]
+    total_options: int
+    location: Optional[str] = None
+    dates: Optional[Dict[str, str]] = None
+
+
+class Attraction(BaseModel):
+    name: str
+    category: str
+    description: str
+    estimated_time: int
+    best_time: str
+    popularity_score: int
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+
+
+class Experience(BaseModel):
+    name: str
+    type: str
+    description: str
+    duration: int
+    cost_estimate: str
+    best_time: str
+    tips: str
+
+
+class DiningOption(BaseModel):
+    name: str
+    cuisine_type: str
+    description: str
+    price_range: str
+    must_try_dishes: List[str]
+    location_area: str
+    meal_type: str
+
+
+class AttractionsData(BaseModel):
+    attractions: List[Attraction]
+    experiences: List[Experience]
+    dining: List[DiningOption]
+    total_options: int
+
+
+class Activity(BaseModel):
+    time: str
+    name: str
+    description: str
+    duration: str
+    type: str
+
+
+class Meal(BaseModel):
+    time: str
+    restaurant: str
+    cuisine: str
+    estimated_cost: str
+
+
+class DailyItinerary(BaseModel):
+    day_number: int
+    date: str
+    theme: str
+    activities: List[Activity]
+    meals: List[Meal]
+    transportation: str
+    budget_estimate: str
+    tips: str
+
+
+class BudgetBreakdown(BaseModel):
+    flights_percentage: float
+    accommodation_percentage: float
+    activities_food_percentage: float
+    transport_percentage: float
+
+
+class BudgetEstimate(BaseModel):
+    flights: float
+    accommodation: float
+    activities_food: float
+    local_transport: float
+    total: float
+    per_person: float
+    currency: str
+    breakdown: BudgetBreakdown
+
+
+class TravelRecommendations(BaseModel):
+    best_time_to_visit: str
+    what_to_pack: List[str]
+    local_customs: str
+    transportation_tips: str
+    safety_tips: str
+    money_tips: str
+    language_tips: str
+    emergency_contacts: str
+
+
+class CompleteItinerary(BaseModel):
+    trip_summary: TripSummary
+    flights: FlightData
+    hotels: HotelData
+    attractions: AttractionsData
+    daily_itinerary: List[DailyItinerary]
+    budget_estimate: BudgetEstimate
+    recommendations: TravelRecommendations
+
+
+class TravelPlanResponse(BaseModel):
+    success: bool
+    error: Optional[str] = None
+    data: Optional[CompleteItinerary] = None
+    timestamp: datetime = Field(default_factory=datetime.now)

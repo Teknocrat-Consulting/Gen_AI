@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelLux - Premium Travel Booking</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Premium Booking CSS -->
+    <link rel="stylesheet" href="/static/css/premium_booking.css">
+    
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Premium Navigation -->
+    <nav class="nav-premium">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <i class="fas fa-plane-departure"></i>
+                TravelLux
+            </a>
+            
+            <div class="nav-menu">
+                <a href="#" class="nav-link active">Flights</a>
+                <a href="#" class="nav-link">Hotels</a>
+                <a href="#" class="nav-link">Packages</a>
+                <a href="#" class="nav-link">Activities</a>
+                <a href="#" class="nav-link">Car Rental</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="nav-currency">
+                    <i class="fas fa-globe"></i> INR
+                </button>
+                <button class="nav-currency">
+                    <i class="fas fa-user-circle"></i> Sign In
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Progress Bar (Hidden by default) -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-content">
+            <div class="progress-header">
+                <span class="progress-text" id="progressText">Searching for the best options...</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-container">
+            <h1 class="hero-title animate__animated animate__fadeInDown">
+                Where would you like to go?
+            </h1>
+            <p class="hero-subtitle animate__animated animate__fadeInUp">
+                Search flights, hotels, and vacation packages with AI-powered recommendations
+            </p>
+            
+            <!-- Premium Search Card -->
+            <div class="search-card animate__animated animate__fadeIn">
+                <!-- Search Tabs -->
+                <div class="search-tabs">
+                    <button class="search-tab active" data-type="all">
+                        <i class="fas fa-search"></i> All
+                    </button>
+                    <button class="search-tab" data-type="flights">
+                        <i class="fas fa-plane"></i> Flights
+                    </button>
+                    <button class="search-tab" data-type="hotels">
+                        <i class="fas fa-bed"></i> Hotels
+                    </button>
+                    <button class="search-tab" data-type="packages">
+                        <i class="fas fa-suitcase"></i> Packages
+                    </button>
+                    <button class="search-tab" data-type="activities">
+                        <i class="fas fa-hiking"></i> Activities
+                    </button>
+                </div>
+                
+                <!-- Search Form -->
+                <div class="search-form">
+                    <div class="search-input-wrapper">
+                        <input type="text" 
+                               id="searchQuery" 
+                               class="search-input" 
+                               placeholder="Try 'Romantic weekend in Goa' or 'Cheapest flights to Dubai'"
+                               style="width: 100%; padding: 20px; font-size: 18px; border: 2px solid #E6E6E6; border-radius: 12px;">
+                    </div>
+                    
+                    <!-- Quick Filters -->
+                    <div class="quick-filters">
+                        <button class="filter-chip" data-query="Flights from Mumbai to Delhi">
+                            ✈️ Mumbai → Delhi
+                        </button>
+                        <button class="filter-chip" data-query="Hotels in Goa for this weekend">
+                            🏨 Goa Hotels
+                        </button>
+                        <button class="filter-chip" data-query="Plan a 3-day trip to Kerala">
+                            📍 Kerala Trip
+                        </button>
+                        <button class="filter-chip" data-query="Business class flights to Dubai">
+                            💼 Business Class
+                        </button>
+                        <button class="filter-chip" data-query="Luxury resorts in Maldives">
+                            🏖️ Maldives Luxury
+                        </button>
+                        <button class="filter-chip" data-query="Budget trip to Thailand">
+                            💰 Budget Thailand
+                        </button>
+                    </div>
+                    
+                    <!-- Search Button -->
+                    <div class="search-button-wrapper">
+                        <button class="search-button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                            Search with AI Assistant
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Popular Destinations -->
+    <section class="destinations-section">
+        <div class="section-header">
+            <h2 class="section-title">Popular Destinations</h2>
+            <p class="section-subtitle">Discover amazing places at exclusive deals</p>
+        </div>
+        
+        <div class="destinations-grid">
+            <div class="destination-card" data-query="Complete trip planning for Goa">
+                <div class="destination-image">🏖️</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Goa</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹12,999</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card" data-query="Plan a trip to Dubai">
+                <div class="destination-image">🏙️</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Dubai</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹35,999</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card" data-query="Kerala backwaters tour package">
+                <div class="destination-image">🚣</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Kerala</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹18,999</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card" data-query="Manali adventure package">
+                <div class="destination-image">🏔️</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Manali</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹15,999</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card" data-query="Singapore city tour">
+                <div class="destination-image">🌃</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Singapore</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹42,999</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card" data-query="Rajasthan heritage tour">
+                <div class="destination-image">🏰</div>
+                <div class="destination-content">
+                    <h3 class="destination-title">Rajasthan</h3>
+                    <div class="destination-price">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-amount">₹22,999</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Results Section (Hidden by default) -->
+    <section class="results-section" id="resultsSection">
+        <div class="results-container" id="resultsContainer">
+            <!-- Dynamic results will be inserted here -->
+        </div>
+    </section>
+    
+    <script>
+        class PremiumTravelBooking {
+            constructor() {
+                this.apiBaseUrl = window.location.origin;
+                this.currentQuery = '';
+                this.initializeElements();
+                this.initializeEventListeners();
+            }
+            
+            initializeElements() {
+                this.searchQuery = document.getElementById('searchQuery');
+                this.searchButton = document.getElementById('searchButton');
+                this.progressContainer = document.getElementById('progressContainer');
+                this.progressFill = document.getElementById('progressFill');
+                this.progressText = document.getElementById('progressText');
+                this.progressPercentage = document.getElementById('progressPercentage');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.resultsContainer = document.getElementById('resultsContainer');
+            }
+            
+            initializeEventListeners() {
+                // Search button
+                this.searchButton.addEventListener('click', () => this.performSearch());
+                
+                // Enter key on search input
+                this.searchQuery.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                // Search tabs
+                document.querySelectorAll('.search-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                        e.currentTarget.classList.add('active');
+                    });
+                });
+                
+                // Quick filters
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    chip.addEventListener('click', (e) => {
+                        this.searchQuery.value = e.currentTarget.dataset.query;
+                        this.performSearch();
+                    });
+                });
+                
+                // Destination cards
+                document.querySelectorAll('.destination-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        this.searchQuery.value = e.currentTarget.dataset.query;
+                        this.performSearch();
+                    });
+                });
+            }
+            
+            async performSearch() {
+                const query = this.searchQuery.value.trim();
+                if (!query) return;
+                
+                this.currentQuery = query;
+                
+                // Show progress
+                this.showProgress();
+                
+                // Clear previous results
+                this.clearResults();
+                
+                // Start streaming
+                await this.streamResults(query);
+            }
+            
+            showProgress() {
+                this.progressContainer.style.display = 'block';
+                this.resultsSection.style.display = 'none';
+                this.updateProgress(0, 'Initializing AI assistant...');
+                
+                // Smooth scroll to progress
+                this.progressContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            updateProgress(percentage, message) {
+                this.progressFill.style.width = `${percentage}%`;
+                this.progressText.textContent = message;
+                this.progressPercentage.textContent = `${percentage}%`;
+            }
+            
+            async streamResults(query) {
+                try {
+                    const response = await fetch(`${this.apiBaseUrl}/api/v1/travel/stream`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ query: query })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        
+                        for (let i = 0; i < lines.length - 1; i++) {
+                            const line = lines[i].trim();
+                            if (line.startsWith('data: ')) {
+                                try {
+                                    const data = JSON.parse(line.substring(6));
+                                    this.handleStreamData(data);
+                                } catch (e) {
+                                    console.error('Error parsing data:', e);
+                                }
+                            }
+                        }
+                        
+                        buffer = lines[lines.length - 1];
+                    }
+                    
+                } catch (error) {
+                    console.error('Streaming error:', error);
+                    this.showError(`Failed to process request: ${error.message}`);
+                } finally {
+                    setTimeout(() => {
+                        this.progressContainer.style.display = 'none';
+                    }, 1000);
+                }
+            }
+            
+            handleStreamData(data) {
+                // Update progress
+                if (data.progress !== undefined) {
+                    this.updateProgress(data.progress, data.message || 'Processing...');
+                }
+                
+                // Handle different data types
+                switch (data.type) {
+                    case 'intent':
+                        this.showIntent(data.data);
+                        break;
+                    case 'summary':
+                        this.showSummary(data.data);
+                        break;
+                    case 'flights':
+                        this.showFlights(data.data);
+                        break;
+                    case 'hotels':
+                        this.showHotels(data.data);
+                        break;
+                    case 'attractions':
+                        this.showAttractions(data.data);
+                        break;
+                    case 'itinerary':
+                        this.showItinerary(data.data);
+                        break;
+                    case 'budget':
+                        this.showBudget(data.data);
+                        break;
+                    case 'tips':
+                        this.showTips(data.data);
+                        break;
+                    case 'complete':
+                        this.onComplete(data.message);
+                        break;
+                    case 'error':
+                        this.showError(data.message);
+                        break;
+                }
+            }
+            
+            showIntent(intentData) {
+                // Show what components will be displayed
+                const components = intentData.components;
+                let message = 'Preparing: ';
+                const items = [];
+                
+                if (components.flights) items.push('Flights');
+                if (components.hotels) items.push('Hotels');
+                if (components.attractions) items.push('Attractions');
+                if (components.itinerary) items.push('Itinerary');
+                if (components.budget) items.push('Budget');
+                
+                this.updateProgress(10, message + items.join(', '));
+            }
+            
+            showSummary(summary) {
+                this.resultsSection.style.display = 'block';
+                
+                const html = `
+                    <div class="results-header">
+                        <div class="results-count">
+                            <i class="fas fa-route"></i> ${summary.origin} → ${summary.destination}
+                            | ${summary.duration_days} days | ${summary.travelers} travelers
+                        </div>
+                        <div class="results-filters">
+                            <button class="filter-button">
+                                <i class="fas fa-filter"></i> Filters
+                            </button>
+                            <button class="filter-button">
+                                <i class="fas fa-sort"></i> Sort by
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                this.resultsContainer.innerHTML = html;
+            }
+            
+            showFlights(flights) {
+                if (!flights || (!flights.outbound && !flights.return)) return;
+                
+                let html = '<div class="flights-section"><h3 style="margin-bottom: 20px; color: #2D2D2D;">✈️ Flight Options</h3>';
+                
+                // Show outbound flights
+                if (flights.outbound && flights.outbound.length > 0) {
+                    html += '<div style="margin-bottom: 30px;"><h4 style="color: #595959; margin-bottom: 15px;">Outbound Flights</h4>';
+                    flights.outbound.forEach(flight => {
+                        html += this.createFlightCard(flight);
+                    });
+                    html += '</div>';
+                }
+                
+                // Show return flights
+                if (flights.return && flights.return.length > 0) {
+                    html += '<div><h4 style="color: #595959; margin-bottom: 15px;">Return Flights</h4>';
+                    flights.return.forEach(flight => {
+                        html += this.createFlightCard(flight);
+                    });
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            createFlightCard(flight) {
+                const departure = new Date(flight['Departure']);
+                const arrival = new Date(flight['Arrival']);
+                const price = parseFloat(flight['Total Price']) || 0;
+                
+                return `
+                    <div class="flight-result">
+                        <div class="flight-header">
+                            <div class="airline-info">
+                                <div class="airline-logo">${flight['Airline Code']}</div>
+                                <div class="airline-details">
+                                    <div class="airline-name">${flight['Airline Name']}</div>
+                                    <div class="flight-code">Flight ${flight['Airline Code']}${Math.floor(Math.random() * 900) + 100}</div>
+                                </div>
+                            </div>
+                            <div class="flight-price-box">
+                                <div class="price-label">Total Price</div>
+                                <div class="flight-price">
+                                    <span class="price-currency">₹</span>${price.toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-route">
+                            <div class="route-point">
+                                <div class="route-time">${departure.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                <div class="route-airport">${flight['Source']}</div>
+                                <div class="route-date">${departure.toLocaleDateString()}</div>
+                            </div>
+                            <div class="route-duration">
+                                <div class="duration-line"></div>
+                                <div class="duration-time">${flight['Duration'] || '2h 30m'}</div>
+                                <div class="duration-stops">${flight['Number of Stops'] === 0 ? 'Non-stop' : `${flight['Number of Stops']} stop(s)`}</div>
+                            </div>
+                            <div class="route-point">
+                                <div class="route-time">${arrival.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                <div class="route-airport">${flight['Destination']}</div>
+                                <div class="route-date">${arrival.toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-footer">
+                            <div class="flight-features">
+                                <div class="flight-feature">
+                                    <i class="fas fa-check-circle"></i> Free Cancellation
+                                </div>
+                                <div class="flight-feature">
+                                    <i class="fas fa-suitcase"></i> 25kg Baggage
+                                </div>
+                                <div class="flight-feature">
+                                    <i class="fas fa-utensils"></i> Meal Included
+                                </div>
+                            </div>
+                            <button class="select-button">Select Flight</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showHotels(hotels) {
+                if (!hotels || !hotels.options || hotels.options.length === 0) return;
+                
+                let html = '<div class="hotels-section"><h3 style="margin: 30px 0 20px; color: #2D2D2D;">🏨 Accommodation Options</h3>';
+                
+                hotels.options.forEach(hotel => {
+                    const price = parseFloat(hotel['Total Price']) || 0;
+                    const rating = parseFloat(hotel['Rating']) || 0;
+                    
+                    html += `
+                        <div class="hotel-result">
+                            <div class="hotel-grid">
+                                <div class="hotel-image">🏨</div>
+                                <div class="hotel-content">
+                                    <div class="hotel-header">
+                                        <div class="hotel-info">
+                                            <div class="hotel-name">${hotel['Hotel Name']}</div>
+                                            <div class="hotel-rating">
+                                                <span class="rating-stars">${rating > 0 ? '⭐'.repeat(Math.floor(rating)) : ''}</span>
+                                                <span class="rating-score">${rating > 0 ? rating.toFixed(1) : 'New'}</span>
+                                                <span class="rating-count">(${Math.floor(Math.random() * 500) + 100} reviews)</span>
+                                            </div>
+                                            <div class="hotel-location">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                ${hotel['City']}
+                                            </div>
+                                        </div>
+                                        <div class="hotel-price-box">
+                                            <div class="price-label">Per Night</div>
+                                            <div class="flight-price">
+                                                <span class="price-currency">₹</span>${price.toLocaleString()}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="hotel-amenities">
+                                        <span class="amenity-tag">Free WiFi</span>
+                                        <span class="amenity-tag">Breakfast</span>
+                                        <span class="amenity-tag">Pool</span>
+                                        <span class="amenity-tag">Spa</span>
+                                        <span class="amenity-tag">${hotel['Room Type']}</span>
+                                    </div>
+                                    
+                                    <div class="flight-footer">
+                                        <div class="flight-features">
+                                            <div class="flight-feature">
+                                                <i class="fas fa-check-circle"></i> Free Cancellation
+                                            </div>
+                                            <div class="flight-feature">
+                                                <i class="fas fa-coffee"></i> Breakfast Included
+                                            </div>
+                                        </div>
+                                        <button class="select-button">Select Room</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showAttractions(attractions) {
+                if (!attractions) return;
+                
+                let html = '<div class="attractions-section" style="margin-top: 30px;"><h3 style="margin-bottom: 20px; color: #2D2D2D;">🎯 Things to Do</h3>';
+                
+                html += '<div style="display: grid; gap: 20px;">';
+                
+                if (attractions.must_visit && attractions.must_visit.length > 0) {
+                    html += '<div><h4 style="color: #595959; margin-bottom: 15px;">Must Visit Places</h4>';
+                    html += '<div style="display: grid; gap: 15px;">';
+                    
+                    attractions.must_visit.forEach(place => {
+                        html += `
+                            <div style="padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <h5 style="color: #2D2D2D; font-size: 18px;">${place.name}</h5>
+                                    <span style="padding: 4px 12px; background: #E6F0FF; color: #0066FF; border-radius: 20px; font-size: 12px;">
+                                        ${place.category}
+                                    </span>
+                                </div>
+                                <p style="color: #737373; font-size: 14px; line-height: 1.6;">${place.description}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div></div>';
+                }
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showItinerary(itinerary) {
+                if (!itinerary || itinerary.length === 0) return;
+                
+                let html = '<div class="itinerary-section" style="margin-top: 30px;"><h3 style="margin-bottom: 20px; color: #2D2D2D;">📅 Day-by-Day Itinerary</h3>';
+                
+                itinerary.forEach(day => {
+                    html += `
+                        <div style="margin-bottom: 20px; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                                <span style="padding: 8px 16px; background: linear-gradient(90deg, #0066FF 0%, #4D94FF 100%); color: white; border-radius: 8px; font-weight: 600;">
+                                    Day ${day.day_number}
+                                </span>
+                                <h4 style="color: #2D2D2D; font-size: 18px;">${day.theme}</h4>
+                            </div>
+                    `;
+                    
+                    if (day.activities) {
+                        html += '<div style="display: grid; gap: 10px;">';
+                        day.activities.forEach(activity => {
+                            html += `
+                                <div style="display: flex; gap: 15px; padding: 10px; background: #F8F9FA; border-radius: 8px;">
+                                    <span style="padding: 4px 12px; background: white; border: 1px solid #E6E6E6; border-radius: 6px; font-size: 14px; font-weight: 600; color: #595959;">
+                                        ${activity.time}
+                                    </span>
+                                    <span style="color: #404040; font-size: 15px;">${activity.name}</span>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    }
+                    
+                    html += '</div>';
+                });
+                
+                html += '</div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showBudget(budget) {
+                if (!budget) return;
+                
+                const html = `
+                    <div class="budget-section" style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px; color: #2D2D2D;">💰 Estimated Budget</h3>
+                        <div style="padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; color: white; text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 48px; font-weight: 700; margin-bottom: 10px;">₹${budget.total.toLocaleString()}</div>
+                            <div style="font-size: 18px; opacity: 0.9;">Total Estimated Cost</div>
+                            <div style="margin-top: 15px; font-size: 16px;">₹${budget.per_person.toLocaleString()} per person</div>
+                        </div>
+                        
+                        <div style="display: grid; gap: 15px;">
+                            <div style="display: flex; justify-content: space-between; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                <span style="display: flex; align-items: center; gap: 10px; color: #595959;">
+                                    <i class="fas fa-plane" style="color: #0066FF;"></i> Flights
+                                </span>
+                                <strong style="color: #2D2D2D; font-size: 18px;">₹${budget.flights.toLocaleString()}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                <span style="display: flex; align-items: center; gap: 10px; color: #595959;">
+                                    <i class="fas fa-bed" style="color: #0066FF;"></i> Accommodation
+                                </span>
+                                <strong style="color: #2D2D2D; font-size: 18px;">₹${budget.accommodation.toLocaleString()}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                <span style="display: flex; align-items: center; gap: 10px; color: #595959;">
+                                    <i class="fas fa-utensils" style="color: #0066FF;"></i> Food & Activities
+                                </span>
+                                <strong style="color: #2D2D2D; font-size: 18px;">₹${budget.activities_food.toLocaleString()}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                <span style="display: flex; align-items: center; gap: 10px; color: #595959;">
+                                    <i class="fas fa-car" style="color: #0066FF;"></i> Local Transport
+                                </span>
+                                <strong style="color: #2D2D2D; font-size: 18px;">₹${budget.local_transport.toLocaleString()}</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showTips(tips) {
+                // Implementation for travel tips
+            }
+            
+            onComplete(message) {
+                this.updateProgress(100, message || 'Search complete!');
+                
+                // Smooth scroll to results
+                setTimeout(() => {
+                    this.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
+            }
+            
+            showError(message) {
+                this.resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">😕</div>
+                        <div class="empty-title">Something went wrong</div>
+                        <div class="empty-text">${message}</div>
+                    </div>
+                `;
+                this.resultsSection.style.display = 'block';
+            }
+            
+            clearResults() {
+                this.resultsContainer.innerHTML = '';
+                this.resultsSection.style.display = 'none';
+            }
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            window.travelBooking = new PremiumTravelBooking();
+        });
+    </script>
+</body>
+</html>

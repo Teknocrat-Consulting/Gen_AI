@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner - Streaming</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-container {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-message {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+        }
+
+        .flight-card, .hotel-card, .attraction-card, .dining-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .itinerary-day {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-header {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .activity {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .budget-table th, .budget-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .budget-table th {
+            background: #667eea;
+            color: white;
+        }
+
+        .budget-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c00;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .sample-queries {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 10px;
+        }
+
+        .sample-queries h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .sample-query {
+            padding: 8px 15px;
+            margin: 5px;
+            background: white;
+            border: 1px solid #667eea;
+            border-radius: 20px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sample-query:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ AI Travel Planner</h1>
+        <p class="subtitle">Real-time streaming travel planning powered by AI</p>
+        
+        <div class="search-box">
+            <input type="text" 
+                   class="search-input" 
+                   id="queryInput" 
+                   placeholder="e.g., 'Plan a romantic weekend trip from Mumbai to Goa for 2 people'"
+                   value="Plan a romantic weekend trip from Bangalore to Goa for 2 adults">
+            <button class="search-button" id="searchButton" onclick="startStreaming()">
+                Start Planning
+            </button>
+        </div>
+
+        <div class="sample-queries">
+            <h3>Try these examples:</h3>
+            <span class="sample-query" onclick="setSampleQuery('Plan a romantic weekend trip from Bangalore to Goa for 2 adults')">
+                Romantic Goa Weekend
+            </span>
+            <span class="sample-query" onclick="setSampleQuery('Family vacation from Mumbai to Jaipur next month for 4 days, 4 people')">
+                Family Jaipur Trip
+            </span>
+            <span class="sample-query" onclick="setSampleQuery('Business trip from Chennai to Hyderabad next week, staying 3 days')">
+                Business Travel
+            </span>
+            <span class="sample-query" onclick="setSampleQuery('Adventure trip from Delhi to Manali for 5 days, 2 travelers')">
+                Adventure Manali
+            </span>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+            <div class="status-message" id="statusMessage">Starting your travel plan...</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="results-container" id="resultsContainer">
+            <!-- Summary Section -->
+            <div class="section" id="summarySection">
+                <h2 class="section-title">
+                    <span class="section-icon">📍</span>
+                    Trip Summary
+                </h2>
+                <div id="summaryContent"></div>
+            </div>
+
+            <!-- Flights Section -->
+            <div class="section" id="flightsSection">
+                <h2 class="section-title">
+                    <span class="section-icon">✈️</span>
+                    Flight Options
+                    <span class="loading-spinner" id="flightsSpinner" style="display: none;"></span>
+                </h2>
+                <div id="flightsContent"></div>
+            </div>
+
+            <!-- Hotels Section -->
+            <div class="section" id="hotelsSection">
+                <h2 class="section-title">
+                    <span class="section-icon">🏨</span>
+                    Accommodation Options
+                    <span class="loading-spinner" id="hotelsSpinner" style="display: none;"></span>
+                </h2>
+                <div id="hotelsContent"></div>
+            </div>
+
+            <!-- Attractions Section -->
+            <div class="section" id="attractionsSection">
+                <h2 class="section-title">
+                    <span class="section-icon">🗺️</span>
+                    Attractions & Dining
+                    <span class="loading-spinner" id="attractionsSpinner" style="display: none;"></span>
+                </h2>
+                <div id="attractionsContent"></div>
+            </div>
+
+            <!-- Itinerary Section -->
+            <div class="section" id="itinerarySection">
+                <h2 class="section-title">
+                    <span class="section-icon">📅</span>
+                    Day-by-Day Itinerary
+                    <span class="loading-spinner" id="itinerarySpinner" style="display: none;"></span>
+                </h2>
+                <div id="itineraryContent"></div>
+            </div>
+
+            <!-- Budget Section -->
+            <div class="section" id="budgetSection">
+                <h2 class="section-title">
+                    <span class="section-icon">💰</span>
+                    Budget Breakdown
+                    <span class="loading-spinner" id="budgetSpinner" style="display: none;"></span>
+                </h2>
+                <div id="budgetContent"></div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="section" id="tipsSection">
+                <h2 class="section-title">
+                    <span class="section-icon">💡</span>
+                    Travel Tips
+                    <span class="loading-spinner" id="tipsSpinner" style="display: none;"></span>
+                </h2>
+                <div id="tipsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/streaming_travel.js"></script>
+    <script>
+        // Initialize the streaming travel planner
+        const planner = new StreamingTravelPlanner();
+
+        function startStreaming() {
+            const query = document.getElementById('queryInput').value.trim();
+            if (query) {
+                planner.startStreaming(query);
+            }
+        }
+
+        function setSampleQuery(query) {
+            document.getElementById('queryInput').value = query;
+        }
+
+        // Allow Enter key to start search
+        document.getElementById('queryInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startStreaming();
+            }
+        });
+    </script>
+</body>
+</html>

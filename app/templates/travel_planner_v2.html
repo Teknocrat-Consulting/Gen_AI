@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner - Smart Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/travel_planner_v2.css">
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-plane"></i> AI Travel Planner
+            </h1>
+            <p class="subtitle">Your intelligent travel companion powered by AI</p>
+        </div>
+        
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" 
+                       class="search-input" 
+                       id="queryInput" 
+                       placeholder="What kind of travel experience are you looking for?"
+                       autocomplete="off">
+                <button class="search-button" id="searchButton">
+                    <i class="icon fas fa-search"></i>
+                    <span>Start Planning</span>
+                </button>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-chip" data-query="Show me flights from Mumbai to Delhi tomorrow">
+                    ✈️ Flights Only
+                </div>
+                <div class="action-chip" data-query="Find hotels in Goa for this weekend">
+                    🏨 Hotels Only
+                </div>
+                <div class="action-chip" data-query="What are the best attractions in Jaipur?">
+                    🎯 Attractions
+                </div>
+                <div class="action-chip" data-query="Plan a complete 3-day trip from Bangalore to Goa">
+                    📋 Full Trip
+                </div>
+                <div class="action-chip" data-query="Create a budget for 5-day Kerala trip">
+                    💰 Budget Plan
+                </div>
+            </div>
+            
+            <!-- Sample Queries -->
+            <div class="sample-queries">
+                <div class="sample-card" data-query="Plan a romantic weekend trip from Bangalore to Goa for 2 adults">
+                    <div class="card-icon">💑</div>
+                    <div class="card-title">Romantic Getaway</div>
+                    <div class="card-desc">Weekend in Goa</div>
+                </div>
+                <div class="sample-card" data-query="Family vacation from Mumbai to Jaipur next month for 4 days, 4 people">
+                    <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    <div class="card-title">Family Adventure</div>
+                    <div class="card-desc">Jaipur Exploration</div>
+                </div>
+                <div class="sample-card" data-query="Business trip from Chennai to Hyderabad next week, staying 3 days">
+                    <div class="card-icon">💼</div>
+                    <div class="card-title">Business Travel</div>
+                    <div class="card-desc">Hyderabad Meeting</div>
+                </div>
+                <div class="sample-card" data-query="Adventure trip from Delhi to Manali for 5 days, 2 travelers">
+                    <div class="card-icon">🏔️</div>
+                    <div class="card-title">Mountain Adventure</div>
+                    <div class="card-desc">Manali Trek</div>
+                </div>
+                <div class="sample-card" data-query="Show me cheapest flights to Dubai from Mumbai">
+                    <div class="card-icon">🛫</div>
+                    <div class="card-title">International Flight</div>
+                    <div class="card-desc">Dubai Journey</div>
+                </div>
+                <div class="sample-card" data-query="Find luxury hotels in Udaipur for honeymoon">
+                    <div class="card-icon">🏰</div>
+                    <div class="card-title">Luxury Stay</div>
+                    <div class="card-desc">Udaipur Palace</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection">
+            <div class="progress-bar-container">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-status">
+                <span class="status-text" id="statusText">Initializing...</span>
+                <span class="status-percentage" id="statusPercentage">0%</span>
+            </div>
+        </div>
+        
+        <!-- Intent Display -->
+        <div id="intentDisplay" style="display: none; margin-bottom: 2rem;">
+            <div class="result-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="result-card-header" style="border-bottom-color: rgba(255,255,255,0.2);">
+                    <div class="result-card-title">
+                        <i class="result-card-icon fas fa-brain"></i>
+                        <span>Understanding Your Request</span>
+                    </div>
+                </div>
+                <div id="intentContent" style="display: flex; gap: 1rem; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+        
+        <!-- Results Container -->
+        <div class="results-container" id="resultsContainer">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        class SmartTravelPlanner {
+            constructor() {
+                this.apiBaseUrl = window.location.origin;
+                this.currentStream = null;
+                this.initializeElements();
+                this.initializeEventListeners();
+                this.initializeTheme();
+            }
+            
+            initializeElements() {
+                this.queryInput = document.getElementById('queryInput');
+                this.searchButton = document.getElementById('searchButton');
+                this.progressSection = document.getElementById('progressSection');
+                this.progressFill = document.getElementById('progressFill');
+                this.statusText = document.getElementById('statusText');
+                this.statusPercentage = document.getElementById('statusPercentage');
+                this.resultsContainer = document.getElementById('resultsContainer');
+                this.themeToggle = document.getElementById('themeToggle');
+                this.themeIcon = document.getElementById('themeIcon');
+                this.intentDisplay = document.getElementById('intentDisplay');
+                this.intentContent = document.getElementById('intentContent');
+            }
+            
+            initializeEventListeners() {
+                this.searchButton.addEventListener('click', () => this.startSearch());
+                this.queryInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.startSearch();
+                });
+                
+                // Quick actions
+                document.querySelectorAll('.action-chip').forEach(chip => {
+                    chip.addEventListener('click', (e) => {
+                        this.queryInput.value = e.target.dataset.query;
+                        this.startSearch();
+                    });
+                });
+                
+                // Sample cards
+                document.querySelectorAll('.sample-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const query = e.currentTarget.dataset.query;
+                        this.queryInput.value = query;
+                        this.startSearch();
+                    });
+                });
+                
+                // Theme toggle
+                this.themeToggle.addEventListener('click', () => this.toggleTheme());
+            }
+            
+            initializeTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                this.updateThemeIcon(savedTheme);
+            }
+            
+            toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                this.updateThemeIcon(newTheme);
+            }
+            
+            updateThemeIcon(theme) {
+                this.themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            async startSearch() {
+                const query = this.queryInput.value.trim();
+                if (!query) return;
+                
+                // Disable input
+                this.queryInput.disabled = true;
+                this.searchButton.disabled = true;
+                
+                // Clear previous results
+                this.clearResults();
+                
+                // Show progress
+                this.progressSection.style.display = 'block';
+                
+                // Start streaming
+                this.streamResults(query);
+            }
+            
+            async streamResults(query) {
+                try {
+                    const response = await fetch(`${this.apiBaseUrl}/api/v1/travel/stream`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ query: query })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        
+                        for (let i = 0; i < lines.length - 1; i++) {
+                            const line = lines[i].trim();
+                            if (line.startsWith('data: ')) {
+                                try {
+                                    const data = JSON.parse(line.substring(6));
+                                    this.handleStreamData(data);
+                                } catch (e) {
+                                    console.error('Error parsing data:', e);
+                                }
+                            }
+                        }
+                        
+                        buffer = lines[lines.length - 1];
+                    }
+                    
+                } catch (error) {
+                    console.error('Streaming error:', error);
+                    this.showError(`Failed to create travel plan: ${error.message}`);
+                } finally {
+                    this.queryInput.disabled = false;
+                    this.searchButton.disabled = false;
+                }
+            }
+            
+            handleStreamData(data) {
+                // Update progress
+                if (data.progress !== undefined) {
+                    this.updateProgress(data.progress, data.message || 'Processing...');
+                }
+                
+                // Handle different data types
+                switch (data.type) {
+                    case 'intent':
+                        this.showIntent(data.data);
+                        break;
+                    case 'summary':
+                        this.showSummary(data.data);
+                        break;
+                    case 'flights':
+                        this.showFlights(data.data);
+                        break;
+                    case 'hotels':
+                        this.showHotels(data.data);
+                        break;
+                    case 'attractions':
+                        this.showAttractions(data.data);
+                        break;
+                    case 'itinerary':
+                        this.showItinerary(data.data);
+                        break;
+                    case 'budget':
+                        this.showBudget(data.data);
+                        break;
+                    case 'tips':
+                        this.showTips(data.data);
+                        break;
+                    case 'complete':
+                        this.onComplete(data.message);
+                        break;
+                    case 'error':
+                        this.showError(data.message);
+                        break;
+                }
+            }
+            
+            updateProgress(percentage, message) {
+                this.progressFill.style.width = `${percentage}%`;
+                this.statusText.textContent = message;
+                this.statusPercentage.textContent = `${percentage}%`;
+            }
+            
+            showIntent(intentData) {
+                this.intentDisplay.style.display = 'block';
+                const components = intentData.components;
+                
+                let html = '';
+                if (components.flights) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">✈️ Flights</span>';
+                if (components.hotels) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">🏨 Hotels</span>';
+                if (components.attractions) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">🎯 Attractions</span>';
+                if (components.itinerary) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">📅 Itinerary</span>';
+                if (components.budget) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">💰 Budget</span>';
+                if (components.tips) html += '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">💡 Tips</span>';
+                
+                this.intentContent.innerHTML = html || '<span>Processing your request...</span>';
+            }
+            
+            showSummary(summary) {
+                this.resultsContainer.style.display = 'block';
+                const html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-map-marked-alt"></i>
+                                Trip Summary
+                            </div>
+                        </div>
+                        <div style="display: grid; gap: 1rem;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: 1.5rem; font-weight: 600;">
+                                <span>${summary.origin}</span>
+                                <i class="fas fa-plane" style="color: var(--text-accent);"></i>
+                                <span>${summary.destination}</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-calendar" style="color: var(--text-accent);"></i>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Departure</div>
+                                    <div>${new Date(summary.departure_date).toLocaleDateString()}</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-clock" style="color: var(--text-accent);"></i>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Duration</div>
+                                    <div>${summary.duration_days} days</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-users" style="color: var(--text-accent);"></i>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Travelers</div>
+                                    <div>${summary.travelers}</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-tag" style="color: var(--text-accent);"></i>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Type</div>
+                                    <div>${summary.travel_type}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                this.resultsContainer.innerHTML = html;
+            }
+            
+            showFlights(flights) {
+                if (!flights || (!flights.outbound && !flights.return)) return;
+                
+                let html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-plane"></i>
+                                Flight Options
+                            </div>
+                            <span class="result-badge">${flights.total_options} flights</span>
+                        </div>
+                        <div class="flights-grid">
+                `;
+                
+                // Show outbound flights
+                if (flights.outbound && flights.outbound.length > 0) {
+                    html += '<h3 style="margin-bottom: 1rem;">Outbound Flights</h3>';
+                    flights.outbound.forEach(flight => {
+                        html += this.createFlightCard(flight);
+                    });
+                }
+                
+                // Show return flights
+                if (flights.return && flights.return.length > 0) {
+                    html += '<h3 style="margin-top: 2rem; margin-bottom: 1rem;">Return Flights</h3>';
+                    flights.return.forEach(flight => {
+                        html += this.createFlightCard(flight);
+                    });
+                }
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            createFlightCard(flight) {
+                const departure = new Date(flight['Departure']);
+                const arrival = new Date(flight['Arrival']);
+                const price = parseFloat(flight['Total Price']) || 0;
+                
+                return `
+                    <div class="flight-card">
+                        <div class="flight-header">
+                            <div class="airline-info">
+                                <div class="airline-logo">${flight['Airline Code']}</div>
+                                <div class="airline-details">
+                                    <div class="airline-name">${flight['Airline Name']}</div>
+                                    <div class="flight-number">Flight ${flight['Airline Code']}${Math.floor(Math.random() * 900) + 100}</div>
+                                </div>
+                            </div>
+                            <div class="flight-price">
+                                <div class="price">₹${price.toLocaleString()}</div>
+                                <div class="price-note">per person</div>
+                            </div>
+                        </div>
+                        <div class="flight-route">
+                            <div class="route-point">
+                                <div class="route-time">${departure.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                <div class="route-code">${flight['Source']}</div>
+                            </div>
+                            <div class="route-line">
+                                <i class="plane-icon fas fa-plane"></i>
+                                <div class="flight-stops">${flight['Number of Stops'] === 0 ? 'Direct' : `${flight['Number of Stops']} stop(s)`}</div>
+                            </div>
+                            <div class="route-point">
+                                <div class="route-time">${arrival.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                <div class="route-code">${flight['Destination']}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showHotels(hotels) {
+                if (!hotels || !hotels.options || hotels.options.length === 0) return;
+                
+                let html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-bed"></i>
+                                Accommodation Options
+                            </div>
+                            <span class="result-badge">${hotels.total_options} hotels</span>
+                        </div>
+                        <div class="hotels-grid">
+                `;
+                
+                hotels.options.forEach(hotel => {
+                    const price = parseFloat(hotel['Total Price']) || 0;
+                    const rating = parseFloat(hotel['Rating']) || 0;
+                    
+                    html += `
+                        <div class="hotel-card">
+                            <div class="hotel-image">🏨</div>
+                            <div class="hotel-content">
+                                <div class="hotel-header">
+                                    <div class="hotel-name">${hotel['Hotel Name']}</div>
+                                    <div class="hotel-rating">
+                                        ${rating > 0 ? '⭐'.repeat(Math.floor(rating)) : 'No rating'}
+                                    </div>
+                                </div>
+                                <div class="hotel-details">
+                                    <div class="hotel-detail">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        ${hotel['City']}
+                                    </div>
+                                    <div class="hotel-detail">
+                                        <i class="fas fa-bed"></i>
+                                        ${hotel['Room Type']}
+                                    </div>
+                                </div>
+                                <div class="hotel-footer">
+                                    <div class="hotel-price">₹${price.toLocaleString()}<span>/night</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showAttractions(attractions) {
+                if (!attractions) return;
+                
+                let html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-map-signs"></i>
+                                Things to Do
+                            </div>
+                        </div>
+                        <div style="display: grid; gap: 2rem;">
+                `;
+                
+                if (attractions.must_visit && attractions.must_visit.length > 0) {
+                    html += '<div><h3 style="margin-bottom: 1rem;">Must Visit Places</h3><div style="display: grid; gap: 1rem;">';
+                    attractions.must_visit.forEach(place => {
+                        html += `
+                            <div style="padding: 1rem; background: var(--bg-hover); border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <strong>${place.name}</strong>
+                                    <span style="padding: 0.25rem 0.75rem; background: var(--primary-gradient); color: white; border-radius: 20px; font-size: 0.875rem;">
+                                        ${place.category}
+                                    </span>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem;">${place.description}</p>
+                            </div>
+                        `;
+                    });
+                    html += '</div></div>';
+                }
+                
+                if (attractions.dining && attractions.dining.length > 0) {
+                    html += '<div><h3 style="margin-bottom: 1rem;">Recommended Dining</h3><div style="display: grid; gap: 1rem;">';
+                    attractions.dining.forEach(restaurant => {
+                        html += `
+                            <div style="padding: 1rem; background: var(--bg-hover); border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <strong>${restaurant.name}</strong>
+                                    <span style="color: var(--text-accent);">${restaurant.price_range}</span>
+                                </div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                    ${restaurant.cuisine_type}
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem;">${restaurant.description}</p>
+                            </div>
+                        `;
+                    });
+                    html += '</div></div>';
+                }
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showItinerary(itinerary) {
+                if (!itinerary || itinerary.length === 0) return;
+                
+                let html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-calendar-alt"></i>
+                                Day-by-Day Itinerary
+                            </div>
+                        </div>
+                        <div class="itinerary-timeline">
+                `;
+                
+                itinerary.forEach(day => {
+                    html += `
+                        <div class="itinerary-day">
+                            <div class="day-header">
+                                <div class="day-number">Day ${day.day_number}</div>
+                                <div class="day-theme">${day.theme}</div>
+                            </div>
+                            <div class="day-activities">
+                    `;
+                    
+                    if (day.activities) {
+                        day.activities.forEach(activity => {
+                            html += `
+                                <div class="activity-item">
+                                    <div class="activity-time">${activity.time}</div>
+                                    <div class="activity-details">
+                                        <div class="activity-name">${activity.name}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    html += '</div></div>';
+                });
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showBudget(budget) {
+                if (!budget) return;
+                
+                const html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-calculator"></i>
+                                Budget Estimate
+                            </div>
+                        </div>
+                        <div style="display: grid; gap: 2rem;">
+                            <div style="text-align: center; padding: 2rem; background: var(--primary-gradient); border-radius: 12px; color: white;">
+                                <div style="font-size: 3rem; font-weight: 700;">₹${budget.total.toLocaleString()}</div>
+                                <div style="font-size: 1.25rem; opacity: 0.9;">Total Estimated Cost</div>
+                                <div style="margin-top: 1rem; font-size: 1rem;">₹${budget.per_person.toLocaleString()} per person</div>
+                            </div>
+                            <div style="display: grid; gap: 1rem;">
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--bg-hover); border-radius: 8px;">
+                                    <span><i class="fas fa-plane"></i> Flights</span>
+                                    <strong>₹${budget.flights.toLocaleString()}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--bg-hover); border-radius: 8px;">
+                                    <span><i class="fas fa-bed"></i> Accommodation</span>
+                                    <strong>₹${budget.accommodation.toLocaleString()}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--bg-hover); border-radius: 8px;">
+                                    <span><i class="fas fa-utensils"></i> Food & Activities</span>
+                                    <strong>₹${budget.activities_food.toLocaleString()}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--bg-hover); border-radius: 8px;">
+                                    <span><i class="fas fa-car"></i> Local Transport</span>
+                                    <strong>₹${budget.local_transport.toLocaleString()}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            showTips(tips) {
+                if (!tips) return;
+                
+                let html = `
+                    <div class="result-card">
+                        <div class="result-card-header">
+                            <div class="result-card-title">
+                                <i class="result-card-icon fas fa-lightbulb"></i>
+                                Travel Tips
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                `;
+                
+                if (tips.best_time_to_visit) {
+                    html += `
+                        <div style="padding: 1.5rem; background: var(--bg-hover); border-radius: 12px;">
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-cloud-sun"></i> Best Time to Visit</h4>
+                            <p style="color: var(--text-secondary);">${tips.best_time_to_visit}</p>
+                        </div>
+                    `;
+                }
+                
+                if (tips.what_to_pack && tips.what_to_pack.length > 0) {
+                    html += `
+                        <div style="padding: 1.5rem; background: var(--bg-hover); border-radius: 12px;">
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-suitcase"></i> What to Pack</h4>
+                            <ul style="color: var(--text-secondary); padding-left: 1.5rem;">
+                                ${tips.what_to_pack.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                if (tips.safety_tips) {
+                    html += `
+                        <div style="padding: 1.5rem; background: var(--bg-hover); border-radius: 12px;">
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-shield-alt"></i> Safety Tips</h4>
+                            <p style="color: var(--text-secondary);">${tips.safety_tips}</p>
+                        </div>
+                    `;
+                }
+                
+                if (tips.money_tips) {
+                    html += `
+                        <div style="padding: 1.5rem; background: var(--bg-hover); border-radius: 12px;">
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-money-bill-wave"></i> Money Tips</h4>
+                            <p style="color: var(--text-secondary);">${tips.money_tips}</p>
+                        </div>
+                    `;
+                }
+                
+                html += '</div></div>';
+                this.resultsContainer.innerHTML += html;
+            }
+            
+            onComplete(message) {
+                this.updateProgress(100, message || 'Your travel plan is ready!');
+                this.showNotification('success', 'Travel plan created successfully!');
+            }
+            
+            showError(message) {
+                this.updateProgress(0, 'Error occurred');
+                this.showNotification('error', message);
+            }
+            
+            showNotification(type, message) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.5s ease';
+                    setTimeout(() => notification.remove(), 500);
+                }, 5000);
+            }
+            
+            clearResults() {
+                this.resultsContainer.innerHTML = '';
+                this.resultsContainer.style.display = 'none';
+                this.progressSection.style.display = 'none';
+                this.intentDisplay.style.display = 'none';
+                this.updateProgress(0, '');
+            }
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            window.travelPlanner = new SmartTravelPlanner();
+        });
+    </script>
+</body>
+</html>

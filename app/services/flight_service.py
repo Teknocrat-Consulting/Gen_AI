@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 import pandas as pd
 from amadeus import Client, ResponseError
@@ -67,14 +67,20 @@ class FlightService:
                 "role": "system",
                 "content": (
                     "You are an assistant that helps extract flight information from user queries. "
-                    f"Today is {current_date_str}. Extract the following details from the query: "
-                    "1. location_origin: The departure city or airport, ensure it corresponds to a valid airport code "
-                    "2. location_destination: The destination city or airport, ensure it corresponds to a valid airport code "
-                    "3. departure_date: The date of departure "
-                    "4. adults: The number of adult passengers. (If there is no information regarding this then consider only 1 Adult is there)"
-                    "If the query specifies a relative date (e.g., 'next Monday'), convert it to an absolute date. "
-                    "Provide the information in JSON format as follows: "
-                    '{"location_origin": "origin", "location_destination": "destination", "departure_date": "YYYY-MM-DD", "adults": number_of_adults}'
+                    f"CRITICAL: Today's date is {current_date_str}. The current year is {today.year}. "
+                    f"ALL dates MUST be in {today.year} or later. NEVER use years like 2022, 2023, or 2024. "
+                    "Extract the following details from the query: "
+                    "1. location_origin: The departure city or airport (use IATA codes like BOM for Mumbai, DEL for Delhi, etc.) "
+                    "   IMPORTANT: If origin is not specified in the query, return 'MISSING' as the value. "
+                    "2. location_destination: The destination city or airport (use IATA codes) "
+                    "   For states like Rajasthan, use JAI (Jaipur), for Goa use GOI, for Kerala use COK (Kochi) "
+                    f"3. departure_date: The date of departure (MUST be {current_date_str} or later, format: YYYY-MM-DD) "
+                    "4. adults: The number of adult passengers (default is 1 if not specified) "
+                    f"For relative dates: 'tomorrow' = {(today + timedelta(days=1)).strftime('%Y-%m-%d')}, "
+                    f"'next week' = {(today + timedelta(days=7)).strftime('%Y-%m-%d')}, "
+                    f"'next monday' = calculate from today {current_date_str}. "
+                    "Provide the information in JSON format ONLY, no extra text: "
+                    '{"location_origin": "XXX", "location_destination": "XXX", "departure_date": "YYYY-MM-DD", "adults": number}'
                 )
             },
             {
@@ -139,6 +145,39 @@ class FlightService:
             required_keys = ["location_origin", "location_destination", "departure_date", "adults"]
             if not all(key in flight_info for key in required_keys):
                 raise ValueError("Incomplete response from LLM")
+            
+            # Check if origin is missing
+            if flight_info.get("location_origin") in ["MISSING", "XXX", "", None] or len(str(flight_info.get("location_origin", ""))) != 3:
+                logger.warning(f"Origin not specified or invalid: {flight_info.get('location_origin')}")
+                return None  # Return None to indicate origin is missing
+            
+            # Handle state names in destination
+            state_to_airport = {
+                "RAJ": "JAI",  # Rajasthan -> Jaipur
+                "GOA": "GOI",  # Goa
+                "KER": "COK",  # Kerala -> Kochi
+                "PUN": "PNQ",  # Punjab -> Pune
+                "GUJ": "AMD",  # Gujarat -> Ahmedabad
+            }
+            
+            dest = flight_info.get("location_destination", "")
+            if dest in state_to_airport:
+                logger.info(f"Converting state code {dest} to airport {state_to_airport[dest]}")
+                flight_info["location_destination"] = state_to_airport[dest]
+            
+            # Validate and fix departure date
+            today = datetime.now()
+            tomorrow = today + timedelta(days=1)
+            
+            try:
+                dep_date = datetime.strptime(flight_info["departure_date"], "%Y-%m-%d")
+                # If date is in the past, use tomorrow
+                if dep_date.date() < today.date():
+                    logger.warning(f"Departure date {flight_info['departure_date']} is in the past, using tomorrow")
+                    flight_info["departure_date"] = tomorrow.strftime("%Y-%m-%d")
+            except:
+                logger.warning(f"Invalid date format, using tomorrow")
+                flight_info["departure_date"] = tomorrow.strftime("%Y-%m-%d")
             
             return flight_info
         except json.JSONDecodeError as e:
@@ -248,6 +287,7 @@ class FlightService:
         
         result = self.extract_flight_info_from_query(query)
         if not result:
+            logger.warning("Could not extract flight info - origin might be missing")
             return None, None, None
         
         logger.info(f"Extracted flight info: {result}")
