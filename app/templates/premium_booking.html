@@ -245,8 +245,11 @@
             const sessionCookie = getCookie('session_token');
             const user = localStorage.getItem('user');
             
+            console.log('[CLIENT AUTH] Checking authentication status...');
+            
             // Skip authentication check if we have a session
             if (!sessionToken && !sessionCookie) {
+                console.log('[CLIENT AUTH] No session found - redirecting to auth page');
                 // User not authenticated, redirect to auth page
                 window.location.href = '/auth?redirect=' + encodeURIComponent(window.location.pathname);
                 return;
@@ -256,10 +259,12 @@
             if (user) {
                 try {
                     const userData = JSON.parse(user);
+                    const userEmail = userData.email || 'unknown';
+                    console.log(`[CLIENT AUTH] User authenticated: ${userEmail}`);
                     document.getElementById('authText').textContent = userData.name || userData.email || 'Account';
                     document.getElementById('userEmail').textContent = userData.email || '';
                 } catch (e) {
-                    console.error('Error parsing user data:', e);
+                    console.error('[CLIENT AUTH] Error parsing user data:', e);
                 }
             }
         }
@@ -277,9 +282,22 @@
         }
 
         async function logout() {
+            const user = localStorage.getItem('user');
+            let userEmail = 'unknown';
+            
+            try {
+                const userData = JSON.parse(user);
+                userEmail = userData.email || 'unknown';
+            } catch (e) {
+                // Ignore parse error
+            }
+            
+            console.log(`[CLIENT AUTH] Logout initiated for user: ${userEmail}`);
+            
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
                 try {
+                    console.log('[CLIENT AUTH] Sending logout request to server...');
                     await fetch('/auth/logout', {
                         method: 'POST',
                         headers: {
@@ -287,16 +305,22 @@
                             'Content-Type': 'application/json'
                         }
                     });
+                    console.log('[CLIENT AUTH] Server logout successful');
                 } catch (error) {
-                    console.error('Logout error:', error);
+                    console.error('[CLIENT AUTH] Logout error:', error);
                 }
             }
             
             // Clear local storage
+            console.log('[CLIENT AUTH] Clearing local storage and cookies...');
             localStorage.removeItem('session_token');
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('user');
             
+            // Clear session cookie
+            document.cookie = 'session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            
+            console.log('[CLIENT AUTH] Redirecting to auth page...');
             // Redirect to auth page
             window.location.href = '/auth';
         }
@@ -842,14 +866,20 @@
             const sessionToken = localStorage.getItem('session_token');
             const user = localStorage.getItem('user');
             
+            console.log('[CLIENT AUTH] Checking auth status for UI update...');
+            
             if (sessionToken && user) {
                 try {
                     const userData = JSON.parse(user);
+                    const userEmail = userData.email || 'unknown';
+                    console.log(`[CLIENT AUTH] User session found: ${userEmail}`);
                     updateAuthUI(true, userData.name || userData.email);
                 } catch (e) {
+                    console.error('[CLIENT AUTH] Error parsing user data for UI:', e);
                     updateAuthUI(false);
                 }
             } else {
+                console.log('[CLIENT AUTH] No valid session found');
                 updateAuthUI(false);
             }
         }
@@ -875,33 +905,6 @@
             if (confirm('Do you want to logout?')) {
                 logout();
             }
-        }
-
-        async function logout() {
-            const refreshToken = localStorage.getItem('refresh_token');
-            
-            if (refreshToken) {
-                try {
-                    await fetch('/auth/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${refreshToken}`
-                        }
-                    });
-                } catch (e) {
-                    console.log('Logout request failed:', e);
-                }
-            }
-            
-            // Clear local storage
-            localStorage.removeItem('session_token');
-            localStorage.removeItem('refresh_token');
-            localStorage.removeItem('user');
-            
-            // Update UI
-            updateAuthUI(false);
-            
-            alert('Logged out successfully');
         }
 
         // Add authorization header to API requests

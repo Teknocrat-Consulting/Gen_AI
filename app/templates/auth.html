@@ -269,15 +269,17 @@
         const signupWc = document.getElementById('signup-wc');
 
         const onSuccess = async (e) => {
-            console.log('Authentication successful');
-            console.log('User:', e.detail.user);
-            console.log('Email:', e.detail.user?.email);
+            const userEmail = e.detail.user?.email || 'unknown';
+            console.log('[CLIENT AUTH] Authentication successful');
+            console.log(`[CLIENT AUTH] User logged in: ${userEmail}`);
+            console.log('[CLIENT AUTH] User details:', e.detail.user);
             
             // Store session information
             const sessionToken = e.detail.sessionJwt;
             const refreshToken = e.detail.refreshJwt;
             const user = e.detail.user;
             
+            console.log('[CLIENT AUTH] Storing session tokens in localStorage and cookies...');
             // Store tokens in localStorage
             localStorage.setItem('session_token', sessionToken);
             localStorage.setItem('refresh_token', refreshToken);
@@ -293,6 +295,7 @@
                 // Check if there's a redirect URL in query params
                 const urlParams = new URLSearchParams(window.location.search);
                 const redirectUrl = urlParams.get('redirect') || '/';
+                console.log(`[CLIENT AUTH] Redirecting to: ${redirectUrl}`);
                 window.location.href = redirectUrl;
             }, 1000);
         };
