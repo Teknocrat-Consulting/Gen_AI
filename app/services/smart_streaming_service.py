@@ -330,6 +330,12 @@ class SmartStreamingService:
             if flight_df is not None and not flight_df.empty:
                 # Convert DataFrame to list of dicts
                 flights_list = flight_df.to_dict('records')
+                logger.info(f"Found {len(flights_list)} flights from Amadeus API")
+                
+                # Log sample flight data for debugging
+                if flights_list:
+                    sample_flight = flights_list[0]
+                    logger.info(f"Sample flight data - Airline: {sample_flight.get('Airline Name')}, Price: {sample_flight.get('Total Price')}, Currency: {sample_flight.get('Currency')}")
                 
                 # Separate outbound and return flights based on direction
                 for flight in flights_list:
@@ -364,6 +370,13 @@ class SmartStreamingService:
             if hotel_df is not None and not hotel_df.empty:
                 # Convert DataFrame to list of dicts
                 hotels_list = hotel_df.to_dict('records')
+                logger.info(f"Found {len(hotels_list)} hotels from Amadeus API")
+                
+                # Log sample hotel data for debugging
+                if hotels_list:
+                    sample_hotel = hotels_list[0]
+                    logger.info(f"Sample hotel data - Name: {sample_hotel.get('Hotel Name')}, Price: {sample_hotel.get('Total Price')}, Currency: {sample_hotel.get('Currency')}")
+                
                 return hotels_list
             
             return []
@@ -449,18 +462,56 @@ class SmartStreamingService:
                 outbound = flights.get('outbound', [])
                 inbound = flights.get('return', [])
                 if outbound:
-                    flight_cost += float(outbound[0].get('Total Price', 15000))
+                    # Try to extract price from first outbound flight
+                    try:
+                        price_str = str(outbound[0].get('Total Price', '')).replace(',', '')
+                        if price_str and price_str != 'N/A':
+                            flight_cost += float(price_str)
+                        else:
+                            logger.warning(f"No valid price for outbound flight, using estimate")
+                            flight_cost += 15000
+                    except (ValueError, TypeError) as e:
+                        logger.warning(f"Error parsing outbound flight price: {e}")
+                        flight_cost += 15000
+                        
                 if inbound:
-                    flight_cost += float(inbound[0].get('Total Price', 15000))
+                    # Try to extract price from first return flight
+                    try:
+                        price_str = str(inbound[0].get('Total Price', '')).replace(',', '')
+                        if price_str and price_str != 'N/A':
+                            flight_cost += float(price_str)
+                        else:
+                            logger.warning(f"No valid price for return flight, using estimate")
+                            flight_cost += 15000
+                    except (ValueError, TypeError) as e:
+                        logger.warning(f"Error parsing return flight price: {e}")
+                        flight_cost += 15000
             else:
+                logger.info("No flights data available, using default estimate")
                 flight_cost = 30000  # Default estimate
             
             # Calculate hotel costs
             hotel_cost = 0
             if hotels and len(hotels) > 0:
-                avg_hotel_price = sum(float(h.get('Total Price', 3000)) for h in hotels[:3]) / min(3, len(hotels))
-                hotel_cost = avg_hotel_price * (days - 1)  # nights = days - 1
+                valid_prices = []
+                for h in hotels[:5]:  # Check up to 5 hotels
+                    try:
+                        price_str = str(h.get('Total Price', '')).replace(',', '')
+                        if price_str and price_str != 'N/A':
+                            valid_prices.append(float(price_str))
+                    except (ValueError, TypeError) as e:
+                        logger.warning(f"Error parsing hotel price: {e}")
+                        continue
+                
+                if valid_prices:
+                    avg_hotel_price = sum(valid_prices) / len(valid_prices)
+                    hotel_cost = avg_hotel_price * (days - 1)  # nights = days - 1
+                    logger.info(f"Calculated hotel cost from {len(valid_prices)} hotels: {hotel_cost}")
+                else:
+                    logger.warning("No valid hotel prices found, using default estimate")
+                    hotel_cost = 3000 * (days - 1)
             else:
+                logger.info("No hotels data available, using default estimate")
                 hotel_cost = 3000 * (days - 1)  # Default estimate
             
             # Estimate other costs

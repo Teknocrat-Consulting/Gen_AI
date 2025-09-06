@@ -4610,3 +4610,586 @@ KeyError: 'attractions'
 2025-09-06 21:33:36,476 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-09-06 21:33:41,171 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-09-06 21:33:44,758 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:44:07,276 - app.core.logging - INFO - Shutting down application
+2025-09-06 21:44:07,276 - app.core.logging - INFO - Shutting down application
+2025-09-06 21:44:07,285 - app.core.logging - INFO - Shutting down application
+2025-09-06 21:44:07,287 - app.core.logging - INFO - Shutting down application
+2025-09-06 21:44:12,712 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,734 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,734 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,734 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,736 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,756 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,756 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,759 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,763 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,783 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,783 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,786 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:12,862 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:44:12,872 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:44:12,874 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:44:12,876 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:44:52,514 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to mumdai for day for 2 peoplr
+2025-09-06 21:44:52,524 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 21:44:52,541 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:52,554 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:44:52,567 - app.core.logging - INFO - Detecting intent for: i want to go delhi to mumdai for day for 2 peoplr
+2025-09-06 21:44:54,252 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:44:55,065 - app.core.logging - INFO - Processing flight search query: flight from delhi to mumdai on 2025-09-07 returning 2025-09-08 for 2 adults
+2025-09-06 21:44:55,066 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 21:44:55,066 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 21:44:55,066 - app.core.logging - INFO - User message: flight from delhi to mumdai on 2025-09-07 returning 2025-09-08 for 2 adults
+2025-09-06 21:44:56,640 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:44:56,653 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-07", "adults": 2}
+2025-09-06 21:44:56,653 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-07', 'adults': 2}
+2025-09-06 21:45:02,798 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-06 21:45:03,503 - app.core.logging - INFO - Processing hotel search query: hotels in mumdai from 2025-09-07 to 2025-09-08 for 2 adults
+2025-09-06 21:45:03,503 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 21:45:06,500 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:06,503 - app.core.logging - INFO - OpenAI response: ```json
+{
+  "location": "mumdai",
+  "check_in_date": "2025-09-07",
+  "check_out_date": "2025-09-08",
+  "adults": 2,
+  "rooms": 1,
+  "price_range": "moderate",
+  "amenities": [],
+  "hotel_rating": null
+}
+```
+2025-09-06 21:45:06,504 - app.core.logging - INFO - Extracted hotel info: {'location': 'mumdai', 'check_in_date': '2025-09-07', 'check_out_date': '2025-09-08', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 21:45:08,818 - app.core.logging - WARNING - No city code found for mumdai
+2025-09-06 21:45:08,819 - app.core.logging - ERROR - Could not find city code for mumdai
+2025-09-06 21:45:14,458 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:17,743 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:20,807 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:49,762 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to mumdai for day for 2 people
+2025-09-06 21:45:49,770 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 21:45:49,788 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:45:49,803 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:45:49,817 - app.core.logging - INFO - Detecting intent for: i want to go delhi to mumdai for day for 2 people
+2025-09-06 21:45:51,242 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:52,068 - app.core.logging - INFO - Processing flight search query: flight from delhi to mumdai on 2025-09-07 returning 2025-09-09 for 2 adults
+2025-09-06 21:45:52,068 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 21:45:52,068 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 21:45:52,068 - app.core.logging - INFO - User message: flight from delhi to mumdai on 2025-09-07 returning 2025-09-09 for 2 adults
+2025-09-06 21:45:53,370 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:45:53,371 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-07", "adults": 2}
+2025-09-06 21:45:53,372 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-07', 'adults': 2}
+2025-09-06 21:45:59,323 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-06 21:46:00,026 - app.core.logging - INFO - Processing hotel search query: hotels in mumdai from 2025-09-07 to 2025-09-09 for 2 adults
+2025-09-06 21:46:00,027 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 21:46:01,769 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:46:01,784 - app.core.logging - INFO - OpenAI response: ```json
+{
+  "location": "mumdai",
+  "check_in_date": "2025-09-07",
+  "check_out_date": "2025-09-09",
+  "adults": 2,
+  "rooms": 1,
+  "price_range": "moderate",
+  "amenities": [],
+  "hotel_rating": null
+}
+```
+2025-09-06 21:46:01,784 - app.core.logging - INFO - Extracted hotel info: {'location': 'mumdai', 'check_in_date': '2025-09-07', 'check_out_date': '2025-09-09', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 21:46:04,430 - app.core.logging - WARNING - No city code found for mumdai
+2025-09-06 21:46:04,432 - app.core.logging - ERROR - Could not find city code for mumdai
+2025-09-06 21:46:10,375 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:46:15,182 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:46:18,050 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:53:59,267 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,280 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,280 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,292 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,307 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,311 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,334 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,342 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,345 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,353 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,372 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,408 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:53:59,455 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:53:59,461 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:53:59,472 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:53:59,507 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 21:54:08,837 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to mumdai for day for 2 people
+2025-09-06 21:54:08,840 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 21:54:08,862 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:54:08,879 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 21:54:08,895 - app.core.logging - INFO - Detecting intent for: i want to go delhi to mumdai for day for 2 people
+2025-09-06 21:54:10,487 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:54:11,314 - app.core.logging - INFO - Processing flight search query: flight from delhi to mumdai on 2025-09-07 returning 2025-09-08 for 2 adults
+2025-09-06 21:54:11,315 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 21:54:11,315 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 21:54:11,316 - app.core.logging - INFO - User message: flight from delhi to mumdai on 2025-09-07 returning 2025-09-08 for 2 adults
+2025-09-06 21:54:14,043 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:54:14,045 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "BOM", "departure_date": "2025-09-07", "adults": 2}
+2025-09-06 21:54:14,046 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-07', 'adults': 2}
+2025-09-06 21:55:19,824 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-06 21:55:19,825 - app.core.logging - INFO - Found 12 flights from Amadeus API
+2025-09-06 21:55:19,825 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 9717.89, Currency: INR
+2025-09-06 21:55:20,526 - app.core.logging - INFO - Processing hotel search query: hotels in mumdai from 2025-09-07 to 2025-09-08 for 2 adults
+2025-09-06 21:55:20,526 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 21:55:23,679 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:55:23,679 - app.core.logging - INFO - OpenAI response: ```json
+{
+  "location": "mumdai",
+  "check_in_date": "2025-09-07",
+  "check_out_date": "2025-09-08",
+  "adults": 2,
+  "rooms": 1,
+  "price_range": "moderate",
+  "amenities": [],
+  "hotel_rating": null
+}
+```
+2025-09-06 21:55:23,680 - app.core.logging - INFO - Extracted hotel info: {'location': 'mumdai', 'check_in_date': '2025-09-07', 'check_out_date': '2025-09-08', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 21:55:35,016 - app.core.logging - WARNING - No city code found for mumdai
+2025-09-06 21:55:35,016 - app.core.logging - ERROR - Could not find city code for mumdai
+2025-09-06 21:55:39,637 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:55:43,645 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 21:55:44,046 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-06 21:55:46,528 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:04:47,486 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:04:47,501 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:04:47,520 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:04:47,581 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:06:44,853 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:06:52,027 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,042 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,050 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,051 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,067 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,075 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,077 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,082 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,098 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,102 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,113 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,133 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:52,204 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:06:52,214 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:06:52,233 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:06:52,244 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:06:57,752 - app.core.logging - INFO - Starting streaming travel plan for query: Hotels in Goa for this weekend
+2025-09-06 22:06:57,755 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:06:57,771 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:57,788 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:06:57,806 - app.core.logging - INFO - Detecting intent for: Hotels in Goa for this weekend
+2025-09-06 22:06:59,560 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:08,073 - app.core.logging - INFO - Starting streaming travel plan for query: Hotels in delhi to Goa for this weekend
+2025-09-06 22:07:08,081 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:07:08,096 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:07:08,111 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:07:08,124 - app.core.logging - INFO - Detecting intent for: Hotels in delhi to Goa for this weekend
+2025-09-06 22:07:09,900 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:10,706 - app.core.logging - INFO - Processing flight search query: flight from delhi to Goa on 2025-09-13 returning 2025-09-16 for 1 adults
+2025-09-06 22:07:10,706 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 22:07:10,706 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 22:07:10,706 - app.core.logging - INFO - User message: flight from delhi to Goa on 2025-09-13 returning 2025-09-16 for 1 adults
+2025-09-06 22:07:12,458 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:12,461 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "GOI", "departure_date": "2025-09-13", "adults": 1}
+2025-09-06 22:07:12,462 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'GOI', 'departure_date': '2025-09-13', 'adults': 1}
+2025-09-06 22:07:19,111 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-06 22:07:19,113 - app.core.logging - INFO - Found 14 flights from Amadeus API
+2025-09-06 22:07:19,113 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3702.35, Currency: INR
+2025-09-06 22:07:19,815 - app.core.logging - INFO - Processing hotel search query: hotels in Goa from 2025-09-13 to 2025-09-16 for 1 adults
+2025-09-06 22:07:19,815 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:07:21,920 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:21,920 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-16", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:07:21,921 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-13', 'check_out_date': '2025-09-16', 'adults': 1, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:07:21,921 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:07:21,921 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-16
+2025-09-06 22:07:42,516 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:07:42,516 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:07:46,761 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:07:46,762 - app.core.logging - ERROR - No hotels found or error in forming dataframe
+2025-09-06 22:07:51,574 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:57,623 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:07:58,034 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-06 22:08:00,480 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:10:20,857 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:10:22,244 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:10:22,264 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:10:22,287 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:10:22,363 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:10:25,563 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:10:25,587 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:10:25,587 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-07, check-out: 2025-09-09
+2025-09-06 22:10:28,321 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:10:28,321 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:10:30,115 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:10:30,115 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:10:30,115 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-16
+2025-09-06 22:10:31,823 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:10:31,824 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:10:34,483 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:10:34,484 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:10:34,485 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-20, check-out: 2025-09-23
+2025-09-06 22:10:36,224 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:10:36,225 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:10:38,168 - app.core.logging - ERROR - Hotel search error: [400]
+[hotelIds=FGGOICID] Provider Error - VERIFY CHAIN/REP CODE
+2025-09-06 22:10:38,168 - app.core.logging - ERROR - Error details - Code: ClientError
+2025-09-06 22:10:38,169 - app.core.logging - ERROR - Error response: {"errors":[{"code":1351,"title":"VERIFY CHAIN/REP CODE","status":400,"detail":"Provider Error - VERIFY CHAIN/REP CODE","source":{"parameter":"hotelIds=FGGOICID"}}]}
+2025-09-06 22:10:38,169 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:10:38,169 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-10-06, check-out: 2025-10-09
+2025-09-06 22:10:39,810 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:10:39,810 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:10:45,426 - app.core.logging - INFO - Found 1 hotel offers
+2025-09-06 22:10:48,590 - app.core.logging - ERROR - Hotel location search error: [400]
+[hotelIds=ONGOISIL] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED
+2025-09-06 22:10:48,591 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:10:50,267 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:10:50,294 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-07", "check_out_date": "2025-09-08", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:10:50,295 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:10:52,534 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:10:52,542 - app.core.logging - INFO - OpenAI response: {"location": "Delhi", "check_in_date": "2025-09-07", "check_out_date": "2025-09-08", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:10:52,542 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:10:54,484 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:10:54,487 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-16", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:10:54,487 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:10:56,785 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:10:56,801 - app.core.logging - INFO - OpenAI response: {"location": "Mumbai", "check_in_date": "2025-09-07", "check_out_date": "2025-09-08", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:11:22,485 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:11:23,820 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:23,839 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:23,862 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:23,958 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:11:42,430 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:11:43,632 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:43,650 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:43,669 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:43,729 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:11:51,621 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:11:51,647 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:11:53,945 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:11:54,000 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-15", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:11:54,000 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:11:54,000 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-15
+2025-09-06 22:11:57,845 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:11:57,845 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:11:57,845 - app.core.logging - INFO - Searching offers for batch 1: ['ONGOIZAH', 'UZGOI673', 'PDGOI297']
+2025-09-06 22:11:59,884 - app.core.logging - INFO - Searching offers for batch 2: ['ILGOI073', 'ILGOI366', 'ILGOI693']
+2025-09-06 22:12:01,825 - app.core.logging - WARNING - Error searching batch ['ILGOI073', 'ILGOI366', 'ILGOI693']: [400]
+[hotelIds=ILGOI073,ILGOI366,ILGOI693] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:12:01,826 - app.core.logging - INFO - Searching offers for batch 3: ['ILGOI067', 'DHGOIAIM', 'HIGOIB6B']
+2025-09-06 22:12:04,429 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-06 22:12:04,429 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-06 22:12:57,290 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:12:57,307 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:12:57,324 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:13:13,193 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,211 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,216 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,219 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,238 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,242 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,243 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,249 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,268 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,273 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,278 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,318 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:13,374 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:13:13,394 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:13:13,395 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:13:13,431 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:13:22,320 - app.core.logging - INFO - Starting streaming travel plan for query: Hotels in delhi to Goa for this weekend
+2025-09-06 22:13:22,325 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:13:22,340 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:22,355 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:13:22,369 - app.core.logging - INFO - Detecting intent for: Hotels in delhi to Goa for this weekend
+2025-09-06 22:13:24,164 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:13:24,975 - app.core.logging - INFO - Processing flight search query: flight from delhi to Goa on 2025-09-13 returning 2025-09-16 for 1 adults
+2025-09-06 22:13:24,976 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 22:13:24,976 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 22:13:24,976 - app.core.logging - INFO - User message: flight from delhi to Goa on 2025-09-13 returning 2025-09-16 for 1 adults
+2025-09-06 22:13:26,461 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:13:26,463 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "GOI", "departure_date": "2025-09-13", "adults": 1}
+2025-09-06 22:13:26,463 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'GOI', 'departure_date': '2025-09-13', 'adults': 1}
+2025-09-06 22:13:36,432 - app.core.logging - INFO - Created dataframe with 14 flights
+2025-09-06 22:13:36,435 - app.core.logging - INFO - Found 14 flights from Amadeus API
+2025-09-06 22:13:36,435 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3702.35, Currency: INR
+2025-09-06 22:13:37,138 - app.core.logging - INFO - Processing hotel search query: hotels in Goa from 2025-09-13 to 2025-09-16 for 1 adults
+2025-09-06 22:13:37,138 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:13:40,789 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:13:40,793 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-16", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:13:40,793 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-13', 'check_out_date': '2025-09-16', 'adults': 1, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:13:40,793 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:13:40,794 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-16
+2025-09-06 22:13:47,827 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:13:47,827 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:13:47,827 - app.core.logging - INFO - Searching offers for batch 1: ['ONGOIDON', 'GZGOILAN', 'ONGOIOCE']
+2025-09-06 22:13:52,353 - app.core.logging - INFO - Searching offers for batch 2: ['ILGOI078', 'DHGOIAPW', 'ILGOI693']
+2025-09-06 22:13:59,784 - app.core.logging - WARNING - Error searching batch ['ILGOI078', 'DHGOIAPW', 'ILGOI693']: [400]
+[hotelIds=DHGOIAPW] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:13:59,785 - app.core.logging - INFO - Searching offers for batch 3: ['ILGOI071', 'ONGOIZAH', 'CXGOI565']
+2025-09-06 22:14:04,088 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:14:04,088 - app.core.logging - INFO - Attempting search with dates 2 weeks out for better availability
+2025-09-06 22:14:04,088 - app.core.logging - INFO - Retrying with dates: 2025-09-27 to 2025-09-30
+2025-09-06 22:14:09,618 - app.core.logging - WARNING - Error with future dates batch: [400]
+[hotelIds=DHGOIAPW] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:14:09,618 - app.core.logging - ERROR - No hotels found or error in forming dataframe
+2025-09-06 22:14:14,124 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:14:18,528 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:14:18,942 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-06 22:14:21,394 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:15:58,157 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:15:59,676 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:15:59,692 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:15:59,713 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:15:59,803 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:18:07,137 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:18:08,754 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:18:08,778 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:18:08,807 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:18:08,933 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:21:02,528 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:21:03,975 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:21:03,996 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:21:04,021 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:21:04,110 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:22:27,699 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:22:27,755 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-10-06, check-out: 2025-10-09
+2025-09-06 22:22:30,554 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:22:30,554 - app.core.logging - INFO - Using 1 known working hotels plus 19 others
+2025-09-06 22:22:30,558 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:22:30,558 - app.core.logging - INFO - Searching offers for batch 1: ['HIGOIB6B', 'ILGOI069', 'ILGOI078']
+2025-09-06 22:22:37,358 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-06 22:22:37,358 - app.core.logging - INFO - Searching offers for batch 2: ['LJGOIICA', 'FGGOIVIS', 'ILGOI066']
+2025-09-06 22:22:39,464 - app.core.logging - WARNING - Error searching batch ['LJGOIICA', 'FGGOIVIS', 'ILGOI066']: [400]
+[hotelIds=FGGOIVIS] Provider Error - VERIFY CHAIN/REP CODE
+2025-09-06 22:22:39,464 - app.core.logging - INFO - Searching offers for batch 3: ['ILGOI071', 'SXGOI367', 'OIGOIKEN']
+2025-09-06 22:22:40,909 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-06 22:24:01,610 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:24:01,649 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:24:01,655 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:24:01,663 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:24:10,011 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,011 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,013 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,016 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,033 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,034 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,035 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,038 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,062 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,066 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,067 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,071 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:10,178 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:24:10,189 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:24:10,189 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:24:10,190 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:24:30,997 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go to goa to delho on nov for 2 day 2 peoplr
+2025-09-06 22:24:31,005 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:24:31,021 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:31,035 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:24:31,049 - app.core.logging - INFO - Detecting intent for: i want to go to goa to delho on nov for 2 day 2 peoplr
+2025-09-06 22:24:32,589 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:03,812 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go to goa to delhi on around 14 november for 2 day 2 people
+2025-09-06 22:25:03,813 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:25:03,844 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:25:03,860 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:25:03,875 - app.core.logging - INFO - Detecting intent for: i want to go to goa to delhi on around 14 november for 2 day 2 people
+2025-09-06 22:25:05,339 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:06,155 - app.core.logging - INFO - Processing flight search query: flight from Goa to Delhi on 2025-11-14 returning 2025-11-16 for 2 adults
+2025-09-06 22:25:06,155 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 22:25:06,155 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 22:25:06,155 - app.core.logging - INFO - User message: flight from Goa to Delhi on 2025-11-14 returning 2025-11-16 for 2 adults
+2025-09-06 22:25:07,734 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:07,735 - app.core.logging - INFO - OpenAI response: {"location_origin": "GOI", "location_destination": "DEL", "departure_date": "2025-11-14", "adults": 2}
+2025-09-06 22:25:07,736 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'GOI', 'location_destination': 'DEL', 'departure_date': '2025-11-14', 'adults': 2}
+2025-09-06 22:25:15,937 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-06 22:25:15,939 - app.core.logging - INFO - Found 12 flights from Amadeus API
+2025-09-06 22:25:15,940 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 15723.47, Currency: INR
+2025-09-06 22:25:16,642 - app.core.logging - INFO - Processing hotel search query: hotels in Delhi from 2025-11-14 to 2025-11-16 for 2 adults
+2025-09-06 22:25:16,642 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:25:20,321 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:20,323 - app.core.logging - INFO - OpenAI response: {"location": "Delhi", "check_in_date": "2025-11-14", "check_out_date": "2025-11-16", "adults": 2, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:25:20,323 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-11-14', 'check_out_date': '2025-11-16', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:25:20,323 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-06 22:25:20,323 - app.core.logging - INFO - Searching hotels for city code: DEL, check-in: 2025-11-14, check-out: 2025-11-16
+2025-09-06 22:25:24,123 - app.core.logging - INFO - Found 177 hotels in DEL
+2025-09-06 22:25:24,123 - app.core.logging - INFO - Using 3 known working hotels plus 17 others
+2025-09-06 22:25:24,123 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:25:24,123 - app.core.logging - INFO - Searching offers for batch 1: ['FGDELSWA', 'TADEL115', 'TJDELGUR']
+2025-09-06 22:25:28,958 - app.core.logging - WARNING - Error searching batch ['FGDELSWA', 'TADEL115', 'TJDELGUR']: [400]
+[hotelIds=FGDELSWA] Provider Error - VERIFY CHAIN/REP CODE
+2025-09-06 22:25:28,958 - app.core.logging - INFO - Searching offers for batch 2: ['WVDELTVI', 'ILDEL168', 'OBDEL015']
+2025-09-06 22:25:30,811 - app.core.logging - WARNING - Error searching batch ['WVDELTVI', 'ILDEL168', 'OBDEL015']: [400]
+[hotelIds=WVDELTVI] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:25:30,811 - app.core.logging - INFO - Searching offers for batch 3: ['SXDEL002', 'XTDEL873', 'YXDEL143']
+2025-09-06 22:25:32,589 - app.core.logging - WARNING - Error searching batch ['SXDEL002', 'XTDEL873', 'YXDEL143']: [400]
+[hotelIds=SXDEL002] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:25:32,590 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:25:32,590 - app.core.logging - INFO - Attempting search with dates 2 weeks out for better availability
+2025-09-06 22:25:32,590 - app.core.logging - INFO - Retrying with dates: 2025-11-28 to 2025-11-30
+2025-09-06 22:25:34,258 - app.core.logging - WARNING - Error with future dates batch: [400]
+[hotelIds=FGDELSWA] Provider Error - VERIFY CHAIN/REP CODE
+2025-09-06 22:25:36,608 - app.core.logging - WARNING - Error with future dates batch: [400]
+[hotelIds=WVDELTVI] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:25:36,609 - app.core.logging - ERROR - No hotels found or error in forming dataframe
+2025-09-06 22:25:44,704 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:49,925 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:25:50,338 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-06 22:25:52,251 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:32:26,511 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:33:15,301 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:33:15,333 - app.core.logging - INFO - Using mapped city code BOM for Mumbai
+2025-09-06 22:33:28,467 - app.core.logging - INFO - Processing hotel search query: hotels in Mumbai from 2025-09-13 to 2025-09-16 for 2 adults
+2025-09-06 22:33:28,467 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:33:30,796 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:33:30,928 - app.core.logging - INFO - OpenAI response: {"location": "Mumbai", "check_in_date": "2025-09-13", "check_out_date": "2025-09-16", "adults": 2, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:33:30,928 - app.core.logging - INFO - Extracted hotel info: {'location': 'Mumbai', 'check_in_date': '2025-09-13', 'check_out_date': '2025-09-16', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:33:30,928 - app.core.logging - INFO - Using mapped city code BOM for Mumbai
+2025-09-06 22:33:30,928 - app.core.logging - INFO - Searching hotels for city code: BOM, check-in: 2025-09-13, check-out: 2025-09-16
+2025-09-06 22:33:36,072 - app.core.logging - INFO - Found 90 hotels in BOM
+2025-09-06 22:33:36,072 - app.core.logging - INFO - Using 3 known working hotels plus 17 others
+2025-09-06 22:33:36,072 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:33:36,072 - app.core.logging - INFO - Searching offers for batch 1: ['RTBOMIIB', 'HSBOMADP', 'YXBOMVMT']
+2025-09-06 22:33:39,208 - app.core.logging - WARNING - Error searching batch ['RTBOMIIB', 'HSBOMADP', 'YXBOMVMT']: [400]
+[hotelIds=RTBOMIIB] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:33:39,208 - app.core.logging - INFO - Searching offers for batch 2: ['YXBOMRES', 'GZBOMHOW', 'IMBOMKHN']
+2025-09-06 22:33:41,222 - app.core.logging - WARNING - Error searching batch ['YXBOMRES', 'GZBOMHOW', 'IMBOMKHN']: [400]
+[hotelIds=GZBOMHOW] Provider Error - UNABLE TO PROCESS
+2025-09-06 22:33:41,223 - app.core.logging - INFO - Searching offers for batch 3: ['YXBOMGCC', 'YXBOM089', 'SBBOMSOF']
+2025-09-06 22:33:42,962 - app.core.logging - WARNING - Error searching batch ['YXBOMGCC', 'YXBOM089', 'SBBOMSOF']: [400]
+[hotelIds=SBBOMSOF] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:33:42,962 - app.core.logging - WARNING - No hotel offers available for selected hotels
+2025-09-06 22:33:42,962 - app.core.logging - INFO - Attempting search with dates 2 weeks out for better availability
+2025-09-06 22:33:42,963 - app.core.logging - INFO - Retrying with dates: 2025-09-27 to 2025-09-30
+2025-09-06 22:33:44,628 - app.core.logging - WARNING - Error with future dates batch: [400]
+[hotelIds=RTBOMIIB] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:33:46,299 - app.core.logging - WARNING - Error with future dates batch: [400]
+[hotelIds=GZBOMHOW] Provider Error - UNABLE TO PROCESS
+2025-09-06 22:33:46,300 - app.core.logging - ERROR - No hotels found or error in forming dataframe
+2025-09-06 22:36:36,779 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:36:36,795 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:36:36,815 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:36:36,885 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:37:24,263 - app.core.logging - INFO - Starting streaming travel plan for query: I need hotels in Mumbai for next weekend, 2 adults
+2025-09-06 22:37:24,266 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:37:24,279 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:37:24,294 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:37:24,309 - app.core.logging - INFO - Detecting intent for: I need hotels in Mumbai for next weekend, 2 adults
+2025-09-06 22:37:26,293 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:37:31,829 - app.core.logging - INFO - Starting streaming travel plan for query: I just need hotels in Goa for this weekend, 2 adults. Not looking for flights.
+2025-09-06 22:37:31,829 - app.core.logging - INFO - Detecting intent for: I just need hotels in Goa for this weekend, 2 adults. Not looking for flights.
+2025-09-06 22:37:33,367 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:37:39,607 - app.core.logging - INFO - Starting streaming travel plan for query: I want to travel from Mumbai to Goa this weekend and need hotels there for 2 adults
+2025-09-06 22:37:39,608 - app.core.logging - INFO - Detecting intent for: I want to travel from Mumbai to Goa this weekend and need hotels there for 2 adults
+2025-09-06 22:37:46,426 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:37:47,243 - app.core.logging - INFO - Processing flight search query: flight from Mumbai to Goa on 2025-09-07 returning 2025-09-09 for 2 adults
+2025-09-06 22:37:47,244 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 22:37:47,244 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 22:37:47,244 - app.core.logging - INFO - User message: flight from Mumbai to Goa on 2025-09-07 returning 2025-09-09 for 2 adults
+2025-09-06 22:37:48,614 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:37:48,615 - app.core.logging - INFO - OpenAI response: {"location_origin": "BOM", "location_destination": "GOI", "departure_date": "2025-09-07", "adults": 2}
+2025-09-06 22:37:48,615 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'GOI', 'departure_date': '2025-09-07', 'adults': 2}
+2025-09-06 22:37:58,755 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-06 22:37:58,756 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-06 22:37:58,756 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3954.85, Currency: INR
+2025-09-06 22:37:59,458 - app.core.logging - INFO - Processing hotel search query: hotels in Goa from 2025-09-07 to 2025-09-09 for 2 adults
+2025-09-06 22:37:59,458 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:38:01,800 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:38:01,803 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-15", "adults": 2, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:38:01,803 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-13', 'check_out_date': '2025-09-15', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:38:01,803 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:38:01,803 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-15
+2025-09-06 22:38:04,943 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:38:04,943 - app.core.logging - INFO - Using 1 known working hotels plus 19 others
+2025-09-06 22:38:04,943 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:38:04,943 - app.core.logging - INFO - Searching offers for batch 1: ['HIGOIB6B', 'YXGOI057', 'ILGOI073']
+2025-09-06 22:38:07,680 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-06 22:38:07,680 - app.core.logging - INFO - Searching offers for batch 2: ['TJGOITAJ', 'IMGOIHVT', 'LJGOIICA']
+2025-09-06 22:38:10,627 - app.core.logging - WARNING - Error searching batch ['TJGOITAJ', 'IMGOIHVT', 'LJGOIICA']: [400]
+[hotelIds=IMGOIHVT,LJGOIICA,TJGOITAJ] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:38:10,627 - app.core.logging - INFO - Searching offers for batch 3: ['TJGOIVIT', 'DHGOIAIM', 'HSGOIAAR']
+2025-09-06 22:38:14,107 - app.core.logging - WARNING - Error searching batch ['TJGOIVIT', 'DHGOIAIM', 'HSGOIAAR']: [400]
+[hotelIds=DHGOIAIM] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:38:14,107 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-06 22:38:14,114 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-06 22:38:14,114 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-06 22:38:14,114 - app.core.logging - INFO - Sample hotel data - Name: HOLIDAY INN RESORT GOA, Price: 21072.44, Currency: INR
+2025-09-06 22:38:19,762 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:38:23,598 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:38:24,001 - app.core.logging - INFO - Calculated hotel cost from 1 hotels: 42144.88
+2025-09-06 22:38:25,957 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:38:56,043 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to goa 2 day trip
+2025-09-06 22:38:56,043 - app.core.logging - INFO - Detecting intent for: i want to go delhi to goa 2 day trip
+2025-09-06 22:38:58,702 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:38:59,504 - app.core.logging - INFO - Processing flight search query: flight from delhi to goa on 2025-09-07 returning 2025-09-09 for 1 adults
+2025-09-06 22:38:59,505 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-06 22:38:59,505 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-06. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-06 22:38:59,505 - app.core.logging - INFO - User message: flight from delhi to goa on 2025-09-07 returning 2025-09-09 for 1 adults
+2025-09-06 22:39:01,086 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:39:01,093 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "GOI", "departure_date": "2025-09-07", "adults": 1}
+2025-09-06 22:39:01,093 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'GOI', 'departure_date': '2025-09-07', 'adults': 1}
+2025-09-06 22:39:13,986 - app.core.logging - INFO - Created dataframe with 12 flights
+2025-09-06 22:39:13,988 - app.core.logging - INFO - Found 12 flights from Amadeus API
+2025-09-06 22:39:13,988 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3702.35, Currency: INR
+2025-09-06 22:39:14,690 - app.core.logging - INFO - Processing hotel search query: hotels in goa from 2025-09-07 to 2025-09-09 for 1 adults
+2025-09-06 22:39:14,690 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:39:17,679 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:39:17,680 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-09-13", "check_out_date": "2025-09-15", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:39:17,681 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-13', 'check_out_date': '2025-09-15', 'adults': 1, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:39:17,681 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:39:17,681 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-09-13, check-out: 2025-09-15
+2025-09-06 22:39:39,872 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:39:39,873 - app.core.logging - INFO - Using 1 known working hotels plus 19 others
+2025-09-06 22:39:39,873 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:39:39,873 - app.core.logging - INFO - Searching offers for batch 1: ['HIGOIB6B', 'ILGOI062', 'ILGOI360']
+2025-09-06 22:39:42,421 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-06 22:39:42,421 - app.core.logging - INFO - Searching offers for batch 2: ['CXGOI565', 'ILGOI081', 'ILGOI059']
+2025-09-06 22:39:47,465 - app.core.logging - WARNING - Error searching batch ['CXGOI565', 'ILGOI081', 'ILGOI059']: [400]
+[hotelIds=CXGOI565] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:39:47,465 - app.core.logging - INFO - Searching offers for batch 3: ['TJGOITAJ', 'ONGOIDON', 'ILGOI083']
+2025-09-06 22:39:49,940 - app.core.logging - WARNING - Error searching batch ['TJGOITAJ', 'ONGOIDON', 'ILGOI083']: [400]
+[hotelIds=ONGOIDON] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED
+2025-09-06 22:39:49,941 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-06 22:39:49,949 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-06 22:39:49,950 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-06 22:39:49,950 - app.core.logging - INFO - Sample hotel data - Name: HOLIDAY INN RESORT GOA, Price: 21072.44, Currency: INR
+2025-09-06 22:39:54,021 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:39:58,219 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:39:58,623 - app.core.logging - INFO - Calculated hotel cost from 1 hotels: 42144.88
+2025-09-06 22:40:00,506 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:40:00,830 - app.core.logging - INFO - Shutting down application
+2025-09-06 22:40:01,955 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:40:01,971 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:40:01,988 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:40:02,043 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-06 22:40:02,044 - app.core.logging - INFO - Starting streaming travel plan for query: Hotels in Goa from Mumbai for 2 adults next month
+2025-09-06 22:40:02,046 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-06 22:40:02,059 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:40:02,072 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-06 22:40:02,085 - app.core.logging - INFO - Detecting intent for: Hotels in Goa from Mumbai for 2 adults next month
+2025-09-06 22:40:05,757 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:40:06,580 - app.core.logging - INFO - Processing hotel search query: hotels in Goa from 2025-10-06 to 2025-10-09 for 2 adults
+2025-09-06 22:40:06,581 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-06 22:40:08,299 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-06 22:40:08,302 - app.core.logging - INFO - OpenAI response: {"location": "Goa", "check_in_date": "2025-10-06", "check_out_date": "2025-10-09", "adults": 2, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-06 22:40:08,303 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-10-06', 'check_out_date': '2025-10-09', 'adults': 2, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-06 22:40:08,303 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-06 22:40:08,303 - app.core.logging - INFO - Searching hotels for city code: GOI, check-in: 2025-10-06, check-out: 2025-10-09
+2025-09-06 22:40:17,264 - app.core.logging - INFO - Found 75 hotels in GOI
+2025-09-06 22:40:17,265 - app.core.logging - INFO - Using 1 known working hotels plus 19 others
+2025-09-06 22:40:17,265 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-06 22:40:17,265 - app.core.logging - INFO - Searching offers for batch 1: ['HIGOIB6B', 'IMGOIHVT', 'FGGOICID']
+2025-09-06 22:40:19,414 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-06 22:40:19,415 - app.core.logging - INFO - Searching offers for batch 2: ['YHGOIGOA', 'DHGOIAIM', 'ILGOI067']
+2025-09-06 22:40:21,256 - app.core.logging - WARNING - Error searching batch ['YHGOIGOA', 'DHGOIAIM', 'ILGOI067']: [400]
+[hotelIds=DHGOIAIM] Provider Error - INVALID PROPERTY CODE
+2025-09-06 22:40:21,256 - app.core.logging - INFO - Searching offers for batch 3: ['ILGOI693', 'IMGOIMHS', 'ILGOI060']
+2025-09-06 22:40:25,458 - app.core.logging - WARNING - Error searching batch ['ILGOI693', 'IMGOIMHS', 'ILGOI060']: [400]
+[hotelIds=ILGOI060,ILGOI693,IMGOIMHS] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-06 22:40:25,458 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-06 22:40:25,461 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-06 22:40:25,462 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-06 22:40:25,462 - app.core.logging - INFO - Sample hotel data - Name: HOLIDAY INN RESORT GOA, Price: 50441.46, Currency: INR

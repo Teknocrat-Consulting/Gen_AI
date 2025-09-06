@@ -132,7 +132,7 @@
     </section>
     
     <!-- Popular Destinations -->
-    <section class="destinations-section">
+    <section class="destinations-section" id="destinationsSection">
         <div class="section-header">
             <h2 class="section-title">Popular Destinations</h2>
             <p class="section-subtitle">Discover amazing places at exclusive deals</p>
@@ -232,6 +232,7 @@
                 this.progressPercentage = document.getElementById('progressPercentage');
                 this.resultsSection = document.getElementById('resultsSection');
                 this.resultsContainer = document.getElementById('resultsContainer');
+                this.destinationsSection = document.getElementById('destinationsSection');
             }
             
             initializeEventListeners() {
@@ -287,6 +288,10 @@
             showProgress() {
                 this.progressContainer.style.display = 'block';
                 this.resultsSection.style.display = 'none';
+                // Hide destinations section
+                if (this.destinationsSection) {
+                    this.destinationsSection.style.display = 'none';
+                }
                 this.updateProgress(0, 'Initializing AI assistant...');
                 
                 // Smooth scroll to progress
