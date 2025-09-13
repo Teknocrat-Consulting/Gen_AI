@@ -1,231 +1,196 @@
-# Flight Booking Agent - AI-Powered Flight Search Assistant
+# AI Travel Booking Assistant
 
-An intelligent flight booking assistant that uses OpenAI's GPT-4o-mini and Amadeus APIs to help users find and analyze flight options through natural language queries.
+A modern AI-powered travel booking assistant built with FastAPI that helps users find hotels, plan itineraries, and make travel bookings using natural language processing.
 
-## 🚀 Features
+## Features
 
-- **Natural Language Processing**: Ask questions in plain English about flights
-- **Real-time Flight Search**: Fetches live flight data from Amadeus API
-- **Intelligent Analysis**: GPT-4o-mini analyzes and presents the best flight options
-- **Interactive Chat Interface**: Continuous conversation for refining searches
-- **Comprehensive Flight Details**: Prices, airlines, timings, and routes
+- **AI-Powered Chat Interface**: Natural language travel planning and booking
+- **Hotel Search**: Find and book hotels using Amadeus API integration
+- **Travel Itinerary Planning**: Generate custom travel itineraries
+- **Real-time Streaming**: Stream travel suggestions in real-time
+- **Authentication**: Secure user authentication with Descope
+- **REST API**: Comprehensive API endpoints for all features
+- **Web Interface**: Premium booking UI with responsive design
 
-## 📋 Prerequisites
+## Tech Stack
 
-- Python 3.8 or higher
-- OpenAI API key with GPT-4o-mini access
-- Amadeus API credentials (Client ID and Secret)
-- pip package manager
+- **Backend**: FastAPI (Python 3.12+)
+- **AI/ML**: OpenAI GPT, LangChain
+- **APIs**: Amadeus Travel API
+- **Authentication**: Descope
+- **Server**: Uvicorn
+- **Package Management**: UV
 
-## 🛠️ Installation
+## Prerequisites
 
-### 1. Clone the Repository
+Before running this application, make sure you have:
 
+- Python 3.12 or higher
+- UV package manager ([Installation guide](https://docs.astral.sh/uv/getting-started/installation/))
+- API keys for:
+  - OpenAI ([Get API key](https://platform.openai.com/api-keys))
+  - Amadeus ([Get credentials](https://developers.amadeus.com))
+  - Descope ([Get Project ID](https://app.descope.com))
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Gen_AI
+   ```
+
+2. **Install dependencies**
+   ```bash
+   uv sync
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` file with your actual API keys:
+   ```env
+   # OpenAI Configuration
+   OPENAI_API_KEY=your_openai_api_key_here
+
+   # Amadeus API Configuration
+   API_Key=your_amadeus_api_key_here
+   API_Secret=your_amadeus_api_secret_here
+
+   # Descope Authentication Configuration
+   DESCOPE_PROJECT_ID=your_descope_project_id_here
+   ```
+
+## Running the Application
+
+### Option 1: Using the development script (Recommended)
 ```bash
-git clone <repository-url>
-cd Gen_AI
+./start-dev.sh
 ```
 
-### 2. Install Required Packages
-
+### Option 2: Using Python directly
 ```bash
-pip install -r requirements.txt
+python run.py
 ```
 
-Or install manually:
-
+### Option 3: Using UV
 ```bash
-pip install python-dotenv langchain langchain-experimental langchain-openai openai amadeus pandas tabulate
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8001
 ```
 
-### 3. Set Up Environment Variables
+The application will be available at:
+- **Main App**: http://localhost:8001
+- **API Documentation**: http://localhost:8001/docs
+- **ReDoc Documentation**: http://localhost:8001/redoc
+- **Chat Interface**: http://localhost:8001/chat
+- **Authentication**: http://localhost:8001/auth
 
-Create a `.env` file in the project root with your API credentials:
+## API Endpoints
 
-```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
+### Core Endpoints
+- `GET /` - Premium booking interface
+- `GET /chat` - Chat interface
+- `GET /auth` - Authentication page
+- `GET /health` - Health check
 
-# Amadeus API Configuration
-API_Key=your_amadeus_client_id
-API_Secret=your_amadeus_client_secret
-```
+### API Routes
+- `POST /api/chat` - Chat with AI assistant
+- `GET /api/hotels/search` - Search hotels
+- `POST /api/travel/itinerary` - Generate travel itinerary
+- `POST /api/travel/streaming` - Stream travel suggestions
+- `POST /api/auth/*` - Authentication endpoints
 
-**Important**: Never commit your `.env` file to version control!
-
-## 🔑 Getting API Keys
-
-### OpenAI API Key
-1. Visit [OpenAI Platform](https://platform.openai.com)
-2. Sign up or log in
-3. Navigate to API keys section
-4. Create a new API key
-5. Ensure you have credits/billing set up for GPT-4o-mini access
-
-### Amadeus API Credentials
-1. Visit [Amadeus for Developers](https://developers.amadeus.com)
-2. Create a free account
-3. Create a new app in the dashboard
-4. Copy your Client ID and Client Secret
-5. Note: Test environment is free with limited calls
-
-## 💻 Usage
-
-### Running the Interactive Chat
-
-```bash
-python llm_script.py
-```
-
-The system will:
-1. Start an interactive chat session
-2. Wait for your flight-related query
-3. Extract flight details from your query
-4. Search for flights using Amadeus API
-5. Analyze results with GPT-4o-mini
-6. Present the best options
-
-### Example Queries
-
-- "Find me the cheapest flights from Delhi to Mumbai on March 15, 2025"
-- "Show flights from New York to London next Friday"
-- "What are the morning flights from Bangalore to Chennai tomorrow?"
-- "I need to fly from Paris to Rome on December 25th"
-
-### Sample Output
-
-```
-Enter your query: Find cheapest flights from Delhi to Mumbai on October 3, 2025
-
-Query: System Prompt: You are an assistant that helps to answer queries...
-Answer: The cheapest flights from Delhi to Mumbai on October 3, 2025:
-
-| Airline | Departure | Arrival | Price |
-|---------|-----------|---------|-------|
-| AIR INDIA | 21:10 | 23:35 | EUR 57.89 |
-| AIR INDIA | 12:15 | 14:35 | EUR 61.04 |
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 Gen_AI/
-├── .env                    # API credentials (create this)
-├── requirements.txt        # Python dependencies
-├── llm_script.py          # Main chat interface
-├── data_script.py         # Flight search & data processing
-├── test_integration.py    # Test script for API verification
-└── README.md              # This file
+├── app/
+│   ├── main.py              # FastAPI application entry point
+│   ├── api/                 # API route handlers
+│   │   ├── auth.py         # Authentication routes
+│   │   ├── chat.py         # Chat API endpoints
+│   │   ├── hotel.py        # Hotel search endpoints
+│   │   ├── travel_itinerary.py  # Travel planning
+│   │   └── travel_streaming.py  # Streaming endpoints
+│   ├── core/               # Core application logic
+│   │   ├── config.py       # Configuration settings
+│   │   ├── logging.py      # Logging configuration
+│   │   ├── prompt_templates.py  # AI prompt templates
+│   │   └── prompt_utils.py # Prompt utilities
+│   ├── services/           # Business logic services
+│   │   ├── chat_service.py # Chat service
+│   │   ├── hotel_service_backup.py  # Hotel booking logic
+│   │   ├── response_hierarchy_service.py  # Response processing
+│   │   └── travel_service_optimized.py   # Travel planning service
+│   ├── middleware/         # Custom middleware
+│   ├── templates/          # HTML templates
+│   └── static/            # Static files
+├── run.py                  # Application runner
+├── start-dev.sh           # Development startup script
+├── pyproject.toml         # Project dependencies
+├── docker-compose.yml     # Docker configuration
+├── Dockerfile             # Docker image definition
+└── .env.example          # Environment variables template
 ```
 
-## 🧪 Testing Your Setup
+## Development
 
-Run the test script to verify all APIs are working:
+### Running in Development Mode
+The application supports hot reloading in development mode. Use any of the running options above, and the server will automatically restart when you make changes to the code.
 
+### Environment Configuration
+The application uses environment-based configuration. Key settings can be controlled via environment variables or the `.env` file.
+
+### Logging
+Application logs are written to `app.log` and console output. Log level and format can be configured through environment variables.
+
+## Docker Support
+
+### Using Docker Compose (Recommended)
 ```bash
-python test_integration.py
+docker-compose up --build
 ```
 
-This will test:
-- OpenAI API connection
-- Amadeus API authentication
-- Flight search functionality
-- Data processing pipeline
-
-## 🐛 Troubleshooting
-
-### Common Issues & Solutions
-
-#### 1. OpenAI API Errors
-
-**Error**: `insufficient_quota`
-- **Solution**: Add billing/payment method to your OpenAI account
-
-**Error**: `model_not_found`
-- **Solution**: Ensure you have access to GPT-4o-mini model
-
-#### 2. Amadeus API Errors
-
-**Error**: `[401] Unauthorized`
-- **Solution**: Check your API_Key and API_Secret in `.env`
-
-**Error**: `[429] Too Many Requests`
-- **Solution**: You've hit rate limits. Wait and retry or upgrade your Amadeus account
-
-#### 3. Module Import Errors
-
-**Error**: `ModuleNotFoundError`
-- **Solution**: Install missing packages:
+### Using Docker directly
 ```bash
-pip install langchain langchain-experimental langchain-openai amadeus pandas
+# Build the image
+docker build -t ai-travel-assistant .
+
+# Run the container
+docker run -p 8001:8001 --env-file .env ai-travel-assistant
 ```
 
-#### 4. No Flights Found
+## Troubleshooting
 
-- Ensure date is in the future (not past)
-- Use YYYY-MM-DD format for dates
-- Verify airport codes are valid (e.g., DEL, BOM, JFK)
+### Common Issues
 
-## 🔧 Configuration Options
+1. **Missing API Keys**: Ensure all required API keys are set in your `.env` file
+2. **Port Already in Use**: Change the port in `run.py` or kill the process using port 8001
+3. **UV Not Found**: Install UV package manager following their installation guide
+4. **Python Version**: Ensure you're using Python 3.12 or higher
 
-### Modify Search Parameters
+### Checking Application Status
+- Visit http://localhost:8001/health for application health status
+- Check `app.log` for detailed application logs
+- Use http://localhost:8001/docs for interactive API testing
 
-In `data_script.py`, you can adjust:
+## Contributing
 
-```python
-# Maximum number of flight results
-max=10  # Line 99
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-# Model selection
-model="gpt-4o-mini"  # Line 67
-```
+## License
 
-### Adjust LLM Response Style
+[Add your license information here]
 
-In `data_script.py`, modify the prompt at line 161:
+## Support
 
-```python
-main_prompt = f"""
-    "You are an assistant that helps to answer queries..."
-"""
-```
-
-## 📊 API Limits
-
-### Free Tier Limits
-
-**Amadeus Test Environment:**
-- 500 API calls per month
-- Limited to test data after quota
-- No real bookings possible
-
-**OpenAI:**
-- Depends on your billing plan
-- GPT-4o-mini is more cost-effective than GPT-4
-
-## 🚦 Exit Commands
-
-- Type `quit` to exit the chat interface
-- Use `Ctrl+C` to force stop the program
-
-## 📝 Notes
-
-- Flight prices are returned in EUR by default
-- The system searches for direct and connecting flights
-- Results are limited to 10 flights to optimize performance
-- All times are shown in local timezone of departure/arrival
-
-## 🤝 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Verify your API credentials
-3. Ensure all dependencies are installed
-4. Check API service status pages
-
-## ⚠️ Security Notice
-
-- Never share your API keys
-- Add `.env` to `.gitignore`
-- Rotate keys regularly
-- Use environment variables for production
+For issues and questions:
+- Check the logs in `app.log`
+- Visit the API documentation at `/docs`
+- Review the troubleshooting section above
