@@ -33,8 +33,16 @@ async def search_hotels(request: ChatRequest):
                 message_type="hotel_results"
             )
         else:
+            # Provide more specific error message based on what information we have
+            error_message = "I couldn't find any available hotels"
+            if location:
+                error_message += f" in {location}"
+            if dates:
+                error_message += f" for {dates.get('check_in_date', '')} to {dates.get('check_out_date', '')}"
+            error_message += ". This usually means all hotels are fully booked for those dates. Please try different dates or a nearby location."
+
             return ChatResponse(
-                message="I couldn't find any hotels matching your criteria. Please try with different dates or location.",
+                message=error_message,
                 session_id=request.session_id,
                 message_type="error"
             )

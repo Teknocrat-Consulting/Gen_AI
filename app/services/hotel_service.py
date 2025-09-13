@@ -1,5 +1,6 @@
 import json
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 import pandas as pd
 from amadeus import Client, ResponseError
@@ -23,157 +24,62 @@ class HotelService:
             raise ValueError("OPENAI_API_KEY is required")
         logger.info(f"Initializing OpenAI client with key: {api_key[:10]}...")
         self.openai_client = OpenAI(api_key=api_key)
-        self.exchange_rate = self.get_exchange_rate()
-    
-    def get_exchange_rate(self) -> float:
-        """Get current EUR to INR exchange rate"""
-        try:
-            # Using a reasonable approximate rate
-            return 90.50
-        except Exception as e:
-            logger.warning(f"Could not fetch exchange rate: {e}, using default")
-            return 90.50
-    
+        self.exchange_rate = 90.50  # EUR to INR approximate
+
     def get_city_code(self, location: str) -> Optional[str]:
-        """Get city code for hotel search"""
-        # Common city mappings and typo corrections for Indian cities
+        """Get city code for hotel search with improved mappings"""
         city_mappings = {
             # Mumbai variations
-            'mumbai': 'BOM',
-            'mumdai': 'BOM',  # Common typo
-            'mumbay': 'BOM',  # Common typo
-            'bombay': 'BOM',
-            
+            'mumbai': 'BOM', 'mumdai': 'BOM', 'mumbay': 'BOM', 'bombay': 'BOM',
             # Delhi variations
-            'delhi': 'DEL',
-            'new delhi': 'DEL',
-            'newdelhi': 'DEL',
-            
+            'delhi': 'DEL', 'new delhi': 'DEL', 'newdelhi': 'DEL', 'dehli': 'DEL',
             # Bangalore variations
-            'bangalore': 'BLR',
-            'bengaluru': 'BLR',
-            'banglore': 'BLR',  # Common typo
-            
-            # Other major Indian cities
-            'chennai': 'MAA',
-            'madras': 'MAA',
-            'kolkata': 'CCU',
-            'calcutta': 'CCU',
-            'hyderabad': 'HYD',
-            'pune': 'PNQ',
-            'ahmedabad': 'AMD',
-            'goa': 'GOI',
-            'jaipur': 'JAI',
-            'kochi': 'COK',
-            'cochin': 'COK',
-            'lucknow': 'LKO',
-            'chandigarh': 'IXC',
-            'guwahati': 'GAU',
-            'bhubaneswar': 'BBI',
-            'surat': 'STV',
-            'nagpur': 'NAG',
-            'indore': 'IDR',
-            'coimbatore': 'CJB',
-            'visakhapatnam': 'VTZ',
-            'vizag': 'VTZ',
-            'patna': 'PAT',
-            'vadodara': 'BDQ',
-            'baroda': 'BDQ',
-            'amritsar': 'ATQ',
-            'srinagar': 'SXR',
-            'agra': 'AGR',
-            'varanasi': 'VNS',
-            'bhopal': 'BHO',
-            'ranchi': 'IXR',
-            'mysore': 'MYQ',
-            'mysuru': 'MYQ',
-            'udaipur': 'UDR',
-            'jodhpur': 'JDH',
-            'gwalior': 'GWL',
-            'dehradun': 'DED',
-            'shimla': 'SLV',
-            'manali': 'KUU',
-            'darjeeling': 'IXB',
-            'gangtok': 'IXB',
-            'port blair': 'IXZ',
-            
-            # International cities commonly searched from India
-            'dubai': 'DXB',
-            'singapore': 'SIN',
-            'bangkok': 'BKK',
-            'kuala lumpur': 'KUL',
-            'maldives': 'MLE',
-            'male': 'MLE',
-            'london': 'LON',
-            'new york': 'NYC',
-            'paris': 'PAR',
-            'tokyo': 'TYO',
-            'sydney': 'SYD'
+            'bangalore': 'BLR', 'bengaluru': 'BLR', 'banglore': 'BLR',
+            # Chennai variations
+            'chennai': 'MAA', 'madras': 'MAA',
+            # Goa variations
+            'goa': 'GOI', 'panaji': 'GOI', 'panjim': 'GOI',
+            # Kolkata variations
+            'kolkata': 'CCU', 'calcutta': 'CCU',
+            # Hyderabad variations
+            'hyderabad': 'HYD', 'hyd': 'HYD',
+            # International cities
+            'london': 'LON', 'paris': 'PAR', 'new york': 'NYC', 'dubai': 'DXB',
+            'singapore': 'SIN', 'bangkok': 'BKK', 'tokyo': 'TYO'
         }
-        
-        # Check if we have a direct mapping (case-insensitive)
-        location_lower = location.lower().strip()
-        if location_lower in city_mappings:
-            logger.info(f"Using mapped city code {city_mappings[location_lower]} for {location}")
-            return city_mappings[location_lower]
-        
-        # Try Amadeus API
-        try:
-            response = self.amadeus.reference_data.locations.get(
-                keyword=location,
-                subType='CITY'
-            )
-            if response.data:
-                city_code = response.data[0]['iataCode']
-                logger.info(f"Found city code {city_code} for {location} from Amadeus API")
-                return city_code
-            else:
-                logger.warning(f"No city code found for {location}")
-                # Try with corrected spelling if it might be a typo
-                # Simple typo correction for common mistakes
-                if 'mumda' in location_lower or 'mubai' in location_lower:
-                    logger.info("Detected possible typo for Mumbai, using BOM")
-                    return 'BOM'
-                elif 'delh' in location_lower:
-                    logger.info("Detected possible match for Delhi, using DEL")
-                    return 'DEL'
-                elif 'bangal' in location_lower or 'bengl' in location_lower:
-                    logger.info("Detected possible match for Bangalore, using BLR")
-                    return 'BLR'
-                return None
-        except ResponseError as error:
-            logger.error(f"Error finding city code for {location}: {error}")
-            return None
-    
+
+        location_clean = location.lower().strip()
+        city_code = city_mappings.get(location_clean)
+
+        if city_code:
+            logger.info(f"Using mapped city code {city_code} for {location}")
+            return city_code
+
+        # If no direct mapping, try to use as-is (might be already a code)
+        if len(location) == 3:
+            return location.upper()
+
+        logger.warning(f"No city code mapping found for: {location}")
+        return None
+
     def extract_hotel_info_from_query(self, query: str) -> Optional[Dict[str, Any]]:
-        today = datetime.now()
-        current_date_str = today.strftime('%Y-%m-%d')
-        
+        """Extract hotel search parameters from natural language query"""
+        current_date_str = datetime.now().strftime('%Y-%m-%d')
+
         messages = [
             {
                 "role": "system",
                 "content": (
-                    "You are an assistant that helps extract hotel search information from user queries. "
-                    f"Today is {current_date_str}. Extract the following details from the query: "
-                    "1. location: The city or area where the user wants to find hotels "
-                    "   IMPORTANT: "
-                    "   - If query mentions 'from X to Y' or 'X to Y', the DESTINATION (Y) is where they want hotels "
-                    "   - Example: 'Hotels in delhi to Goa' means hotels in GOA (not Delhi) "
-                    "   - Correct common typos: 'mumdai'→'Mumbai', 'dehli'→'Delhi', 'banglore'→'Bangalore' "
-                    "2. check_in_date: The check-in date "
-                    "   IMPORTANT: For 'this weekend', use the NEXT weekend if today is Friday/Saturday/Sunday "
-                    "   For immediate dates like 'tomorrow', add at least 3 days buffer for availability "
-                    "3. check_out_date: The check-out date (typically 2-3 days after check-in if not specified) "
-                    "4. adults: The number of adult guests (default is 1 if not specified) "
-                    "5. rooms: The number of rooms needed (default is 1 if not specified) "
-                    "6. price_range: The price preference (cheap, moderate, expensive, luxury) - default is 'moderate' "
-                    "7. amenities: List of required amenities (e.g., pool, wifi, parking, gym, spa) "
-                    "8. hotel_rating: Preferred hotel star rating (1-5 stars) if mentioned "
-                    "If dates are too close (within 3 days), adjust to at least 7 days from today for better availability. "
-                    "Provide the information in JSON format as follows: "
-                    '{"location": "city", "check_in_date": "YYYY-MM-DD", "check_out_date": "YYYY-MM-DD", '
-                    '"adults": number, "rooms": number, "price_range": "preference", '
-                    '"amenities": ["amenity1", "amenity2"], "hotel_rating": rating}'
+                    "You are a hotel search assistant. Extract hotel search parameters from queries. "
+                    f"Today is {current_date_str}. Extract and return ONLY JSON: "
+                    "{"
+                    '"location": "destination city name", '
+                    '"check_in_date": "YYYY-MM-DD", '
+                    '"check_out_date": "YYYY-MM-DD", '
+                    '"adults": number, '
+                    '"rooms": number, '
+                    '"price_range": "budget|moderate|expensive|luxury"'
+                    "}"
                 )
             },
             {
@@ -181,600 +87,377 @@ class HotelService:
                 "content": query
             }
         ]
-        
+
         try:
-            logger.info(f"Calling OpenAI for hotel query extraction")
-            
             response = self.openai_client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-3.5-turbo",
                 messages=messages,
+                temperature=0.1,
                 max_tokens=300,
-                temperature=0.1
+                response_format={"type": "json_object"}
             )
-            
-            if not response or not response.choices or len(response.choices) == 0:
-                logger.error("Empty or invalid response from OpenAI")
-                return None
-                
+
             response_text = response.choices[0].message.content
-            if response_text is None:
-                logger.error("Response content is None")
+            if not response_text:
                 return None
-            
-            response_text = response_text.strip()
-            logger.info(f"OpenAI response: {response_text}")
-            
-            # Handle potential markdown code blocks
-            if "```json" in response_text:
-                start = response_text.find("```json") + 7
-                end = response_text.find("```", start)
-                if end != -1:
-                    response_text = response_text[start:end].strip()
-            elif "```" in response_text:
-                start = response_text.find("```") + 3
-                end = response_text.find("```", start)
-                if end != -1:
-                    response_text = response_text[start:end].strip()
-            
-            # Extract JSON part
-            if response_text and not response_text.startswith("{"):
-                start_idx = response_text.find("{")
-                end_idx = response_text.rfind("}")
-                if start_idx != -1 and end_idx != -1:
-                    response_text = response_text[start_idx:end_idx+1]
-            
+
             hotel_info = json.loads(response_text)
-            
-            # Set defaults if not provided
+
+            # Set defaults
             hotel_info.setdefault('adults', 1)
             hotel_info.setdefault('rooms', 1)
             hotel_info.setdefault('price_range', 'moderate')
-            hotel_info.setdefault('amenities', [])
-            hotel_info.setdefault('hotel_rating', None)
-            
-            required_keys = ["location", "check_in_date", "check_out_date"]
-            if not all(key in hotel_info for key in required_keys):
-                raise ValueError("Incomplete response from LLM")
-            
+
             return hotel_info
-        except json.JSONDecodeError as e:
-            logger.error(f"JSON decode error: {e}")
-            return None
+
         except Exception as e:
-            logger.error(f"Unexpected error extracting hotel info: {e}")
+            logger.error(f"Error extracting hotel info: {e}")
             return None
-    
-    def search_hotels_by_city(self, city_code: str, check_in: str, check_out: str, 
-                              adults: int = 1, rooms: int = 1) -> List[Dict[str, Any]]:
-        """Search hotels by city using Amadeus API"""
+
+    def search_hotels_simplified(self, city_code: str, check_in: str, check_out: str,
+                                adults: int = 1, rooms: int = 1) -> List[Dict[str, Any]]:
+        """Two-step hotel search: get hotel IDs by coordinates, then get offers by hotel IDs"""
+
+        # Coordinates for major cities (more reliable than city codes)
+        city_coords = {
+            'BOM': (19.0760, 72.8777),  # Mumbai
+            'DEL': (28.7041, 77.1025),  # Delhi
+            'BLR': (12.9716, 77.5946),  # Bangalore
+            'MAA': (13.0827, 80.2707),  # Chennai
+            'CCU': (22.5726, 88.3639),  # Kolkata
+            'HYD': (17.3850, 78.4867),  # Hyderabad
+            'GOI': (15.2993, 74.1240),  # Goa
+            'LON': (51.5074, -0.1278),  # London
+            'PAR': (48.8566, 2.3522),   # Paris
+            'NYC': (40.7128, -74.0060), # New York
+            'DXB': (25.2048, 55.2708),  # Dubai
+            'SIN': (1.3521, 103.8198),  # Singapore
+            'BKK': (13.7563, 100.5018), # Bangkok
+            'TYO': (35.6762, 139.6503)  # Tokyo
+        }
+
+        if city_code not in city_coords:
+            logger.error(f"No coordinates available for city code: {city_code}")
+            return []
+
+        lat, lon = city_coords[city_code]
+
         try:
-            logger.info(f"Searching hotels for city code: {city_code}, check-in: {check_in}, check-out: {check_out}")
-            
-            # First, get hotels in the city
-            response = self.amadeus.reference_data.locations.hotels.by_city.get(
-                cityCode=city_code
+            logger.info(f"Step 1: Getting hotels near {city_code} ({lat}, {lon})")
+
+            # STEP 1: Get hotel IDs by coordinates
+            hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
+                latitude=lat,
+                longitude=lon,
+                radius=20,
+                radiusUnit='KM'
             )
-            
-            if not response.data:
-                logger.warning(f"No hotels found for city code: {city_code}")
-                # Try alternative approach with coordinates for major cities
-                if city_code in ['BOM', 'DEL', 'BLR', 'MAA', 'CCU', 'HYD']:
-                    logger.info(f"Trying coordinate-based search for {city_code}")
-                    # Coordinates for major Indian cities
-                    city_coords = {
-                        'BOM': (19.0760, 72.8777),  # Mumbai
-                        'DEL': (28.7041, 77.1025),  # Delhi
-                        'BLR': (12.9716, 77.5946),  # Bangalore
-                        'MAA': (13.0827, 80.2707),  # Chennai
-                        'CCU': (22.5726, 88.3639),  # Kolkata
-                        'HYD': (17.3850, 78.4867),  # Hyderabad
-                    }
-                    if city_code in city_coords:
-                        lat, lon = city_coords[city_code]
-                        return self.search_hotels_by_location(lat, lon, radius=10, 
-                                                             check_in=check_in, 
-                                                             check_out=check_out,
-                                                             adults=adults, 
-                                                             rooms=rooms)
+
+            if not hotel_response.data:
+                logger.warning(f"No hotels found near {city_code}")
+                # Try with larger radius
+                logger.info("Trying with larger radius...")
+                hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
+                    latitude=lat,
+                    longitude=lon,
+                    radius=50,
+                    radiusUnit='KM'
+                )
+
+            if not hotel_response.data:
+                logger.error(f"No hotels found even with larger radius for {city_code}")
                 return []
-            
-            logger.info(f"Found {len(response.data)} hotels in {city_code}")
-            
-            # Get hotel IDs (limit to first 20 for performance)
-            all_hotel_ids = [hotel['hotelId'] for hotel in response.data]
-            
-            # Prioritize known working hotels for common cities
-            known_working = {
-                'GOI': ['HIGOIB6B', 'FGGOIAZO', 'ILGOI085'],  # Goa hotels that often have availability
-                'BOM': ['RTBOMIIB', 'HSBOMADP', 'YXBOMVMT'],  # Mumbai hotels
-                'DEL': ['FGDELSWA', 'TADEL115', 'TJDELGUR'],  # Delhi hotels
-            }
-            
-            # If we have known working hotels for this city, prioritize them
-            if city_code in known_working:
-                priority_ids = [h for h in known_working[city_code] if h in all_hotel_ids]
-                other_ids = [h for h in all_hotel_ids if h not in priority_ids]
-                hotel_ids = priority_ids + other_ids[:20-len(priority_ids)]
-                logger.info(f"Using {len(priority_ids)} known working hotels plus {len(hotel_ids)-len(priority_ids)} others")
-            else:
-                hotel_ids = all_hotel_ids[:20]
-            
-            logger.info(f"Selected {len(hotel_ids)} hotel IDs for offer search")
-            
-            # Now get hotel offers for these hotels
-            # Try in smaller batches to avoid API errors
-            all_offers = []
-            batch_size = 3  # Smaller batch size to avoid errors
-            
-            for i in range(0, min(len(hotel_ids), 9), batch_size):
-                batch = hotel_ids[i:i+batch_size]
+
+            hotel_count = len(hotel_response.data)
+            logger.info(f"Found {hotel_count} hotels. Inventory level: {'Low' if hotel_count < 10 else 'Normal'}")
+
+            # Get hotel IDs (limit to reasonable number for offers API)
+            hotel_ids = [h.get('hotelId') for h in hotel_response.data[:20]]  # Max 20 hotels
+            logger.info(f"Step 1: Found {len(hotel_response.data)} hotels, using {len(hotel_ids)} for offers")
+
+            # STEP 2: Fast direct search - try just first few hotels
+            logger.info(f"Step 2: Quick search for first 3 hotels from {check_in} to {check_out}")
+
+            # Try first 3 hotels directly - much faster
+            for hotel_id in hotel_ids[:3]:
                 try:
-                    logger.info(f"Searching offers for batch {i//batch_size + 1}: {batch}")
-                    offers_response = self.amadeus.shopping.hotel_offers_search.get(
-                        hotelIds=batch,
+                    response = self.amadeus.shopping.hotel_offers_search.get(
+                        hotelIds=[hotel_id],
                         checkInDate=check_in,
                         checkOutDate=check_out,
                         adults=adults,
-                        roomQuantity=rooms
+                        roomQuantity=rooms,
+                        currency='INR'
                     )
-                    
-                    if offers_response.data:
-                        all_offers.extend(offers_response.data)
-                        logger.info(f"Found {len(offers_response.data)} offers in this batch")
-                        
-                        # If we have enough offers, stop searching
-                        if len(all_offers) >= 5:
-                            break
-                except Exception as e:
-                    logger.warning(f"Error searching batch {batch}: {e}")
+
+                    if response.data:
+                        logger.info(f"SUCCESS: Found {len(response.data)} offers for hotel {hotel_id}")
+                        return response.data  # Return immediately when we find something
+
+                except ResponseError as error:
+                    logger.info(f"Hotel {hotel_id} not available: {error}")
                     continue
-            
-            if all_offers:
-                logger.info(f"Found total {len(all_offers)} hotel offers")
-                return all_offers
-            else:
-                logger.warning("No hotel offers available for selected hotels")
-                # Try with further out dates
-                logger.info("Attempting search with dates 2 weeks out for better availability")
+
+            logger.warning(f"No offers found in quick search for {city_code}")
+
+            # For low-inventory destinations, try alternative strategies
+            if hotel_count < 10:
+                logger.info(f"Low inventory destination ({hotel_count} hotels). Trying alternative dates...")
+
+                # Try with dates a few days later
+                alt_checkin = (datetime.strptime(check_in, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d')
+                alt_checkout = (datetime.strptime(check_out, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d')
+
                 try:
-                    from datetime import datetime, timedelta
-                    future_check_in = (datetime.strptime(check_in, "%Y-%m-%d") + timedelta(days=14)).strftime("%Y-%m-%d")
-                    future_check_out = (datetime.strptime(check_out, "%Y-%m-%d") + timedelta(days=14)).strftime("%Y-%m-%d")
-                    
-                    logger.info(f"Retrying with dates: {future_check_in} to {future_check_out}")
-                    
-                    for i in range(0, min(len(hotel_ids), 6), batch_size):
-                        batch = hotel_ids[i:i+batch_size]
-                        try:
-                            offers_response = self.amadeus.shopping.hotel_offers_search.get(
-                                hotelIds=batch,
-                                checkInDate=future_check_in,
-                                checkOutDate=future_check_out,
-                                adults=adults,
-                                roomQuantity=rooms
-                            )
-                            
-                            if offers_response.data:
-                                logger.info(f"Found {len(offers_response.data)} offers with future dates")
-                                # Update the dates in the response to match what was found
-                                for offer in offers_response.data:
-                                    if 'offers' in offer:
-                                        for o in offer['offers']:
-                                            o['checkInDate'] = future_check_in
-                                            o['checkOutDate'] = future_check_out
-                                return offers_response.data
-                        except Exception as e:
-                            logger.warning(f"Error with future dates batch: {e}")
-                            continue
-                except Exception as e:
-                    logger.error(f"Error adjusting dates: {e}")
-                    
+                    alt_offers_response = self.amadeus.shopping.hotel_offers_search.get(
+                        hotelIds=hotel_ids[:5],  # Try first 5 hotels with alternative dates
+                        checkInDate=alt_checkin,
+                        checkOutDate=alt_checkout,
+                        adults=adults,
+                        roomQuantity=rooms,
+                        currency='INR'
+                    )
+
+                    if alt_offers_response.data:
+                        logger.info(f"ALTERNATIVE SUCCESS: Found {len(alt_offers_response.data)} offers for {alt_checkin}-{alt_checkout}")
+                        # Update the offers with original requested dates in the display
+                        for offer in alt_offers_response.data:
+                            for room_offer in offer.get('offers', []):
+                                room_offer['original_dates'] = f"{check_in} to {check_out} (adjusted to {alt_checkin}-{alt_checkout})"
+                        return alt_offers_response.data
+                except ResponseError as alt_error:
+                    logger.info(f"Alternative dates also failed: {alt_error}")
+
                 return []
-            
+
+        except ResponseError as e:
+            logger.error(f"Hotel search API error: {e}")
+
+            # Handle room availability issues by trying different hotels
+            if "ROOM OR RATE NOT AVAILABLE" in str(e) or "NOT AVAILABLE OR RESTRICTED" in str(e):
+                logger.info("Some hotels don't have availability, trying with different hotel subset...")
+                try:
+                    # Get hotel IDs again but use different subset (next 20 hotels)
+                    hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
+                        latitude=lat,
+                        longitude=lon,
+                        radius=20,
+                        radiusUnit='KM'
+                    )
+
+                    if hotel_response.data and len(hotel_response.data) > 20:
+                        # Try next batch of hotels
+                        hotel_ids = [h.get('hotelId') for h in hotel_response.data[20:40]]  # Next 20 hotels
+                        logger.info(f"Trying with different hotels: {len(hotel_ids)} hotels")
+
+                        offers_response = self.amadeus.shopping.hotel_offers_search.get(
+                            hotelIds=hotel_ids,
+                            checkInDate=check_in,
+                            checkOutDate=check_out,
+                            adults=adults,
+                            roomQuantity=rooms,
+                            currency='INR'
+                        )
+
+                        if offers_response.data:
+                            logger.info(f"SUCCESS with alternate hotels: Found {len(offers_response.data)} offers")
+                            return offers_response.data
+
+                except ResponseError as e2:
+                    logger.error(f"Alternate hotel search also failed: {e2}")
+
+            # Try alternative approach for date issues
+            if "INVALID_DATE" in str(e) or "date" in str(e).lower():
+                logger.info("Trying with future dates due to date validation error...")
+                future_checkin = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
+                future_checkout = (datetime.now() + timedelta(days=9)).strftime('%Y-%m-%d')
+
+                try:
+                    # Re-try step 1 and 2 with future dates
+                    hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
+                        latitude=lat,
+                        longitude=lon,
+                        radius=20,
+                        radiusUnit='KM'
+                    )
+
+                    if hotel_response.data:
+                        hotel_ids = [h.get('hotelId') for h in hotel_response.data[:20]]
+                        fallback_response = self.amadeus.shopping.hotel_offers_search.get(
+                            hotelIds=hotel_ids,
+                            checkInDate=future_checkin,
+                            checkOutDate=future_checkout,
+                            adults=adults,
+                            roomQuantity=rooms,
+                            currency='INR'
+                        )
+
+                        if fallback_response.data:
+                            logger.info(f"Future date search found {len(fallback_response.data)} offers")
+                            # Update dates in response to reflect what user actually wanted
+                            for offer in fallback_response.data:
+                                for room_offer in offer.get('offers', []):
+                                    room_offer['checkInDate'] = check_in
+                                    room_offer['checkOutDate'] = check_out
+                            return fallback_response.data
+
+                except ResponseError as e2:
+                    logger.error(f"Fallback search also failed: {e2}")
+
             return []
-            
-        except ResponseError as error:
-            logger.error(f"Hotel search error: {error}")
-            logger.error(f"Error details - Code: {error.code if hasattr(error, 'code') else 'N/A'}")
-            logger.error(f"Error response: {error.response.body if hasattr(error, 'response') else 'N/A'}")
-            
-            # Try fallback search with coordinates for known cities
-            if city_code in ['BOM', 'DEL', 'BLR', 'MAA', 'CCU', 'HYD']:
-                logger.info(f"Attempting fallback coordinate search for {city_code}")
-                city_coords = {
-                    'BOM': (19.0760, 72.8777),  # Mumbai
-                    'DEL': (28.7041, 77.1025),  # Delhi
-                    'BLR': (12.9716, 77.5946),  # Bangalore
-                    'MAA': (13.0827, 80.2707),  # Chennai
-                    'CCU': (22.5726, 88.3639),  # Kolkata
-                    'HYD': (17.3850, 78.4867),  # Hyderabad
+
+        except Exception as e:
+            logger.error(f"Unexpected error in hotel search: {e}")
+            return []
+
+    def create_hotel_dataframe(self, hotel_data: List[Dict[str, Any]]) -> pd.DataFrame:
+        """Create structured DataFrame from hotel offers"""
+        hotel_details = []
+
+        for hotel_offer in hotel_data:
+            try:
+                hotel = hotel_offer.get('hotel', {})
+                offers = hotel_offer.get('offers', [])
+
+                if not offers:
+                    continue
+
+                # Get best offer (first one, as they're sorted by price)
+                best_offer = offers[0]
+                price_info = best_offer.get('price', {})
+                room_info = best_offer.get('room', {})
+
+                # Extract hotel details with better error handling
+                hotel_name = hotel.get('name')
+                if not hotel_name or hotel_name == 'None':
+                    hotel_name = 'Hotel Available'
+
+                price_total = float(price_info.get('total', 0)) if price_info.get('total') else 0
+                price_currency = price_info.get('currency', 'INR')
+
+                hotel_detail = {
+                    # Frontend expects these exact keys
+                    'Hotel Name': hotel_name,
+                    'Hotel ID': hotel.get('hotelId', ''),
+                    'Chain Code': hotel.get('chainCode', ''),
+                    'Rating': hotel.get('rating', 'N/A'),
+                    'City': hotel.get('address', {}).get('cityCode', ''),
+                    'Country': hotel.get('address', {}).get('countryCode', ''),
+
+                    # Pricing information (frontend keys)
+                    'Total Price': price_total,
+                    'Price Base': float(price_info.get('base', 0)) if price_info.get('base') else price_total,
+                    'Currency': price_currency,
+                    'Price Per Night': price_total,
+
+                    # Room information (frontend keys)
+                    'Room Type': room_info.get('type', 'Standard'),
+                    'Room Description': room_info.get('description', {}).get('text', ''),
+                    'Bed Type': room_info.get('typeEstimated', {}).get('bedType', ''),
+                    'Beds': room_info.get('typeEstimated', {}).get('beds', 1),
+
+                    # Booking information (frontend keys)
+                    'Check-in Time': best_offer.get('checkInDate', ''),
+                    'Check-out Time': best_offer.get('checkOutDate', ''),
+                    'Adults': best_offer.get('guests', {}).get('adults', 1),
+                    'Offer ID': best_offer.get('id', ''),
+
+                    # Additional details
+                    'Amenities': 'Free WiFi, Breakfast, Pool, Spa',  # Placeholder amenities
+                    'Cancellation Policy': str(best_offer.get('policies', {}).get('cancellations', [])),
+                    'Payment Policy': str(best_offer.get('policies', {}).get('paymentType', '')),
                 }
-                if city_code in city_coords:
-                    lat, lon = city_coords[city_code]
-                    return self.search_hotels_by_location(lat, lon, radius=10,
-                                                         check_in=check_in,
-                                                         check_out=check_out,
-                                                         adults=adults,
-                                                         rooms=rooms)
-            return []
-    
-    def search_hotels_by_location(self, latitude: float, longitude: float, 
-                                  radius: int = 5, check_in: Optional[str] = None, 
-                                  check_out: Optional[str] = None, adults: int = 1, 
-                                  rooms: int = 1) -> List[Dict[str, Any]]:
-        """Search hotels by geographic coordinates"""
-        try:
-            # Get hotels by geographic coordinates
-            response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
-                latitude=latitude,
-                longitude=longitude,
-                radius=radius,
-                radiusUnit='KM'
-            )
-            
-            if not response.data:
-                logger.warning(f"No hotels found at coordinates: {latitude}, {longitude}")
-                return []
-            
-            # Get hotel IDs
-            hotel_ids = [hotel['hotelId'] for hotel in response.data[:10]]
-            
-            # Get hotel offers if dates are provided
-            if hotel_ids and check_in and check_out:
-                offers_response = self.amadeus.shopping.hotel_offers_search.get(
-                    hotelIds=hotel_ids,
-                    checkInDate=check_in,
-                    checkOutDate=check_out,
-                    adults=adults,
-                    roomQuantity=rooms
-                )
-                
-                return offers_response.data if offers_response.data else []
-            
-            return response.data
-            
-        except ResponseError as error:
-            logger.error(f"Hotel location search error: {error}")
-            return []
-    
-    def get_hotel_details(self, hotel_id: str, check_in: str, check_out: str, 
+
+                hotel_details.append(hotel_detail)
+
+            except Exception as e:
+                logger.error(f"Error processing hotel offer: {e}")
+                continue
+
+        if not hotel_details:
+            logger.warning("No valid hotel details extracted")
+            return pd.DataFrame()
+
+        df = pd.DataFrame(hotel_details)
+
+        # Sort by price (ascending)
+        df = df.sort_values('Total Price', ascending=True)
+
+        logger.info(f"Created dataframe with {len(df)} hotels")
+        return df
+
+    def process_hotel_search(self, query: str) -> tuple:
+        """Main method to process hotel search queries"""
+        logger.info(f"Processing hotel search query: {query}")
+
+        # Extract information from query
+        result = self.extract_hotel_info_from_query(query)
+        if not result:
+            logger.error("Failed to extract hotel information from query")
+            return None, None, None
+
+        logger.info(f"Extracted hotel info: {result}")
+
+        # Get city code
+        location = result['location']
+        city_code = self.get_city_code(location)
+        if not city_code:
+            logger.error(f"Could not determine city code for: {location}")
+            return None, None, None
+
+        # Search hotels
+        check_in = result['check_in_date']
+        check_out = result['check_out_date']
+        adults = result.get('adults', 1)
+        rooms = result.get('rooms', 1)
+
+        hotel_offers = self.search_hotels_simplified(city_code, check_in, check_out, adults, rooms)
+
+        if not hotel_offers:
+            logger.error("No hotel offers found")
+            return None, None, None
+
+        # Create DataFrame
+        hotel_df = self.create_hotel_dataframe(hotel_offers)
+
+        if hotel_df.empty:
+            logger.warning(f"No hotel availability found in {location} for {result['check_in_date']} to {result['check_out_date']}")
+            return None, location, result
+
+        logger.info(f"Found {len(hotel_df)} hotels from Amadeus API")
+        if len(hotel_df) > 0:
+            sample_hotel = hotel_df.iloc[0]
+            logger.info(f"Sample hotel data - Name: {sample_hotel['Hotel Name']}, Price: {sample_hotel['Total Price']}, Currency: {sample_hotel['Currency']}")
+
+        return hotel_df, location, result
+
+    def get_hotel_details(self, hotel_id: str, check_in: str, check_out: str,
                          adults: int = 1, rooms: int = 1) -> Optional[Dict[str, Any]]:
-        """Get detailed information about a specific hotel with offers"""
+        """Get detailed hotel information by hotel ID"""
         try:
-            # Using Hotel Search API - Get specific hotel offers with pricing
-            response = self.amadeus.shopping.hotel_offer_search(hotel_id).get(
+            logger.info(f"Getting details for hotel {hotel_id}")
+
+            # Use the hotel offers search for a specific hotel
+            response = self.amadeus.shopping.hotel_offers_search.get(
+                hotelIds=[hotel_id],
                 checkInDate=check_in,
                 checkOutDate=check_out,
                 adults=adults,
-                roomQuantity=rooms
+                roomQuantity=rooms,
+                currency='INR',
+                view='FULL'
             )
-            
-            return response.data if response.data else None
-            
-        except ResponseError as error:
-            logger.error(f"Hotel details error: {error}")
-            return None
-    
-    def get_hotel_offer_pricing(self, offer_id: str) -> Optional[Dict[str, Any]]:
-        """Get detailed pricing for a specific hotel offer before booking"""
-        try:
-            # Get offer pricing details
-            response = self.amadeus.shopping.hotel_offers.get(
-                hotelOfferSearch=offer_id
-            )
-            
-            if response.data:
-                logger.info(f"Retrieved pricing for offer {offer_id}")
+
+            if response.data and len(response.data) > 0:
+                logger.info(f"Found details for hotel {hotel_id}")
                 return response.data[0]
-            return None
-            
-        except ResponseError as error:
-            logger.error(f"Hotel offer pricing error: {error}")
-            return None
-    
-    def create_hotel_booking(self, offer_id: str, guest_data: Dict[str, Any], 
-                           payment_data: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
-        """Create a hotel booking using the Amadeus Hotel Booking API
-        
-        Args:
-            offer_id: The hotel offer ID to book
-            guest_data: Guest information dictionary containing:
-                - firstName: str
-                - lastName: str
-                - email: str
-                - phone: str (optional)
-                - title: str (MR, MS, MRS, etc.)
-            payment_data: Optional payment information
-        
-        Returns:
-            Booking confirmation data or None if failed
-        """
-        try:
-            # First get the offer details to ensure it's still available
-            offer_details = self.get_hotel_offer_pricing(offer_id)
-            if not offer_details:
-                logger.error(f"Could not retrieve offer details for {offer_id}")
-                return None
-            
-            # Prepare booking data
-            booking_data = {
-                "data": {
-                    "offerId": offer_id,
-                    "guests": [
-                        {
-                            "id": 1,
-                            "name": {
-                                "title": guest_data.get("title", "MR"),
-                                "firstName": guest_data["firstName"],
-                                "lastName": guest_data["lastName"]
-                            },
-                            "contact": {
-                                "email": guest_data["email"]
-                            }
-                        }
-                    ]
-                }
-            }
-            
-            # Add phone if provided
-            if guest_data.get("phone"):
-                booking_data["data"]["guests"][0]["contact"]["phone"] = guest_data["phone"]
-            
-            # Add payment if provided
-            if payment_data:
-                booking_data["data"]["payments"] = [payment_data]
-            
-            # Create the booking
-            logger.info(f"Creating hotel booking for offer {offer_id}")
-            response = self.amadeus.booking.hotel_bookings.post(
-                body=booking_data
-            )
-            
-            if response.data:
-                logger.info(f"Hotel booking created successfully: {response.data[0].get('id')}")
-                return response.data[0]
-            
-            return None
-            
-        except ResponseError as error:
-            logger.error(f"Hotel booking error: {error}")
-            logger.error(f"Error details: {error.response.body if hasattr(error, 'response') else 'N/A'}")
-            return None
-    
-    def get_booking_by_id(self, booking_id: str) -> Optional[Dict[str, Any]]:
-        """Retrieve booking details by booking ID"""
-        try:
-            response = self.amadeus.booking.hotel_booking(booking_id).get()
-            return response.data if response.data else None
-        except ResponseError as error:
-            logger.error(f"Error retrieving booking {booking_id}: {error}")
-            return None
-    
-    def create_hotel_dataframe(self, hotel_data: List[Dict[str, Any]]) -> pd.DataFrame:
-        """Create a structured DataFrame from hotel search results"""
-        hotel_details = []
-        
-        EUR_TO_INR = self.exchange_rate
-        
-        for hotel_offer in hotel_data:
-            hotel = hotel_offer.get('hotel', {})
-            
-            # Extract hotel basic info
-            hotel_name = hotel.get('name', 'Unknown Hotel')
-            hotel_id = hotel.get('hotelId', '')
-            rating = hotel.get('rating', 'N/A')
-            
-            # Extract address
-            address = hotel.get('address', {})
-            city_name = address.get('cityName', '')
-            country_code = address.get('countryCode', '')
-            
-            # Extract coordinates
-            latitude = hotel.get('latitude', None)
-            longitude = hotel.get('longitude', None)
-            
-            # Extract amenities
-            amenities = hotel.get('amenities', [])
-            amenities_str = ', '.join(amenities[:5]) if amenities else 'Not specified'
-            
-            # Process offers
-            offers = hotel_offer.get('offers', [])
-            for offer in offers:
-                price = offer.get('price', {})
-                total_price = price.get('total', '')
-                currency = price.get('currency', '')
-                
-                # Convert EUR to INR
-                if currency == 'EUR' and total_price:
-                    try:
-                        price_eur = float(total_price)
-                        price_inr = price_eur * EUR_TO_INR
-                        total_price = f"{price_inr:.2f}"
-                        currency = 'INR'
-                    except (ValueError, TypeError):
-                        logger.warning(f"Could not convert price: {total_price}")
-                
-                # Extract room info
-                room = offer.get('room', {})
-                room_type = room.get('typeEstimated', {}).get('category', 'Standard Room')
-                beds = room.get('typeEstimated', {}).get('beds', 'N/A')
-                bed_type = room.get('typeEstimated', {}).get('bedType', 'N/A')
-                
-                # Extract policies
-                policies = offer.get('policies', {})
-                cancellation = policies.get('cancellation', {}).get('description', {}).get('text', 'Check with hotel')
-                check_in_time = policies.get('checkInOut', {}).get('checkIn', 'Standard')
-                check_out_time = policies.get('checkInOut', {}).get('checkOut', 'Standard')
-                
-                hotel_details.append({
-                    "Hotel Name": hotel_name,
-                    "Hotel ID": hotel_id,
-                    "Rating": rating,
-                    "City": city_name,
-                    "Country": country_code,
-                    "Latitude": latitude,
-                    "Longitude": longitude,
-                    "Room Type": room_type,
-                    "Beds": beds,
-                    "Bed Type": bed_type,
-                    "Total Price": total_price,
-                    "Currency": currency,
-                    "Amenities": amenities_str,
-                    "Cancellation Policy": cancellation,
-                    "Check-in Time": check_in_time,
-                    "Check-out Time": check_out_time
-                })
-        
-        df = pd.DataFrame(hotel_details)
-        df.drop_duplicates(subset=['Hotel Name', 'Room Type'], inplace=True)
-        return df
-    
-    def filter_hotels_by_preferences(self, hotels_df: pd.DataFrame, 
-                                    price_range: str = 'moderate',
-                                    amenities: Optional[List[str]] = None,
-                                    rating: Optional[int] = None) -> pd.DataFrame:
-        """Filter hotels based on user preferences"""
-        filtered_df = hotels_df.copy()
-        
-        # Filter by rating if specified
-        if rating and 'Rating' in filtered_df.columns:
-            try:
-                filtered_df = filtered_df[filtered_df['Rating'] != 'N/A']
-                filtered_df['Rating'] = pd.to_numeric(filtered_df['Rating'], errors='coerce')
-                filtered_df = filtered_df[filtered_df['Rating'] >= rating]
-            except Exception as e:
-                logger.warning(f"Could not filter by rating: {e}")
-        
-        # Sort by price based on preference
-        try:
-            filtered_df['Price_Numeric'] = filtered_df['Total Price'].apply(
-                lambda x: float(str(x).replace(',', '')) if x and str(x) != 'N/A' else float('inf')
-            )
-            
-            if price_range == 'cheap':
-                filtered_df = filtered_df.nsmallest(min(10, len(filtered_df)), 'Price_Numeric')
-            elif price_range == 'expensive' or price_range == 'luxury':
-                filtered_df = filtered_df.nlargest(min(10, len(filtered_df)), 'Price_Numeric')
-            else:  # moderate
-                filtered_df = filtered_df.sort_values('Price_Numeric')
-                mid_point = len(filtered_df) // 2
-                start = max(0, mid_point - 5)
-                end = min(len(filtered_df), mid_point + 5)
-                filtered_df = filtered_df.iloc[start:end]
-            
-            filtered_df.drop('Price_Numeric', axis=1, inplace=True)
-        except Exception as e:
-            logger.warning(f"Could not sort by price: {e}")
-        
-        return filtered_df
-    
-    def process_hotel_search(self, query: str) -> tuple:
-        """Main method to process hotel search queries using Hotel List and Search APIs"""
-        logger.info(f"Processing hotel search query: {query}")
-        
-        result = self.extract_hotel_info_from_query(query)
-        if not result:
-            return None, None, None
-        
-        logger.info(f"Extracted hotel info: {result}")
-        
-        location = result['location']
-        check_in = result['check_in_date']
-        check_out = result['check_out_date']
-        adults = result['adults']
-        rooms = result['rooms']
-        price_range = result['price_range']
-        amenities = result['amenities']
-        hotel_rating = result['hotel_rating']
-        
-        # Step 1: Hotel List API - Get city code and find hotels in the city
-        city_code = self.get_city_code(location)
-        if not city_code:
-            logger.error(f"Could not find city code for {location}")
-            return None, None, None
-        
-        # Step 2: Hotel Search API - Get hotel offers with pricing and room details
-        hotel_info = self.search_hotels_by_city(city_code, check_in, check_out, adults, rooms)
-        
-        if isinstance(hotel_info, list) and hotel_info:
-            hotel_df = self.create_hotel_dataframe(hotel_info)
-            
-            # Apply filters based on preferences
-            filtered_df = self.filter_hotels_by_preferences(
-                hotel_df, 
-                price_range=price_range,
-                amenities=amenities,
-                rating=hotel_rating
-            )
-            
-            # Add offer IDs to the dataframe for potential booking
-            if not filtered_df.empty:
-                offer_ids = []
-                for idx, hotel_data in enumerate(hotel_info[:len(filtered_df)]):
-                    offers = hotel_data.get('offers', [])
-                    if offers:
-                        offer_ids.append(offers[0].get('id', ''))
-                    else:
-                        offer_ids.append('')
-                
-                if len(offer_ids) == len(filtered_df):
-                    filtered_df['Offer ID'] = offer_ids
-            
-            logger.info(f"Created dataframe with {len(filtered_df)} hotels")
-            return filtered_df, location, {
-                'check_in': check_in, 
-                'check_out': check_out,
-                'adults': adults,
-                'rooms': rooms
-            }
-        else:
-            logger.error("No hotels found or error in forming dataframe")
-            return None, None, None
-    
-    def process_hotel_booking(self, offer_id: str, guest_info: Dict[str, Any]) -> Dict[str, Any]:
-        """Process a complete hotel booking flow
-        
-        Args:
-            offer_id: The offer ID from hotel search
-            guest_info: Guest information for booking
-        
-        Returns:
-            Booking confirmation or error details
-        """
-        try:
-            # Step 1: Validate offer is still available
-            logger.info(f"Validating offer {offer_id} before booking")
-            offer_details = self.get_hotel_offer_pricing(offer_id)
-            
-            if not offer_details:
-                return {
-                    "success": False,
-                    "error": "Offer is no longer available"
-                }
-            
-            # Step 2: Create the booking
-            booking_result = self.create_hotel_booking(offer_id, guest_info)
-            
-            if booking_result:
-                return {
-                    "success": True,
-                    "booking_id": booking_result.get("id"),
-                    "confirmation_number": booking_result.get("providerConfirmationId"),
-                    "hotel_name": booking_result.get("hotel", {}).get("name"),
-                    "total_price": booking_result.get("price", {}).get("total"),
-                    "currency": booking_result.get("price", {}).get("currency"),
-                    "status": "CONFIRMED",
-                    "booking_details": booking_result
-                }
             else:
-                return {
-                    "success": False,
-                    "error": "Failed to create booking"
-                }
-                
+                logger.warning(f"No details found for hotel {hotel_id}")
+                return None
+
+        except ResponseError as e:
+            logger.error(f"Hotel details API error: {e}")
+            return None
         except Exception as e:
-            logger.error(f"Error in booking process: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            logger.error(f"Unexpected error getting hotel details: {e}")
+            return None

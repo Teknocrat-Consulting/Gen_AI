@@ -9,6 +9,11 @@ from dotenv import load_dotenv
 import requests
 from app.core.logging import logger
 from app.core.config import settings
+from app.core.prompt_utils import (
+    create_flight_extraction_messages,
+    get_extraction_model_settings,
+    PromptValidator
+)
 
 load_dotenv()
 
@@ -26,6 +31,10 @@ class FlightService:
         logger.info(f"Initializing OpenAI client with key: {api_key[:10]}...")
         self.openai_client = OpenAI(api_key=api_key)
         self.exchange_rate = self.get_exchange_rate()
+
+        # Lightweight in-memory cache
+        self._cache = {}
+        self._cache_ttl = 300  # 5 minutes
     
     def get_exchange_rate(self) -> float:
         """Get current EUR to INR exchange rate"""
@@ -62,43 +71,18 @@ class FlightService:
         today = datetime.now()
         current_date_str = today.strftime('%Y-%m-%d')
         
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    "You are an assistant that helps extract flight information from user queries. "
-                    f"CRITICAL: Today's date is {current_date_str}. The current year is {today.year}. "
-                    f"ALL dates MUST be in {today.year} or later. NEVER use years like 2022, 2023, or 2024. "
-                    "Extract the following details from the query: "
-                    "1. location_origin: The departure city or airport (use IATA codes like BOM for Mumbai, DEL for Delhi, etc.) "
-                    "   IMPORTANT: If origin is not specified in the query, return 'MISSING' as the value. "
-                    "2. location_destination: The destination city or airport (use IATA codes) "
-                    "   For states like Rajasthan, use JAI (Jaipur), for Goa use GOI, for Kerala use COK (Kochi) "
-                    f"3. departure_date: The date of departure (MUST be {current_date_str} or later, format: YYYY-MM-DD) "
-                    "4. adults: The number of adult passengers (default is 1 if not specified) "
-                    f"For relative dates: 'tomorrow' = {(today + timedelta(days=1)).strftime('%Y-%m-%d')}, "
-                    f"'next week' = {(today + timedelta(days=7)).strftime('%Y-%m-%d')}, "
-                    f"'next monday' = calculate from today {current_date_str}. "
-                    "Provide the information in JSON format ONLY, no extra text: "
-                    '{"location_origin": "XXX", "location_destination": "XXX", "departure_date": "YYYY-MM-DD", "adults": number}'
-                )
-            },
-            {
-                "role": "user",
-                "content": query
-            }
-        ]
+        # Use optimized prompt templates
+        messages = create_flight_extraction_messages(query)
         
         try:
-            logger.info(f"Calling OpenAI with model: gpt-4o-mini")
-            logger.info(f"System message: {messages[0]['content'][:200]}...")
-            logger.info(f"User message: {messages[1]['content']}")
-            
+            # Use optimized model settings
+            model_settings = get_extraction_model_settings()
+
+            logger.info(f"Extracting flight info with optimized prompts - Query: {query}")
+
             response = self.openai_client.chat.completions.create(
-                model="gpt-4o-mini",
                 messages=messages,
-                max_tokens=300,
-                temperature=0.1
+                **model_settings
             )
             
             if not response or not response.choices or len(response.choices) == 0:
@@ -145,11 +129,9 @@ class FlightService:
             required_keys = ["location_origin", "location_destination", "departure_date", "adults"]
             if not all(key in flight_info for key in required_keys):
                 raise ValueError("Incomplete response from LLM")
-            
-            # Check if origin is missing
-            if flight_info.get("location_origin") in ["MISSING", "XXX", "", None] or len(str(flight_info.get("location_origin", ""))) != 3:
-                logger.warning(f"Origin not specified or invalid: {flight_info.get('location_origin')}")
-                return None  # Return None to indicate origin is missing
+
+            # Log the extracted origin (should now default to CJB if not specified)
+            logger.info(f"Using origin: {flight_info.get('location_origin')} (CJB=Coimbatore default if not specified)")
             
             # Handle state names in destination
             state_to_airport = {
@@ -191,33 +173,62 @@ class FlightService:
             logger.error(f"Unexpected error extracting flight info: {e}")
             return None
     
-    def get_flight_info(self, location_origin: str, location_destination: str, 
+    def get_flight_info(self, location_origin: str, location_destination: str,
                        departure_date: str, adults: int = 1) -> List[Dict[str, Any]]:
         origin_code = location_origin
         destination_code = location_destination
-        
+
+        logger.info(f"Searching flights: {origin_code} -> {destination_code} on {departure_date} for {adults} adults")
+
         if not origin_code or not destination_code:
             logger.error("Could not find airport codes for the provided locations.")
             return []
-        
+
+        # Check cache first
+        cache_key = f"{origin_code}-{destination_code}-{departure_date}-{adults}"
+        if cache_key in self._cache:
+            cached_data, timestamp = self._cache[cache_key]
+            if datetime.now().timestamp() - timestamp < self._cache_ttl:
+                logger.info("Using cached flight data")
+                return cached_data
+
         try:
+            logger.info("Making Amadeus API call for flight search...")
+
+            # Add validation for date format
+            try:
+                datetime.strptime(departure_date, "%Y-%m-%d")
+            except ValueError:
+                logger.error(f"Invalid date format: {departure_date}. Expected YYYY-MM-DD")
+                return []
+
+            # Direct API call - no timeout overhead
             response = self.amadeus.shopping.flight_offers_search.get(
                 originLocationCode=origin_code,
                 destinationLocationCode=destination_code,
                 departureDate=departure_date,
                 adults=adults,
-                max=10
+                max=3  # Reduced to 3 for fastest response
             )
-            return response.data if response.data else []
+            logger.info(f"Amadeus API call completed. Found {len(response.data) if response.data else 0} flights")
+
+            # Cache the result
+            result = response.data if response.data else []
+            self._cache[cache_key] = (result, datetime.now().timestamp())
+
+            return result
         except ResponseError as error:
             logger.error(f"Flight search error: {error}")
+            return []
+        except Exception as e:
+            logger.error(f"Unexpected error in flight search: {e}")
             return []
     
     def create_flight_dataframe(self, flight_data: List[Dict[str, Any]]) -> pd.DataFrame:
         flight_details = []
-        
-        # Use the exchange rate from initialization
-        EUR_TO_INR = self.exchange_rate
+
+        # Skip exchange rate if not needed - direct processing
+        EUR_TO_INR = 90.50  # Static rate for speed
         
         airlines = set()
         for offer in flight_data:

@@ -6164,3 +6164,899 @@ KeyError: 'attractions'
 2025-09-13 11:26:09,952 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-09-13 11:26:10,371 - app.core.logging - INFO - Calculated hotel cost from 2 hotels: 3691.56
 2025-09-13 11:26:13,435 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:30:31,736 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:30:31,746 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:30:31,747 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:30:31,750 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:30:35,324 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:30:35,324 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:30:35,326 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:30:35,327 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:30:35,332 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:30:35,333 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:30:35,366 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:30:35,366 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:30:37,220 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,251 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,258 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,263 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,280 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,295 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,303 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,312 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,326 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,343 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,350 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,375 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:30:37,436 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:30:37,472 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:30:37,476 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:30:37,517 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:30:48,294 - app.middleware.auth_middleware - INFO - [AUTH MIDDLEWARE] Unauthenticated access to / from IP: 127.0.0.1 - Redirecting to /auth
+2025-09-13 11:31:53,065 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:31:53,065 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:31:53,067 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:31:53,067 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:31:53,067 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:31:53,068 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:31:53,072 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:31:53,072 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:31:54,993 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,023 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,045 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,051 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,074 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,076 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,094 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,102 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,120 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,125 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,145 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,170 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:55,230 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:31:55,253 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:31:55,271 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:31:55,295 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:31:58,684 - app.core.logging - INFO - Starting streaming travel plan for query: Plan a trip delhi to Dubai
+2025-09-13 11:31:58,687 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 11:31:58,762 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:58,809 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:31:58,853 - app.core.logging - INFO - Detecting intent for: Plan a trip delhi to Dubai
+2025-09-13 11:32:00,533 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:32:01,379 - app.core.logging - INFO - Processing flight search query: flight from delhi to Dubai on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:32:01,380 - app.core.logging - INFO - Calling OpenAI with model: gpt-4o-mini
+2025-09-13 11:32:01,381 - app.core.logging - INFO - System message: You are an assistant that helps extract flight information from user queries. CRITICAL: Today's date is 2025-09-13. The current year is 2025. ALL dates MUST be in 2025 or later. NEVER use years like 2...
+2025-09-13 11:32:01,381 - app.core.logging - INFO - User message: flight from delhi to Dubai on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:32:02,613 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:32:02,625 - app.core.logging - INFO - OpenAI response: {"location_origin": "DEL", "location_destination": "DXB", "departure_date": "2025-09-14", "adults": 1}
+2025-09-13 11:32:02,625 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'DXB', 'departure_date': '2025-09-14', 'adults': 1}
+2025-09-13 11:32:30,095 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 11:32:30,101 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 11:32:30,102 - app.core.logging - INFO - Sample flight data - Airline: KUWAIT AIR, Price: 13751.47, Currency: INR
+2025-09-13 11:32:30,807 - app.core.logging - INFO - Processing hotel search query: hotels in Dubai from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 11:32:30,808 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-13 11:32:33,161 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:32:33,164 - app.core.logging - INFO - OpenAI response: {"location": "Dubai", "check_in_date": "2025-09-20", "check_out_date": "2025-09-22", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-13 11:32:33,165 - app.core.logging - INFO - Extracted hotel info: {'location': 'Dubai', 'check_in_date': '2025-09-20', 'check_out_date': '2025-09-22', 'adults': 1, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-13 11:32:33,165 - app.core.logging - INFO - Using mapped city code DXB for Dubai
+2025-09-13 11:32:33,166 - app.core.logging - INFO - Searching hotels for city code: DXB, check-in: 2025-09-20, check-out: 2025-09-22
+2025-09-13 11:32:46,558 - app.core.logging - INFO - Found 202 hotels in DXB
+2025-09-13 11:32:46,558 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-13 11:32:46,558 - app.core.logging - INFO - Searching offers for batch 1: ['DHDXBAOZ', 'YXDXBCRY', 'WVDXBAIR']
+2025-09-13 11:32:50,353 - app.core.logging - INFO - Searching offers for batch 2: ['FGDXB226', 'ATDXB563', 'ICDXB6D1']
+2025-09-13 11:32:52,697 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-13 11:32:52,698 - app.core.logging - INFO - Searching offers for batch 3: ['JTDXBWTC', 'HSDXBABN', 'HLDXB100']
+2025-09-13 11:32:56,179 - app.core.logging - WARNING - Error searching batch ['JTDXBWTC', 'HSDXBABN', 'HLDXB100']: [400]
+[hotelIds=HLDXB100] Provider Error - CHECK FORMAT
+2025-09-13 11:32:56,180 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-13 11:32:56,197 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 11:32:56,203 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 11:32:56,203 - app.core.logging - INFO - Sample hotel data - Name: InterContinental Marina, Price: 1391.18, Currency: AED
+2025-09-13 11:33:03,774 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:33:08,694 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:33:09,186 - app.core.logging - INFO - Calculated hotel cost from 1 hotels: 4173.54
+2025-09-13 11:33:12,378 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:42:08,622 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:42:08,622 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:42:08,623 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:42:08,626 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:42:12,120 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:42:12,121 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:42:12,121 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:42:12,121 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:42:12,133 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:42:12,133 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:42:12,133 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:42:12,134 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:42:13,897 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,900 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,901 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,907 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,938 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,939 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,940 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,946 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,982 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,983 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,984 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:13,990 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:42:14,107 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:42:14,107 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:42:14,117 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:42:14,120 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:42:28,753 - app.middleware.auth_middleware - INFO - [AUTH MIDDLEWARE] Unauthenticated access to / from IP: 127.0.0.1 - Redirecting to /auth
+2025-09-13 11:43:55,887 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:43:55,887 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:43:55,887 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:43:55,887 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:43:55,887 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:43:55,888 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:43:55,892 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:43:55,892 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:43:57,542 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,542 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,561 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,582 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,582 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,590 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,603 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,629 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,633 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,638 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,652 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,687 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:43:57,754 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:43:57,771 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:43:57,784 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:43:57,825 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:44:11,759 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go mumbai to delhi
+2025-09-13 11:44:11,761 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 11:44:11,898 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:44:12,031 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:44:12,161 - app.core.logging - INFO - Detecting intent for: i want to go mumbai to delhi
+2025-09-13 11:44:13,776 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:44:14,625 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:44:14,626 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:44:16,533 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:44:16,544 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 11:44:16,545 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 11:44:40,285 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 11:44:40,291 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 11:44:40,291 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 11:44:40,996 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 11:44:40,996 - app.core.logging - INFO - Calling OpenAI for hotel query extraction
+2025-09-13 11:44:42,455 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:44:42,459 - app.core.logging - INFO - OpenAI response: {"location": "Delhi", "check_in_date": "2025-09-20", "check_out_date": "2025-09-22", "adults": 1, "rooms": 1, "price_range": "moderate", "amenities": [], "hotel_rating": null}
+2025-09-13 11:44:42,460 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-20', 'check_out_date': '2025-09-22', 'adults': 1, 'rooms': 1, 'price_range': 'moderate', 'amenities': [], 'hotel_rating': None}
+2025-09-13 11:44:42,460 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 11:44:42,460 - app.core.logging - INFO - Searching hotels for city code: DEL, check-in: 2025-09-20, check-out: 2025-09-22
+2025-09-13 11:45:05,277 - app.core.logging - INFO - Found 177 hotels in DEL
+2025-09-13 11:45:05,277 - app.core.logging - INFO - Using 3 known working hotels plus 17 others
+2025-09-13 11:45:05,278 - app.core.logging - INFO - Selected 20 hotel IDs for offer search
+2025-09-13 11:45:05,278 - app.core.logging - INFO - Searching offers for batch 1: ['FGDELSWA', 'TADEL115', 'TJDELGUR']
+2025-09-13 11:45:14,384 - app.core.logging - WARNING - Error searching batch ['FGDELSWA', 'TADEL115', 'TJDELGUR']: [400]
+[hotelIds=FGDELSWA] Provider Error - VERIFY CHAIN/REP CODE
+2025-09-13 11:45:14,384 - app.core.logging - INFO - Searching offers for batch 2: ['TADEL079', 'WIDEL710', 'ILDEL169']
+2025-09-13 11:45:22,691 - app.core.logging - INFO - Found 1 offers in this batch
+2025-09-13 11:45:22,692 - app.core.logging - INFO - Searching offers for batch 3: ['ONDELCLA', 'FGDELHVR', 'HSDELAMU']
+2025-09-13 11:45:26,879 - app.core.logging - INFO - Found total 1 hotel offers
+2025-09-13 11:45:26,897 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 11:45:26,901 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 11:45:26,901 - app.core.logging - INFO - Sample hotel data - Name: The Westin Gurgaon New Delhi, Price: 31860.00, Currency: INR
+2025-09-13 11:45:33,982 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:45:43,775 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:45:44,201 - app.core.logging - INFO - Calculated hotel cost from 1 hotels: 95580.0
+2025-09-13 11:45:46,026 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:49:41,802 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:49:41,835 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:49:41,836 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:49:41,851 - app.core.logging - INFO - Shutting down application
+2025-09-13 11:49:44,966 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:49:44,966 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:49:44,967 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:49:44,966 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:49:44,967 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:49:44,967 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:49:44,968 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:49:44,968 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:49:46,695 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,718 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,721 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,733 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,734 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,758 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,761 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,775 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,779 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,802 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,806 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,819 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:49:46,897 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:49:46,922 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:49:46,925 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:49:46,943 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:51:41,339 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:51:41,340 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:51:41,349 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:51:41,349 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:51:41,353 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:51:41,353 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:51:41,356 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 11:51:41,356 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 11:51:43,098 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,140 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,144 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,155 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,159 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,187 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,187 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,198 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,201 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,236 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,245 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,248 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:43,312 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:51:43,367 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:51:43,372 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:51:43,374 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 11:51:47,282 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go mumbai to delhi
+2025-09-13 11:51:47,285 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 11:51:47,415 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:47,472 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 11:51:47,509 - app.core.logging - INFO - Detecting intent for: i want to go mumbai to delhi
+2025-09-13 11:51:54,674 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:51:55,514 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:51:55,515 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 11:52:02,698 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:52:02,712 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 11:52:02,713 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 11:52:21,373 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 11:52:21,378 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 11:52:21,379 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 11:52:22,082 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 11:52:23,797 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:52:23,803 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 11:52:23,803 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 11:52:23,803 - app.core.logging - INFO - Searching hotels near DEL (28.7041, 77.1025) for 2025-09-14 to 2025-09-17
+2025-09-13 11:52:35,563 - app.core.logging - ERROR - Hotel search API error: [400]
+
+2025-09-13 11:52:35,564 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 11:52:42,823 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:52:48,864 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 11:52:49,272 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-13 11:52:51,544 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:12:56,654 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:12:56,711 - app.core.logging - INFO - Processing hotel search query: Hotels in Delhi for tomorrow for 2 nights
+2025-09-13 12:12:58,611 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:12:58,679 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-16', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:12:58,680 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 12:12:58,680 - app.core.logging - INFO - Step 1: Getting hotels near DEL (28.7041, 77.1025)
+2025-09-13 12:13:25,050 - app.core.logging - INFO - Step 1: Found 103 hotels, using 20 for offers
+2025-09-13 12:13:25,051 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-16
+2025-09-13 12:13:29,481 - app.core.logging - INFO - SUCCESS: Found 1 hotel offers
+2025-09-13 12:13:29,489 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 12:13:29,490 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 12:13:29,491 - app.core.logging - INFO - Sample hotel data - Name: CROWNE PLAZA NEW DELHI ROHINI, Price: 16965.76, Currency: INR
+2025-09-13 12:13:41,743 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:13:41,797 - app.core.logging - INFO - Processing flight search query: Flight to Mumbai tomorrow
+2025-09-13 12:13:41,797 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: Flight to Mumbai tomorrow
+2025-09-13 12:13:44,300 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:13:44,336 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "CJB",
+    "location_destination": "BOM",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 1.0, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "Assumed default origin as Coimbatore (CJB)"
+}
+2025-09-13 12:13:44,337 - app.core.logging - INFO - Using origin: CJB (CJB=Coimbatore default if not specified)
+2025-09-13 12:13:44,339 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'CJB', 'location_destination': 'BOM', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 1.0, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'Assumed default origin as Coimbatore (CJB)'}
+2025-09-13 12:14:07,250 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 12:15:13,781 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to goa on 10 oct 2025 , 2 people for 2-3 days plan in goa
+2025-09-13 12:15:13,782 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 12:15:13,902 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:15:13,947 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:15:13,990 - app.core.logging - INFO - Detecting intent for: i want to go delhi to goa on 10 oct 2025 , 2 people for 2-3 days plan in goa
+2025-09-13 12:15:15,609 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:15:20,013 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:07,830 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go mumbai to delhi
+2025-09-13 12:16:07,831 - app.core.logging - INFO - Detecting intent for: i want to go mumbai to delhi
+2025-09-13 12:16:09,374 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:10,189 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:16:10,190 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:16:12,100 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:12,136 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 12:16:12,137 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 12:16:28,837 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 12:16:28,843 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 12:16:28,843 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 12:16:29,549 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 12:16:30,884 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:30,918 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:16:30,919 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 12:16:30,919 - app.core.logging - INFO - Searching hotels near DEL (28.7041, 77.1025) for 2025-09-14 to 2025-09-17
+2025-09-13 12:16:42,248 - app.core.logging - ERROR - Hotel search API error: [400]
+
+2025-09-13 12:16:42,249 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 12:16:45,938 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:51,810 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:16:52,218 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-13 12:16:55,361 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:18:58,770 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:18:58,770 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:18:58,773 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:18:58,773 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:18:58,777 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:18:58,777 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:18:58,780 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:18:58,780 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:19:00,544 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,548 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,577 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,586 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,588 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,592 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,619 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,632 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,639 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,641 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,669 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,680 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:19:00,765 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:19:00,772 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:19:00,796 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:19:00,808 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:19:22,892 - app.core.logging - INFO - Shutting down application
+2025-09-13 12:19:22,894 - app.core.logging - INFO - Shutting down application
+2025-09-13 12:19:22,921 - app.core.logging - INFO - Shutting down application
+2025-09-13 12:19:22,934 - app.core.logging - INFO - Shutting down application
+2025-09-13 12:20:00,047 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:20:00,047 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:20:00,048 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:20:00,048 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:20:00,050 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:20:00,051 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:20:00,077 - numexpr.utils - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-09-13 12:20:00,077 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-09-13 12:20:01,791 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,794 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,795 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,800 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,831 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,834 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,836 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,841 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,876 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,880 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,883 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,886 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:01,999 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:20:02,008 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:20:02,009 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:20:02,010 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:20:19,875 - app.middleware.auth_middleware - WARNING - [AUTH MIDDLEWARE] Unauthorized API access attempt to /api/hotel/search from IP: 127.0.0.1
+2025-09-13 12:20:19,876 - app.core.logging - ERROR - Global exception handler caught: 401: Authentication required
+2025-09-13 12:20:32,712 - app.middleware.auth_middleware - INFO - [AUTH MIDDLEWARE] Unauthenticated access to / from IP: 127.0.0.1 - Redirecting to /auth
+2025-09-13 12:20:46,530 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:20:46,606 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 12:20:48,088 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:20:48,129 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:20:48,130 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 12:20:48,130 - app.core.logging - INFO - Step 1: Getting hotels near DEL (28.7041, 77.1025)
+2025-09-13 12:20:58,135 - app.core.logging - INFO - Step 1: Found 103 hotels, using 20 for offers
+2025-09-13 12:20:58,136 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 12:21:00,276 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go mumbai to delhi
+2025-09-13 12:21:00,277 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 12:21:00,383 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:21:00,445 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:21:00,515 - app.core.logging - INFO - SUCCESS: Found 1 hotel offers
+2025-09-13 12:21:00,520 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 12:21:00,520 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 12:21:00,520 - app.core.logging - INFO - Detecting intent for: i want to go mumbai to delhi
+2025-09-13 12:21:00,521 - app.core.logging - INFO - Sample hotel data - Name: CROWNE PLAZA NEW DELHI ROHINI, Price: 26456.64, Currency: INR
+2025-09-13 12:21:02,232 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:03,091 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:21:03,091 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:21:04,977 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:04,982 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 12:21:04,983 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 12:21:04,983 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 12:21:16,261 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 12:21:16,266 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 12:21:16,267 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 12:21:16,971 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 12:21:18,259 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:18,282 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:21:18,282 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 12:21:18,282 - app.core.logging - INFO - Step 1: Getting hotels near DEL (28.7041, 77.1025)
+2025-09-13 12:21:24,054 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:21:24,129 - app.core.logging - INFO - Processing flight search query: flight to Mumbai tomorrow
+2025-09-13 12:21:24,129 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight to Mumbai tomorrow
+2025-09-13 12:21:26,731 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:26,762 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "CJB",
+    "location_destination": "BOM",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 1.0, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "Assumed default origin as Coimbatore (CJB)"
+}
+2025-09-13 12:21:26,763 - app.core.logging - INFO - Using origin: CJB (CJB=Coimbatore default if not specified)
+2025-09-13 12:21:26,765 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'CJB', 'location_destination': 'BOM', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 1.0, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'Assumed default origin as Coimbatore (CJB)'}
+2025-09-13 12:21:34,284 - app.core.logging - INFO - Step 1: Found 103 hotels, using 20 for offers
+2025-09-13 12:21:34,285 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 12:21:37,953 - app.core.logging - INFO - SUCCESS: Found 1 hotel offers
+2025-09-13 12:21:37,958 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 12:21:37,958 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 12:21:37,959 - app.core.logging - INFO - Sample hotel data - Name: CROWNE PLAZA NEW DELHI ROHINI, Price: 26456.64, Currency: INR
+2025-09-13 12:21:37,962 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 12:21:37,962 - app.core.logging - INFO - Sample hotel data - Name: None, Price: None, Currency: None
+2025-09-13 12:21:39,512 - app.core.logging - INFO - Created dataframe with 9 flights
+2025-09-13 12:21:39,513 - app.core.logging - INFO - Processing flight search query: flight from Delhi to Mumbai tomorrow
+2025-09-13 12:21:39,514 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from Delhi to Mumbai tomorrow
+2025-09-13 12:21:41,269 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:41,284 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "DEL",
+    "location_destination": "BOM",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.98, "destination": 0.95, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 12:21:41,285 - app.core.logging - INFO - Using origin: DEL (CJB=Coimbatore default if not specified)
+2025-09-13 12:21:41,286 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'BOM', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.98, 'destination': 0.95, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 12:21:44,998 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:49,921 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 12:21:51,174 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:21:51,589 - app.core.logging - WARNING - No valid hotel prices found, using default estimate
+2025-09-13 12:21:54,041 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:24:53,987 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:53,993 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:53,994 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,010 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,031 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,035 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,038 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,055 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,080 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,083 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,091 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,104 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:24:54,324 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:24:54,331 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:24:54,336 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:24:54,348 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:25:01,731 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to goa on 10 oct 2025 , 2 people for 2-3 days plan in goa
+2025-09-13 12:25:01,732 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 12:25:01,831 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:25:01,884 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:25:01,929 - app.core.logging - INFO - Detecting intent for: i want to go delhi to goa on 10 oct 2025 , 2 people for 2-3 days plan in goa
+2025-09-13 12:25:03,419 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:25:08,523 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:25:49,821 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go delhi to goa
+2025-09-13 12:25:49,823 - app.core.logging - INFO - Detecting intent for: i want to go delhi to goa
+2025-09-13 12:25:51,532 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:25:52,351 - app.core.logging - INFO - Processing flight search query: flight from delhi to goa on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:25:52,351 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from delhi to goa on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 12:25:54,201 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:25:54,205 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "DEL",
+    "location_destination": "GOI",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.98, "destination": 0.95, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 12:25:54,206 - app.core.logging - INFO - Using origin: DEL (CJB=Coimbatore default if not specified)
+2025-09-13 12:25:54,206 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'DEL', 'location_destination': 'GOI', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.98, 'destination': 0.95, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 12:26:17,125 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 12:26:17,131 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 12:26:17,132 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 4010.96, Currency: INR
+2025-09-13 12:26:17,835 - app.core.logging - INFO - Processing hotel search query: hotels in goa from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 12:26:19,394 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:26:19,398 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:26:19,398 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-13 12:26:19,399 - app.core.logging - INFO - Step 1: Getting hotels near GOI (15.2993, 74.124)
+2025-09-13 12:26:41,574 - app.core.logging - INFO - Step 1: Found 4 hotels, using 4 for offers
+2025-09-13 12:26:41,575 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 12:26:48,881 - app.core.logging - ERROR - Hotel search API error: [400]
+[hotelIds=ONGOISIL] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED
+2025-09-13 12:26:48,881 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 12:26:52,716 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:26:58,294 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:26:58,701 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-13 12:27:01,481 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:39:52,967 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:39:53,034 - app.core.logging - INFO - Processing hotel search query: hotels in goa from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 12:39:54,425 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 12:39:54,464 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 12:39:54,465 - app.core.logging - INFO - Using mapped city code GOI for Goa
+2025-09-13 12:39:54,466 - app.core.logging - INFO - Step 1: Getting hotels near GOI (15.2993, 74.124)
+2025-09-13 12:40:04,033 - app.core.logging - INFO - Found 4 hotels. Inventory level: Low
+2025-09-13 12:40:04,034 - app.core.logging - INFO - Step 1: Found 4 hotels, using 4 for offers
+2025-09-13 12:40:04,034 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 12:40:04,035 - app.core.logging - INFO - Trying batch of 4 hotels...
+2025-09-13 12:40:07,374 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=ONGOISIL] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED, trying individual hotels...
+2025-09-13 12:40:12,192 - app.core.logging - INFO - Hotel ONGOISIL not available: [400]
+[hotelIds=ONGOISIL] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED
+2025-09-13 12:40:14,043 - app.core.logging - INFO - Hotel YXGOIFBM not available: [400]
+[hotelIds=YXGOIFBM] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 12:40:18,243 - app.core.logging - INFO - Hotel ILGOI357 not available: [400]
+[hotelIds=ILGOI357] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 12:40:28,895 - app.core.logging - INFO - Hotel ILGOI073 not available: [400]
+[hotelIds=ILGOI073] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 12:40:28,896 - app.core.logging - WARNING - No offers found for any hotels in GOI
+2025-09-13 12:40:28,896 - app.core.logging - INFO - Low inventory destination (4 hotels). Trying alternative dates...
+2025-09-13 12:40:35,294 - app.core.logging - INFO - Alternative dates also failed: [400]
+[hotelIds=ONGOISIL] Provider Error - ROOM OR RATE NOT AVAILABLE OR RESTRICTED
+2025-09-13 12:40:35,294 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 12:48:37,833 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,849 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,857 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,858 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,870 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,889 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,894 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,895 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,913 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,932 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,935 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:37,937 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 12:48:38,154 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:48:38,180 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:48:38,182 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 12:48:38,182 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 14:49:08,170 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,198 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,208 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,210 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,224 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,241 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,251 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,256 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,265 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,289 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,303 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,314 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:08,509 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 14:49:08,534 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 14:49:08,546 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 14:49:08,562 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 14:49:31,727 - app.core.logging - INFO - Starting streaming travel plan for query: i want travel from mumbai to delhi
+2025-09-13 14:49:31,729 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 14:49:31,821 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:31,860 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 14:49:31,900 - app.core.logging - INFO - Detecting intent for: i want travel from mumbai to delhi
+2025-09-13 14:49:35,067 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 14:49:35,885 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 14:49:35,887 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 14:49:37,606 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 14:49:37,612 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 14:49:37,613 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 14:49:37,614 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 14:49:47,152 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 14:49:47,158 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 14:49:47,158 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 14:49:47,861 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 14:49:49,894 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 14:49:49,899 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 14:49:49,899 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 14:49:49,900 - app.core.logging - INFO - Step 1: Getting hotels near DEL (28.7041, 77.1025)
+2025-09-13 14:49:52,559 - app.core.logging - INFO - Found 103 hotels. Inventory level: Normal
+2025-09-13 14:49:52,560 - app.core.logging - INFO - Step 1: Found 103 hotels, using 20 for offers
+2025-09-13 14:49:52,560 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 14:49:52,561 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 14:49:56,365 - app.core.logging - INFO - Batch SUCCESS: Found 1 offers
+2025-09-13 14:49:56,365 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 14:49:58,087 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=ONDELOMN] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 14:49:59,622 - app.core.logging - INFO - Hotel YXDEL143 not available: [400]
+[hotelIds=YXDEL143] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:01,057 - app.core.logging - INFO - Hotel HSDELADF not available: [400]
+[hotelIds=HSDELADF] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:02,491 - app.core.logging - INFO - Hotel TADEL005 not available: [400]
+[hotelIds=TADEL005] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:04,248 - app.core.logging - INFO - Hotel HSDELANA not available: [400]
+[hotelIds=HSDELANA] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:06,278 - app.core.logging - INFO - Hotel ONDELOMN not available: [400]
+[hotelIds=ONDELOMN] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:06,279 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 14:50:08,223 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=ONDELSIH] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 14:50:09,563 - app.core.logging - INFO - Hotel ILDEL163 not available: [400]
+[hotelIds=ILDEL163] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:10,886 - app.core.logging - INFO - Hotel ILDEL165 not available: [400]
+[hotelIds=ILDEL165] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:12,217 - app.core.logging - INFO - Hotel TADEL085 not available: [400]
+[hotelIds=TADEL085] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:13,871 - app.core.logging - INFO - Hotel ONDELSIH not available: [400]
+[hotelIds=ONDELSIH] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:15,494 - app.core.logging - INFO - Hotel HSDELAND not available: [400]
+[hotelIds=HSDELAND] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:15,494 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 14:50:16,945 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=HSDELABR,HSDELACW,HSDELAIS,HSDELAIY,TADEL925] NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 14:50:18,566 - app.core.logging - INFO - Hotel HSDELABR not available: [400]
+[hotelIds=HSDELABR] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:20,001 - app.core.logging - INFO - Hotel HSDELACW not available: [400]
+[hotelIds=HSDELACW] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:21,642 - app.core.logging - INFO - Hotel TADEL925 not available: [400]
+[hotelIds=TADEL925] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:22,867 - app.core.logging - INFO - Hotel HSDELAIS not available: [400]
+[hotelIds=HSDELAIS] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:24,506 - app.core.logging - INFO - Hotel HSDELAIY not available: [400]
+[hotelIds=HSDELAIY] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 14:50:24,506 - app.core.logging - INFO - TOTAL SUCCESS: Found 1 hotel offers across all batches
+2025-09-13 14:50:24,516 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 14:50:24,517 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 14:50:24,518 - app.core.logging - INFO - Sample hotel data - Name: CROWNE PLAZA NEW DELHI ROHINI, Price: 26456.64, Currency: INR
+2025-09-13 14:50:24,523 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 14:50:24,523 - app.core.logging - INFO - Sample hotel data - Name: None, Price: None, Currency: None
+2025-09-13 14:51:23,088 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 14:51:23,092 - app.core.logging - ERROR - Error getting attractions: Expecting ',' delimiter: line 26 column 89 (char 5016)
+2025-09-13 14:51:33,017 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 14:51:33,429 - app.core.logging - WARNING - No valid hotel prices found, using default estimate
+2025-09-13 14:51:36,190 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:14:50,001 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,014 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,015 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,038 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,051 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,052 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,055 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,079 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,094 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,096 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,098 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,145 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:14:50,285 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:14:50,298 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:14:50,298 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:14:50,336 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:15:05,861 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,865 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,875 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,876 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,902 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,907 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,915 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,917 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,949 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,953 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,963 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:05,963 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:15:06,226 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:15:06,234 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:15:06,248 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:15:06,252 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:15:18,844 - app.middleware.auth_middleware - INFO - [AUTH MIDDLEWARE] Unauthenticated access to / from IP: 127.0.0.1 - Redirecting to /auth
+2025-09-13 15:15:44,599 - app.middleware.auth_middleware - INFO - [AUTH MIDDLEWARE] Unauthenticated access to / from IP: 127.0.0.1 - Redirecting to /auth
+2025-09-13 15:17:36,568 - app.core.logging - INFO - Starting streaming travel plan for query: i want to go mumbai to delhi
+2025-09-13 15:17:36,569 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 15:17:36,612 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:17:36,652 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:17:36,695 - app.core.logging - INFO - Detecting intent for: i want to go mumbai to delhi
+2025-09-13 15:17:41,090 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:17:41,912 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:17:41,914 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:17:44,103 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:17:44,107 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 15:17:44,107 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 15:17:44,108 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 15:19:41,378 - app.core.logging - INFO - Starting streaming travel plan for query: Plan a 3-day trip to Kerala
+2025-09-13 15:19:41,380 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 15:19:41,502 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:19:41,551 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:19:41,588 - app.core.logging - INFO - Detecting intent for: Plan a 3-day trip to Kerala
+2025-09-13 15:19:43,168 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:19:46,606 - app.core.logging - INFO - Starting streaming travel plan for query: Business class flights to Dubai
+2025-09-13 15:19:46,607 - app.core.logging - INFO - Detecting intent for: Business class flights to Dubai
+2025-09-13 15:19:48,502 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:19:56,143 - app.core.logging - INFO - Starting streaming travel plan for query: Business class flights coimabtore to Dubai
+2025-09-13 15:19:56,146 - app.core.logging - INFO - Detecting intent for: Business class flights coimabtore to Dubai
+2025-09-13 15:19:58,393 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:19:59,213 - app.core.logging - INFO - Processing flight search query: flight from Coimbatore to Dubai on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:19:59,213 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from Coimbatore to Dubai on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:20:01,182 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:20:01,189 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "CJB",
+    "location_destination": "DXB",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 1.0, "destination": 1.0, "date": 1.0, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 15:20:01,190 - app.core.logging - INFO - Using origin: CJB (CJB=Coimbatore default if not specified)
+2025-09-13 15:20:01,191 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'CJB', 'location_destination': 'DXB', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 1.0, 'destination': 1.0, 'date': 1.0, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 15:21:16,122 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 15:21:16,128 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 15:21:16,128 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 16696.35, Currency: INR
+2025-09-13 15:22:07,850 - app.core.logging - INFO - Starting streaming travel plan for query: plane the trip for mumbai to gao
+2025-09-13 15:22:07,852 - app.core.logging - INFO - Detecting intent for: plane the trip for mumbai to gao
+2025-09-13 15:22:10,013 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:22:10,820 - app.core.logging - INFO - Processing flight search query: flight from mumbai to gao on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:22:10,821 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to gao on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:22:11,751 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-13 15:22:11,753 - openai._base_client - INFO - Retrying request to /chat/completions in 0.390668 seconds
+2025-09-13 15:22:14,212 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:22:14,217 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "GOI",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 15:22:14,217 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 15:22:14,218 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'GOI', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 15:22:23,850 - app.core.logging - INFO - Created dataframe with 10 flights
+2025-09-13 15:22:23,854 - app.core.logging - INFO - Found 10 flights from Amadeus API
+2025-09-13 15:22:23,854 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 2164.76, Currency: INR
+2025-09-13 15:22:24,558 - app.core.logging - INFO - Processing hotel search query: hotels in gao from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 15:22:27,153 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:22:27,156 - app.core.logging - INFO - Extracted hotel info: {'location': 'gao', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 15:22:27,156 - app.core.logging - ERROR - No coordinates available for city code: GAO
+2025-09-13 15:22:27,156 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 15:22:32,234 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:22:35,917 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:22:36,338 - app.core.logging - INFO - No hotels data available, using default estimate
+2025-09-13 15:22:38,732 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:30:16,065 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,069 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,096 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,105 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,112 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,130 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,138 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,148 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,155 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,170 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,185 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,215 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:16,346 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:16,353 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:16,379 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:16,405 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:29,973 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:29,990 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,004 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,014 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,020 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,043 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,053 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,067 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,069 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,099 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,112 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,128 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:30,379 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:30,406 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:30,425 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:30,443 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 15:30:42,068 - app.core.logging - INFO - Starting streaming travel plan for query: plane the trip for mumbai to delhi
+2025-09-13 15:30:42,069 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 15:30:42,138 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:42,182 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 15:30:42,232 - app.core.logging - INFO - Detecting intent for: plane the trip for mumbai to delhi
+2025-09-13 15:30:43,882 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:30:44,730 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:30:44,731 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 15:30:47,463 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:30:47,478 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 15:30:47,478 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 15:30:47,479 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 15:30:47,479 - app.core.logging - INFO - Searching flights: BOM -> DEL on 2025-09-14 for 1 adults
+2025-09-13 15:30:47,479 - app.core.logging - INFO - Making Amadeus API call for flight search...
+2025-09-13 15:31:22,910 - app.core.logging - INFO - Amadeus API call completed. Found 3 flights
+2025-09-13 15:31:26,429 - app.core.logging - INFO - Created dataframe with 3 flights
+2025-09-13 15:31:26,434 - app.core.logging - INFO - Found 3 flights from Amadeus API
+2025-09-13 15:31:26,435 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 15:31:27,137 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 15:31:28,692 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:31:28,703 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 15:31:28,704 - app.core.logging - INFO - Using mapped city code DEL for Delhi
+2025-09-13 15:31:28,704 - app.core.logging - INFO - Step 1: Getting hotels near DEL (28.7041, 77.1025)
+2025-09-13 15:31:48,547 - app.core.logging - INFO - Found 103 hotels. Inventory level: Normal
+2025-09-13 15:31:48,548 - app.core.logging - INFO - Step 1: Found 103 hotels, using 20 for offers
+2025-09-13 15:31:48,548 - app.core.logging - INFO - Step 2: Getting offers for hotels from 2025-09-14 to 2025-09-17
+2025-09-13 15:31:48,548 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 15:31:55,099 - app.core.logging - INFO - Batch SUCCESS: Found 1 offers
+2025-09-13 15:31:55,100 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 15:31:56,836 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=ONDELOMN] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 15:32:08,934 - app.core.logging - INFO - Hotel YXDEL143 not available: [400]
+[hotelIds=YXDEL143] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:12,295 - app.core.logging - INFO - Hotel HSDELADF not available: [400]
+[hotelIds=HSDELADF] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:15,582 - app.core.logging - INFO - Hotel TADEL005 not available: [400]
+[hotelIds=TADEL005] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:18,201 - app.core.logging - INFO - Hotel HSDELANA not available: [400]
+[hotelIds=HSDELANA] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:19,934 - app.core.logging - INFO - Hotel ONDELOMN not available: [400]
+[hotelIds=ONDELOMN] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:19,935 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 15:32:23,762 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=ONDELSIH] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 15:32:26,912 - app.core.logging - INFO - Hotel ILDEL163 not available: [400]
+[hotelIds=ILDEL163] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:28,983 - app.core.logging - INFO - Hotel ILDEL165 not available: [400]
+[hotelIds=ILDEL165] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:30,307 - app.core.logging - INFO - Hotel TADEL085 not available: [400]
+[hotelIds=TADEL085] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:32,632 - app.core.logging - INFO - Hotel ONDELSIH not available: [400]
+[hotelIds=ONDELSIH] Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:33,973 - app.core.logging - INFO - Hotel HSDELAND not available: [400]
+[hotelIds=HSDELAND] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:33,974 - app.core.logging - INFO - Trying batch of 5 hotels...
+2025-09-13 15:32:35,714 - app.core.logging - WARNING - Batch failed: [400]
+[hotelIds=HSDELABR,HSDELACW,HSDELAIS,HSDELAIY,TADEL925] NO ROOMS AVAILABLE AT REQUESTED PROPERTY, trying individual hotels...
+2025-09-13 15:32:39,361 - app.core.logging - INFO - Hotel HSDELABR not available: [400]
+[hotelIds=HSDELABR] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:42,220 - app.core.logging - INFO - Hotel HSDELACW not available: [400]
+[hotelIds=HSDELACW] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:46,559 - app.core.logging - INFO - Hotel TADEL925 not available: [400]
+[hotelIds=TADEL925] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:48,536 - app.core.logging - INFO - Hotel HSDELAIS not available: [400]
+[hotelIds=HSDELAIS] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:52,227 - app.core.logging - INFO - Hotel HSDELAIY not available: [400]
+[hotelIds=HSDELAIY] NO ROOMS AVAILABLE AT REQUESTED PROPERTY
+2025-09-13 15:32:52,228 - app.core.logging - INFO - TOTAL SUCCESS: Found 1 hotel offers across all batches
+2025-09-13 15:32:52,235 - app.core.logging - INFO - Created dataframe with 1 hotels
+2025-09-13 15:32:52,235 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 15:32:52,236 - app.core.logging - INFO - Sample hotel data - Name: CROWNE PLAZA NEW DELHI ROHINI, Price: 26456.64, Currency: INR
+2025-09-13 15:32:52,242 - app.core.logging - INFO - Found 1 hotels from Amadeus API
+2025-09-13 15:32:52,243 - app.core.logging - INFO - Sample hotel data - Name: None, Price: None, Currency: None
+2025-09-13 15:33:00,419 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:33:08,522 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 15:33:08,945 - app.core.logging - WARNING - No valid hotel prices found, using default estimate
+2025-09-13 15:33:11,445 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

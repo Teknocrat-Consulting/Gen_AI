@@ -322,32 +322,39 @@ class TravelChatbot {
     createHotelCard(hotel, index) {
         const card = document.createElement('div');
         card.className = 'hotel-card';
-        
-        // Parse price
-        const priceValue = parseFloat(hotel['Total Price']) || 0;
-        const currency = hotel['Currency'] || '₹';
+
+        // Safe property access with fallbacks
+        const hotelName = hotel['Hotel Name'] || hotel['hotel_name'] || 'Hotel Available';
+        const priceValue = parseFloat(hotel['Total Price'] || hotel['price_total']) || 0;
+        const currency = hotel['Currency'] || hotel['currency'] || '₹';
         const priceDisplay = priceValue > 0 ? `${currency}${priceValue.toLocaleString()}` : 'Price on request';
-        
-        // Parse rating
-        const rating = hotel['Rating'] && hotel['Rating'] !== 'N/A' ? parseFloat(hotel['Rating']) : 0;
+
+        // Parse rating safely
+        const ratingValue = hotel['Rating'] || hotel['rating'];
+        const rating = (ratingValue && ratingValue !== 'N/A' && ratingValue !== 'undefined') ? parseFloat(ratingValue) : 0;
         const ratingStars = rating > 0 ? '★'.repeat(Math.floor(rating)) + (rating % 1 ? '☆' : '') : 'No rating';
-        
-        // Clean amenities
-        const amenities = hotel['Amenities'] || 'Standard amenities';
-        const amenitiesList = amenities.split(',').slice(0, 3).join(', ');
-        
+
+        // Safe amenities handling
+        const amenities = hotel['Amenities'] || hotel['amenities'] || 'Standard amenities';
+        const amenitiesList = typeof amenities === 'string' ? amenities.split(',').slice(0, 3).join(', ') : 'Standard amenities';
+
+        // Safe location handling
+        const city = hotel['City'] || hotel['city_code'] || '';
+        const country = hotel['Country'] || hotel['country_code'] || '';
+        const location = `${city} ${country}`.trim() || 'Location available';
+
         card.innerHTML = `
             <div class="hotel-card-content">
                 <div class="hotel-header">
                     <div class="hotel-info">
-                        <h3 class="hotel-name">${hotel['Hotel Name'] || 'Hotel'}</h3>
+                        <h3 class="hotel-name">${hotelName}</h3>
                         <div class="hotel-rating">
                             <span class="stars">${ratingStars}</span>
                             ${rating > 0 ? `<span class="rating-text">(${rating}/5)</span>` : ''}
                         </div>
                         <div class="hotel-location">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>${hotel['City'] || ''} ${hotel['Country'] || ''}</span>
+                            <span>${location}</span>
                         </div>
                     </div>
                     <div class="hotel-price">
@@ -355,35 +362,35 @@ class TravelChatbot {
                         <span class="price-period">per night</span>
                     </div>
                 </div>
-                
+
                 <div class="hotel-details">
                     <div class="room-type">
                         <i class="fas fa-bed"></i>
-                        <span>${hotel['Room Type'] || 'Standard Room'}</span>
+                        <span>${hotel['Room Type'] || hotel['room_type'] || 'Standard Room'}</span>
                     </div>
                     <div class="hotel-amenities">
                         <i class="fas fa-wifi"></i>
                         <span>${amenitiesList}</span>
                     </div>
                     <div class="check-times">
-                        <span class="check-in">Check-in: ${hotel['Check-in Time'] || 'Standard'}</span>
-                        <span class="check-out">Check-out: ${hotel['Check-out Time'] || 'Standard'}</span>
+                        <span class="check-in">Check-in: ${hotel['Check-in Time'] || hotel['check_in'] || 'Standard'}</span>
+                        <span class="check-out">Check-out: ${hotel['Check-out Time'] || hotel['check_out'] || 'Standard'}</span>
                     </div>
                 </div>
-                
+
                 <div class="hotel-actions">
-                    <button class="view-details-btn" onclick="showHotelDetails('${hotel['Hotel ID'] || ''}')">
+                    <button class="view-details-btn" onclick="showHotelDetails('${hotel['Hotel ID'] || hotel['hotel_id'] || ''}')">
                         <i class="fas fa-info-circle"></i>
                         View Details
                     </button>
                     <button class="book-now-btn">
                         <i class="fas fa-calendar-check"></i>
-                        Book Now
+                        Select Room
                     </button>
                 </div>
             </div>
         `;
-        
+
         // Add event listener for book button
         const bookBtn = card.querySelector('.book-now-btn');
         if (bookBtn) {
@@ -392,7 +399,7 @@ class TravelChatbot {
                 this.showHotelDetails(hotel);
             });
         }
-        
+
         return card;
     }
 
