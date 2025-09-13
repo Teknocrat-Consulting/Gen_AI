@@ -52,32 +52,10 @@ if static_path.exists():
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    # Serve the premium booking UI as default
+    # Serve the premium booking UI
     template_path = Path(__file__).parent / "templates" / "premium_booking.html"
     if template_path.exists():
         with open(template_path, "r") as f:
-            return HTMLResponse(content=f.read())
-    
-    # Fallback to v2 template
-    template_path = Path(__file__).parent / "templates" / "travel_planner_v2.html"
-    if template_path.exists():
-        with open(template_path, "r") as f:
-            return HTMLResponse(content=f.read())
-    
-    # Original fallback
-    streaming_path = Path(__file__).parent / "templates" / "streaming_travel.html"
-    if streaming_path.exists():
-        with open(streaming_path, "r") as f:
-            return HTMLResponse(content=f.read())
-    
-    travel_planner_path = Path(__file__).parent / "templates" / "travel_planner.html"
-    if travel_planner_path.exists():
-        with open(travel_planner_path, "r") as f:
-            return HTMLResponse(content=f.read())
-    
-    index_path = Path(__file__).parent / "templates" / "index.html"
-    if index_path.exists():
-        with open(index_path, "r") as f:
             return HTMLResponse(content=f.read())
     return HTMLResponse(content="<h1>AI Travel Planner</h1><p>Visit /docs for API documentation</p>")
 
