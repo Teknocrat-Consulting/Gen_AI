@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 import pandas as pd
-from amadeus import Client, ResponseError
+from serpapi import GoogleSearch
 from openai import OpenAI
 from dotenv import load_dotenv
 from app.core.logging import logger
@@ -14,17 +14,20 @@ load_dotenv()
 
 class HotelService:
     def __init__(self):
-        self.amadeus = Client(
-            client_id=settings.API_Key,
-            client_secret=settings.API_Secret
-        )
+        # Initialize SerpAPI client
+        self.serpapi_key = settings.SERPAPI
+        if not self.serpapi_key:
+            logger.error("SERPAPI key is not set!")
+            raise ValueError("SERPAPI key is required")
+
+        # Initialize OpenAI client
         api_key = settings.OPENAI_API_KEY
         if not api_key:
             logger.error("OPENAI_API_KEY is not set!")
             raise ValueError("OPENAI_API_KEY is required")
         logger.info(f"Initializing OpenAI client with key: {api_key[:10]}...")
+        logger.info(f"Initializing SerpAPI client with key: {self.serpapi_key[:10]}...")
         self.openai_client = OpenAI(api_key=api_key)
-        self.exchange_rate = 90.50  # EUR to INR approximate
 
     def get_city_code(self, location: str) -> Optional[str]:
         """Get city code for hotel search with improved mappings"""
@@ -114,276 +117,150 @@ class HotelService:
             logger.error(f"Error extracting hotel info: {e}")
             return None
 
-    def search_hotels_simplified(self, city_code: str, check_in: str, check_out: str,
+    def search_hotels_simplified(self, location: str, check_in: str, check_out: str,
                                 adults: int = 1, rooms: int = 1) -> List[Dict[str, Any]]:
-        """Two-step hotel search: get hotel IDs by coordinates, then get offers by hotel IDs"""
+        """Simple and fast hotel search using SerpAPI Google Hotels"""
 
-        # Coordinates for major cities (more reliable than city codes)
-        city_coords = {
-            'BOM': (19.0760, 72.8777),  # Mumbai
-            'DEL': (28.7041, 77.1025),  # Delhi
-            'BLR': (12.9716, 77.5946),  # Bangalore
-            'MAA': (13.0827, 80.2707),  # Chennai
-            'CCU': (22.5726, 88.3639),  # Kolkata
-            'HYD': (17.3850, 78.4867),  # Hyderabad
-            'GOI': (15.2993, 74.1240),  # Goa
-            'LON': (51.5074, -0.1278),  # London
-            'PAR': (48.8566, 2.3522),   # Paris
-            'NYC': (40.7128, -74.0060), # New York
-            'DXB': (25.2048, 55.2708),  # Dubai
-            'SIN': (1.3521, 103.8198),  # Singapore
-            'BKK': (13.7563, 100.5018), # Bangkok
-            'TYO': (35.6762, 139.6503)  # Tokyo
-        }
-
-        if city_code not in city_coords:
-            logger.error(f"No coordinates available for city code: {city_code}")
-            return []
-
-        lat, lon = city_coords[city_code]
+        logger.info(f"Searching hotels in {location} from {check_in} to {check_out} for {adults} adults")
 
         try:
-            logger.info(f"Step 1: Getting hotels near {city_code} ({lat}, {lon})")
+            # Create search parameters
+            search_params = {
+                "engine": "google_hotels",
+                "q": f"hotels in {location}",
+                "check_in_date": check_in,
+                "check_out_date": check_out,
+                "adults": adults,
+                "currency": "INR",
+                "api_key": self.serpapi_key
+            }
 
-            # STEP 1: Get hotel IDs by coordinates
-            hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
-                latitude=lat,
-                longitude=lon,
-                radius=20,
-                radiusUnit='KM'
-            )
+            logger.info("Making SerpAPI call for hotel search...")
 
-            if not hotel_response.data:
-                logger.warning(f"No hotels found near {city_code}")
-                # Try with larger radius
-                logger.info("Trying with larger radius...")
-                hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
-                    latitude=lat,
-                    longitude=lon,
-                    radius=50,
-                    radiusUnit='KM'
-                )
+            # Execute search
+            search = GoogleSearch(search_params)
+            results = search.get_dict()
 
-            if not hotel_response.data:
-                logger.error(f"No hotels found even with larger radius for {city_code}")
+            # Debug: Log the response structure
+            logger.info(f"SerpAPI response keys: {list(results.keys())}")
+
+            # Handle different response scenarios
+            if 'error' in results:
+                logger.error(f"SerpAPI error: {results['error']}")
                 return []
 
-            hotel_count = len(hotel_response.data)
-            logger.info(f"Found {hotel_count} hotels. Inventory level: {'Low' if hotel_count < 10 else 'Normal'}")
+            # Extract properties from results
+            properties = results.get('properties', [])
 
-            # Get hotel IDs (limit to reasonable number for offers API)
-            hotel_ids = [h.get('hotelId') for h in hotel_response.data[:20]]  # Max 20 hotels
-            logger.info(f"Step 1: Found {len(hotel_response.data)} hotels, using {len(hotel_ids)} for offers")
-
-            # STEP 2: Fast direct search - try just first few hotels
-            logger.info(f"Step 2: Quick search for first 3 hotels from {check_in} to {check_out}")
-
-            # Try first 3 hotels directly - much faster
-            for hotel_id in hotel_ids[:3]:
-                try:
-                    response = self.amadeus.shopping.hotel_offers_search.get(
-                        hotelIds=[hotel_id],
-                        checkInDate=check_in,
-                        checkOutDate=check_out,
-                        adults=adults,
-                        roomQuantity=rooms,
-                        currency='INR'
-                    )
-
-                    if response.data:
-                        logger.info(f"SUCCESS: Found {len(response.data)} offers for hotel {hotel_id}")
-                        return response.data  # Return immediately when we find something
-
-                except ResponseError as error:
-                    logger.info(f"Hotel {hotel_id} not available: {error}")
-                    continue
-
-            logger.warning(f"No offers found in quick search for {city_code}")
-
-            # For low-inventory destinations, try alternative strategies
-            if hotel_count < 10:
-                logger.info(f"Low inventory destination ({hotel_count} hotels). Trying alternative dates...")
-
-                # Try with dates a few days later
-                alt_checkin = (datetime.strptime(check_in, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d')
-                alt_checkout = (datetime.strptime(check_out, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d')
-
-                try:
-                    alt_offers_response = self.amadeus.shopping.hotel_offers_search.get(
-                        hotelIds=hotel_ids[:5],  # Try first 5 hotels with alternative dates
-                        checkInDate=alt_checkin,
-                        checkOutDate=alt_checkout,
-                        adults=adults,
-                        roomQuantity=rooms,
-                        currency='INR'
-                    )
-
-                    if alt_offers_response.data:
-                        logger.info(f"ALTERNATIVE SUCCESS: Found {len(alt_offers_response.data)} offers for {alt_checkin}-{alt_checkout}")
-                        # Update the offers with original requested dates in the display
-                        for offer in alt_offers_response.data:
-                            for room_offer in offer.get('offers', []):
-                                room_offer['original_dates'] = f"{check_in} to {check_out} (adjusted to {alt_checkin}-{alt_checkout})"
-                        return alt_offers_response.data
-                except ResponseError as alt_error:
-                    logger.info(f"Alternative dates also failed: {alt_error}")
-
-                return []
-
-        except ResponseError as e:
-            logger.error(f"Hotel search API error: {e}")
-
-            # Handle room availability issues by trying different hotels
-            if "ROOM OR RATE NOT AVAILABLE" in str(e) or "NOT AVAILABLE OR RESTRICTED" in str(e):
-                logger.info("Some hotels don't have availability, trying with different hotel subset...")
-                try:
-                    # Get hotel IDs again but use different subset (next 20 hotels)
-                    hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
-                        latitude=lat,
-                        longitude=lon,
-                        radius=20,
-                        radiusUnit='KM'
-                    )
-
-                    if hotel_response.data and len(hotel_response.data) > 20:
-                        # Try next batch of hotels
-                        hotel_ids = [h.get('hotelId') for h in hotel_response.data[20:40]]  # Next 20 hotels
-                        logger.info(f"Trying with different hotels: {len(hotel_ids)} hotels")
-
-                        offers_response = self.amadeus.shopping.hotel_offers_search.get(
-                            hotelIds=hotel_ids,
-                            checkInDate=check_in,
-                            checkOutDate=check_out,
-                            adults=adults,
-                            roomQuantity=rooms,
-                            currency='INR'
-                        )
-
-                        if offers_response.data:
-                            logger.info(f"SUCCESS with alternate hotels: Found {len(offers_response.data)} offers")
-                            return offers_response.data
-
-                except ResponseError as e2:
-                    logger.error(f"Alternate hotel search also failed: {e2}")
-
-            # Try alternative approach for date issues
-            if "INVALID_DATE" in str(e) or "date" in str(e).lower():
-                logger.info("Trying with future dates due to date validation error...")
-                future_checkin = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
-                future_checkout = (datetime.now() + timedelta(days=9)).strftime('%Y-%m-%d')
-
-                try:
-                    # Re-try step 1 and 2 with future dates
-                    hotel_response = self.amadeus.reference_data.locations.hotels.by_geocode.get(
-                        latitude=lat,
-                        longitude=lon,
-                        radius=20,
-                        radiusUnit='KM'
-                    )
-
-                    if hotel_response.data:
-                        hotel_ids = [h.get('hotelId') for h in hotel_response.data[:20]]
-                        fallback_response = self.amadeus.shopping.hotel_offers_search.get(
-                            hotelIds=hotel_ids,
-                            checkInDate=future_checkin,
-                            checkOutDate=future_checkout,
-                            adults=adults,
-                            roomQuantity=rooms,
-                            currency='INR'
-                        )
-
-                        if fallback_response.data:
-                            logger.info(f"Future date search found {len(fallback_response.data)} offers")
-                            # Update dates in response to reflect what user actually wanted
-                            for offer in fallback_response.data:
-                                for room_offer in offer.get('offers', []):
-                                    room_offer['checkInDate'] = check_in
-                                    room_offer['checkOutDate'] = check_out
-                            return fallback_response.data
-
-                except ResponseError as e2:
-                    logger.error(f"Fallback search also failed: {e2}")
-
-            return []
+            if properties:
+                logger.info(f"SUCCESS: Found {len(properties)} hotels via SerpAPI")
+                return properties[:5]  # Return first 5 hotels for speed
+            else:
+                # Debug: Check if results exist but with different structure
+                if 'hotels' in results:
+                    hotels = results.get('hotels', [])
+                    logger.info(f"Found hotels in 'hotels' key: {len(hotels)}")
+                    return hotels[:5]
+                elif 'local_results' in results:
+                    local_results = results.get('local_results', [])
+                    logger.info(f"Found local_results: {len(local_results)}")
+                    # Transform local_results to properties format if needed
+                    return local_results[:5]
+                else:
+                    logger.warning(f"No hotels found for {location}. Available keys: {list(results.keys())}")
+                    return []
 
         except Exception as e:
-            logger.error(f"Unexpected error in hotel search: {e}")
+            logger.error(f"SerpAPI hotel search error: {e}")
             return []
 
     def create_hotel_dataframe(self, hotel_data: List[Dict[str, Any]]) -> pd.DataFrame:
         """Create structured DataFrame from hotel offers"""
         hotel_details = []
 
-        for hotel_offer in hotel_data:
+        # Process SerpAPI format instead of Amadeus format
+        for property_data in hotel_data:
             try:
-                hotel = hotel_offer.get('hotel', {})
-                offers = hotel_offer.get('offers', [])
+                # Extract data from SerpAPI format
+                name = property_data.get('name', 'Hotel Available')
 
-                if not offers:
-                    continue
+                # Extract pricing
+                rate_per_night = property_data.get('rate_per_night', {})
+                price = 0
+                price_str = rate_per_night.get('lowest', '$0')
 
-                # Get best offer (first one, as they're sorted by price)
-                best_offer = offers[0]
-                price_info = best_offer.get('price', {})
-                room_info = best_offer.get('room', {})
+                # Parse price from string like "$40" or "₹3500"
+                if 'extracted_lowest' in rate_per_night:
+                    price = float(rate_per_night['extracted_lowest'])
+                elif price_str:
+                    # Extract number from price string
+                    import re
+                    price_match = re.search(r'\d+', price_str.replace(',', ''))
+                    if price_match:
+                        price = float(price_match.group())
 
-                # Extract hotel details with better error handling
-                hotel_name = hotel.get('name')
-                if not hotel_name or hotel_name == 'None':
-                    hotel_name = 'Hotel Available'
+                # Extract rating and reviews
+                rating = property_data.get('overall_rating', 'N/A')
+                reviews = property_data.get('reviews', 0)
 
-                price_total = float(price_info.get('total', 0)) if price_info.get('total') else 0
-                price_currency = price_info.get('currency', 'INR')
+                # Extract amenities
+                amenities = property_data.get('amenities', [])
+                amenities_str = ', '.join(amenities[:4]) if amenities else 'Standard amenities'
+
+                # Extract essential info
+                essential_info = property_data.get('essential_info', [])
+                room_info = ', '.join(essential_info[:2]) if essential_info else 'Standard Room'
 
                 hotel_detail = {
                     # Frontend expects these exact keys
-                    'Hotel Name': hotel_name,
-                    'Hotel ID': hotel.get('hotelId', ''),
-                    'Chain Code': hotel.get('chainCode', ''),
-                    'Rating': hotel.get('rating', 'N/A'),
-                    'City': hotel.get('address', {}).get('cityCode', ''),
-                    'Country': hotel.get('address', {}).get('countryCode', ''),
+                    'Hotel Name': name,
+                    'Hotel ID': property_data.get('property_token', ''),
+                    'Chain Code': property_data.get('type', ''),
+                    'Rating': rating,
+                    'City': 'Location Available',  # SerpAPI doesn't provide separate city
+                    'Country': '',
 
                     # Pricing information (frontend keys)
-                    'Total Price': price_total,
-                    'Price Base': float(price_info.get('base', 0)) if price_info.get('base') else price_total,
-                    'Currency': price_currency,
-                    'Price Per Night': price_total,
+                    'Total Price': price,
+                    'Price Base': price,
+                    'Currency': 'INR',  # We requested INR currency
+                    'Price Per Night': price,
 
                     # Room information (frontend keys)
-                    'Room Type': room_info.get('type', 'Standard'),
-                    'Room Description': room_info.get('description', {}).get('text', ''),
-                    'Bed Type': room_info.get('typeEstimated', {}).get('bedType', ''),
-                    'Beds': room_info.get('typeEstimated', {}).get('beds', 1),
+                    'Room Type': room_info,
+                    'Room Description': f"{rating} rating • {reviews} reviews" if reviews else '',
+                    'Bed Type': 'Standard',
+                    'Beds': 1,
 
                     # Booking information (frontend keys)
-                    'Check-in Time': best_offer.get('checkInDate', ''),
-                    'Check-out Time': best_offer.get('checkOutDate', ''),
-                    'Adults': best_offer.get('guests', {}).get('adults', 1),
-                    'Offer ID': best_offer.get('id', ''),
+                    'Check-in Time': 'Standard',
+                    'Check-out Time': 'Standard',
+                    'Adults': 1,
+                    'Offer ID': property_data.get('property_token', ''),
 
                     # Additional details
-                    'Amenities': 'Free WiFi, Breakfast, Pool, Spa',  # Placeholder amenities
-                    'Cancellation Policy': str(best_offer.get('policies', {}).get('cancellations', [])),
-                    'Payment Policy': str(best_offer.get('policies', {}).get('paymentType', '')),
+                    'Amenities': amenities_str,
+                    'Cancellation Policy': 'Check with hotel',
+                    'Payment Policy': 'Standard payment terms',
                 }
 
                 hotel_details.append(hotel_detail)
 
             except Exception as e:
-                logger.error(f"Error processing hotel offer: {e}")
+                logger.error(f"Error processing SerpAPI hotel data: {e}")
                 continue
 
         if not hotel_details:
-            logger.warning("No valid hotel details extracted")
+            logger.warning("No valid hotel details extracted from SerpAPI")
             return pd.DataFrame()
 
         df = pd.DataFrame(hotel_details)
 
-        # Sort by price (ascending)
+        # Sort by price (ascending) - handle non-numeric values
+        df['Total Price'] = pd.to_numeric(df['Total Price'], errors='coerce').fillna(0)
         df = df.sort_values('Total Price', ascending=True)
 
-        logger.info(f"Created dataframe with {len(df)} hotels")
+        logger.info(f"Created dataframe with {len(df)} hotels from SerpAPI")
         return df
 
     def process_hotel_search(self, query: str) -> tuple:
@@ -398,20 +275,15 @@ class HotelService:
 
         logger.info(f"Extracted hotel info: {result}")
 
-        # Get city code
+        # Extract search parameters
         location = result['location']
-        city_code = self.get_city_code(location)
-        if not city_code:
-            logger.error(f"Could not determine city code for: {location}")
-            return None, None, None
-
-        # Search hotels
         check_in = result['check_in_date']
         check_out = result['check_out_date']
         adults = result.get('adults', 1)
         rooms = result.get('rooms', 1)
 
-        hotel_offers = self.search_hotels_simplified(city_code, check_in, check_out, adults, rooms)
+        # Search hotels using SerpAPI (no need for city code conversion)
+        hotel_offers = self.search_hotels_simplified(location, check_in, check_out, adults, rooms)
 
         if not hotel_offers:
             logger.error("No hotel offers found")
@@ -433,31 +305,10 @@ class HotelService:
 
     def get_hotel_details(self, hotel_id: str, check_in: str, check_out: str,
                          adults: int = 1, rooms: int = 1) -> Optional[Dict[str, Any]]:
-        """Get detailed hotel information by hotel ID"""
-        try:
-            logger.info(f"Getting details for hotel {hotel_id}")
-
-            # Use the hotel offers search for a specific hotel
-            response = self.amadeus.shopping.hotel_offers_search.get(
-                hotelIds=[hotel_id],
-                checkInDate=check_in,
-                checkOutDate=check_out,
-                adults=adults,
-                roomQuantity=rooms,
-                currency='INR',
-                view='FULL'
-            )
-
-            if response.data and len(response.data) > 0:
-                logger.info(f"Found details for hotel {hotel_id}")
-                return response.data[0]
-            else:
-                logger.warning(f"No details found for hotel {hotel_id}")
-                return None
-
-        except ResponseError as e:
-            logger.error(f"Hotel details API error: {e}")
-            return None
-        except Exception as e:
-            logger.error(f"Unexpected error getting hotel details: {e}")
-            return None
+        """Get detailed hotel information by hotel ID (SerpAPI doesn't support individual hotel lookup)"""
+        logger.info(f"Hotel details not supported with SerpAPI for hotel {hotel_id}")
+        return {
+            "message": "Hotel details available on booking",
+            "hotel_id": hotel_id,
+            "status": "available"
+        }

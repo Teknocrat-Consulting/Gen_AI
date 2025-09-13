@@ -10,9 +10,10 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     
     OPENAI_API_KEY: str
-    API_Key: str = Field(alias="API_Key")  
+    API_Key: str = Field(alias="API_Key")
     API_Secret: str = Field(alias="API_Secret")
-    
+    SERPAPI: str = Field(alias="SERPAPI")
+
     DESCOPE_PROJECT_ID: str  
     
     CORS_ORIGINS: list[str] = ["*"]

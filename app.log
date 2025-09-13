@@ -7060,3 +7060,114 @@ KeyError: 'attractions'
 2025-09-13 15:33:08,522 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-09-13 15:33:08,945 - app.core.logging - WARNING - No valid hotel prices found, using default estimate
 2025-09-13 15:33:11,445 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:41,114 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 16:32:41,115 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 16:32:41,214 - app.core.logging - INFO - ✅ Successfully initialized HotelService with SerpAPI
+2025-09-13 16:32:41,214 - app.core.logging - INFO - Testing query 1: hotels in Mumbai from December 20 to 25, 2024
+2025-09-13 16:32:41,214 - app.core.logging - INFO - Processing hotel search query: hotels in Mumbai from December 20 to 25, 2024
+2025-09-13 16:32:42,861 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:42,904 - app.core.logging - INFO - Extracted hotel info: {'location': 'Mumbai', 'check_in_date': '2024-12-20', 'check_out_date': '2024-12-25', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 16:32:42,905 - app.core.logging - INFO - Searching hotels in Mumbai from 2024-12-20 to 2024-12-25 for 1 adults
+2025-09-13 16:32:42,905 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 16:32:43,619 - app.core.logging - WARNING - No hotels found for Mumbai
+2025-09-13 16:32:43,620 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 16:32:43,620 - app.core.logging - INFO - Testing query 2: hotels in Delhi for 2 adults from next Monday to Friday
+2025-09-13 16:32:43,620 - app.core.logging - INFO - Processing hotel search query: hotels in Delhi for 2 adults from next Monday to Friday
+2025-09-13 16:32:45,425 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:45,431 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-15', 'check_out_date': '2025-09-19', 'adults': 2, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 16:32:45,432 - app.core.logging - INFO - Searching hotels in Delhi from 2025-09-15 to 2025-09-19 for 2 adults
+2025-09-13 16:32:45,432 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 16:32:47,647 - app.core.logging - INFO - SUCCESS: Found 20 hotels via SerpAPI
+2025-09-13 16:32:47,671 - app.core.logging - INFO - Created dataframe with 5 hotels from SerpAPI
+2025-09-13 16:32:47,672 - app.core.logging - INFO - Found 5 hotels from Amadeus API
+2025-09-13 16:32:47,673 - app.core.logging - INFO - Sample hotel data - Name: Ramada by Wyndham New Delhi Pitampura, Price: 5601.0, Currency: INR
+2025-09-13 16:32:47,675 - app.core.logging - INFO - Testing query 3: hotels in Goa from January 15 to 18, 2025
+2025-09-13 16:32:47,676 - app.core.logging - INFO - Processing hotel search query: hotels in Goa from January 15 to 18, 2025
+2025-09-13 16:32:49,098 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:49,104 - app.core.logging - INFO - Extracted hotel info: {'location': 'Goa', 'check_in_date': '2025-01-15', 'check_out_date': '2025-01-18', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 16:32:49,105 - app.core.logging - INFO - Searching hotels in Goa from 2025-01-15 to 2025-01-18 for 1 adults
+2025-09-13 16:32:49,106 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 16:32:49,662 - app.core.logging - WARNING - No hotels found for Goa
+2025-09-13 16:32:49,663 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 16:32:49,663 - app.core.logging - INFO - Testing query 4: hotels in Bangalore for 1 adult from December 25 to 28, 2024
+2025-09-13 16:32:49,664 - app.core.logging - INFO - Processing hotel search query: hotels in Bangalore for 1 adult from December 25 to 28, 2024
+2025-09-13 16:32:51,904 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:51,908 - app.core.logging - INFO - Extracted hotel info: {'location': 'Bangalore', 'check_in_date': '2024-12-25', 'check_out_date': '2024-12-28', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 16:32:51,908 - app.core.logging - INFO - Searching hotels in Bangalore from 2024-12-25 to 2024-12-28 for 1 adults
+2025-09-13 16:32:51,908 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 16:32:52,427 - app.core.logging - WARNING - No hotels found for Bangalore
+2025-09-13 16:32:52,428 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 16:32:52,428 - app.core.logging - INFO - Testing query 5: hotels in Chennai from February 10 to 12, 2025
+2025-09-13 16:32:52,428 - app.core.logging - INFO - Processing hotel search query: hotels in Chennai from February 10 to 12, 2025
+2025-09-13 16:32:54,366 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 16:32:54,371 - app.core.logging - INFO - Extracted hotel info: {'location': 'Chennai', 'check_in_date': '2025-02-10', 'check_out_date': '2025-02-12', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 16:32:54,372 - app.core.logging - INFO - Searching hotels in Chennai from 2025-02-10 to 2025-02-12 for 1 adults
+2025-09-13 16:32:54,372 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 16:32:54,962 - app.core.logging - WARNING - No hotels found for Chennai
+2025-09-13 16:32:54,963 - app.core.logging - ERROR - No hotel offers found
+2025-09-13 17:19:09,870 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,884 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,890 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,898 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,909 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,909 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,924 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,925 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,930 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,930 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,940 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,941 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,954 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,954 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,974 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,974 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,976 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,976 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:09,986 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:09,986 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:10,236 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 17:19:10,257 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 17:19:10,258 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 17:19:10,265 - app.core.logging - INFO - Starting Flight Booking Assistant v1.0.0
+2025-09-13 17:19:28,682 - app.core.logging - INFO - Starting streaming travel plan for query: plane the trip for mumbai to delhi
+2025-09-13 17:19:28,683 - app.core.logging - INFO - Initializing SmartStreamingService (singleton)
+2025-09-13 17:19:28,803 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:28,849 - app.core.logging - INFO - Initializing OpenAI client with key: sk-proj-z6...
+2025-09-13 17:19:28,849 - app.core.logging - INFO - Initializing SerpAPI client with key: 656a804d3c...
+2025-09-13 17:19:28,887 - app.core.logging - INFO - Detecting intent for: plane the trip for mumbai to delhi
+2025-09-13 17:19:30,842 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 17:19:31,686 - app.core.logging - INFO - Processing flight search query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 17:19:31,687 - app.core.logging - INFO - Extracting flight info with optimized prompts - Query: flight from mumbai to delhi on 2025-09-14 returning 2025-09-17 for 1 adults
+2025-09-13 17:19:33,247 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 17:19:33,251 - app.core.logging - INFO - OpenAI response: {
+    "location_origin": "BOM",
+    "location_destination": "DEL",
+    "departure_date": "2025-09-14",
+    "adults": 1,
+    "confidence": {"origin": 0.95, "destination": 0.98, "date": 0.95, "adults": 1.0},
+    "extraction_notes": "No ambiguities or assumptions made"
+}
+2025-09-13 17:19:33,252 - app.core.logging - INFO - Using origin: BOM (CJB=Coimbatore default if not specified)
+2025-09-13 17:19:33,253 - app.core.logging - INFO - Extracted flight info: {'location_origin': 'BOM', 'location_destination': 'DEL', 'departure_date': '2025-09-14', 'adults': 1, 'confidence': {'origin': 0.95, 'destination': 0.98, 'date': 0.95, 'adults': 1.0}, 'extraction_notes': 'No ambiguities or assumptions made'}
+2025-09-13 17:19:33,253 - app.core.logging - INFO - Searching flights: BOM -> DEL on 2025-09-14 for 1 adults
+2025-09-13 17:19:33,253 - app.core.logging - INFO - Making Amadeus API call for flight search...
+2025-09-13 17:19:41,093 - app.core.logging - INFO - Amadeus API call completed. Found 3 flights
+2025-09-13 17:19:42,533 - app.core.logging - INFO - Created dataframe with 3 flights
+2025-09-13 17:19:42,537 - app.core.logging - INFO - Found 3 flights from Amadeus API
+2025-09-13 17:19:42,538 - app.core.logging - INFO - Sample flight data - Airline: AIR INDIA, Price: 3901.45, Currency: INR
+2025-09-13 17:19:43,241 - app.core.logging - INFO - Processing hotel search query: hotels in delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 17:19:44,882 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 17:19:44,886 - app.core.logging - INFO - Extracted hotel info: {'location': 'Delhi', 'check_in_date': '2025-09-14', 'check_out_date': '2025-09-17', 'adults': 1, 'rooms': 1, 'price_range': 'moderate'}
+2025-09-13 17:19:44,886 - app.core.logging - INFO - Searching hotels in Delhi from 2025-09-14 to 2025-09-17 for 1 adults
+2025-09-13 17:19:44,886 - app.core.logging - INFO - Making SerpAPI call for hotel search...
+2025-09-13 17:19:50,285 - app.core.logging - INFO - SerpAPI response keys: ['search_metadata', 'search_parameters', 'search_information', 'brands', 'ads', 'properties', 'serpapi_pagination']
+2025-09-13 17:19:50,286 - app.core.logging - INFO - SUCCESS: Found 20 hotels via SerpAPI
+2025-09-13 17:19:50,296 - app.core.logging - INFO - Created dataframe with 5 hotels from SerpAPI
+2025-09-13 17:19:50,296 - app.core.logging - INFO - Found 5 hotels from Amadeus API
+2025-09-13 17:19:50,297 - app.core.logging - INFO - Sample hotel data - Name: De Pavilion Hotel, Delhi, Price: 2465.0, Currency: INR
+2025-09-13 17:19:50,302 - app.core.logging - INFO - Found 5 hotels from Amadeus API
+2025-09-13 17:19:50,303 - app.core.logging - INFO - Sample hotel data - Name: De Pavilion Hotel, Delhi, Price: 2465.0, Currency: INR
+2025-09-13 17:19:58,299 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 17:20:03,166 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-13 17:20:03,571 - app.core.logging - INFO - Calculated hotel cost from 5 hotels: 18561.6
+2025-09-13 17:20:06,760 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
